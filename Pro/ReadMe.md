@@ -1,4 +1,4 @@
-***A Syntactically Correct Sentence in Propositional Logic***
+***A Syntactically Correct Sentence (well-formed formula or wff) in Propositional Logic***
 ```
 ~(P->Q)&((Q&P)->Q)
 ```
@@ -24,7 +24,7 @@ Invalid
 Consistent
 ```
 ----
-***A Syntactically Incorrect Sentence in Propositional Logic***
+***A Syntactically Incorrect Sentence (ill-formed formula) in Propositional Logic***
 ```
 (P&Q
 ```
