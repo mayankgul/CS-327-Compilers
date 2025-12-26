@@ -1,0 +1,11 @@
+#define BICOND 257
+#define IMP 258
+#define OR 259
+#define AND 260
+#define NOT 261
+#define TRUE 262
+#define FALSE 263
+#define ATOM 264
+#define LEFT_PAR 265
+#define RIGHT_PAR 266
+#define ERROR 267

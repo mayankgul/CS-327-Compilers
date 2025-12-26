@@ -1,0 +1,11 @@
+#!/bin/bash
+	a=7
+	b=9
+	c=$((-$a))
+	echo $c
+	k=$((+7))
+	echo $k
+	l=$((+$a))
+	echo $l
+	m=$(($b))
+	echo $b

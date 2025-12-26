@@ -1,0 +1,6 @@
+#!\bin\bash
+a=7
+b=9
+c=8
+d=$(($a<=$b&&$c))
+echo $d
