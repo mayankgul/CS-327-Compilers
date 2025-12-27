@@ -3,9 +3,10 @@
 
 ## Getting Started
 You can use the materials (codebase) in this repository to get started for building your own compiler. 
-Two sample language processors (source code + binary) designed by me are available here.
+Three sample language processors (source code + binary) designed by me are available here.
 - **Pro** (```pro```): Scanner, Parser, Analyzer of sentences expressed in Propositional Logic.
 - **language_processor** (```sm```): Scanner, Parser, Analyzer of sentences expressing arithmetic operations in ```bash```.
+- **mul_add_pred_swap** (```maps```): Scanner, Parser, Analyzer of sentences expressing arithmetic operations with swapped precedence (+,*).
 
 ### ANSI C 2011 ISO C standard
 - [ANSI C grammar, Lex specification](https://www.quut.com/c/ANSI-C-grammar-l-2011.html)
