@@ -470,3 +470,46 @@ rule used: St -> if E then St
 rule used: Start -> St
 The final output is 1008
 ```
+## Command-line (test case #2)
+```
+shouvick@shouvick:~/CS-327-Compilers/lec6ex2$ ./stmt 
+if 4 then
+rule used: F -> num
+rule used: T -> F
+rule used: E -> T
+{
+	if 5 {{{{;;;;}}}} else {;}
+rule used: F -> num
+rule used: T -> F
+rule used: E -> T
+syntax error
+```
+## Command-line (test case #3)
+```
+shouvick@shouvick:~/CS-327-Compilers/lec6ex2$ ./stmt 
+if 4 then
+rule used: F -> num
+rule used: T -> F
+rule used: E -> T
+{
+	if 5 then {{{{;;;;}}}} else {;}
+rule used: F -> num
+rule used: T -> F
+rule used: E -> T
+rule used: St -> ;
+rule used: St -> ; St
+rule used: St -> ; St
+rule used: St -> ; St
+rule used: St -> { St }
+rule used: St -> { St }
+rule used: St -> { St }
+rule used: St -> { St }
+rule used: St -> ;
+rule used: St -> { St }
+rule used: St -> if E then St else St
+}
+rule used: St -> { St }
+rule used: St -> if E then St
+rule used: Start -> St
+The final output is 20
+```
