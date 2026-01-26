@@ -1,4 +1,4 @@
-# Eliminating Ambiguity from the ``dangling-else`` Grammar
+# Ambiguous ``dangling-else`` Grammar
 
 ### Ambiguous grammar
 ```
@@ -6,17 +6,6 @@ stmt -> if expr then stmt
         | if expr then stmt else stmt
         | other
 ```
-### Unambiguous grammar
-```
-stmt -> matched_stmt
-        | open_stmt
-
-matched_stmt -> if expr then matched_stmt else matched_stmt
-                | other
-
-open_stmt -> if expr then stmt
-             | if expr then matched_stmt else open_stmt
-```         
 ## ``stmt.l``
 ```
 %{
@@ -59,25 +48,19 @@ int yywrap(void) {
 	char mytext[100];
 	extern char *yytext;
 %}
-%start S
+%start Start
 
 %%
 
-S:		MS {printf("rule used: S -> MS\n");}
-		| OS {printf("rule used: S -> OS\n");}
+Start:	St {$$=$1;printf("rule used: Start -> St\n");printf("The final output is %d\n",$$);}
 		;
 
-MS: 	IF E THEN MS ELSE MS {$$=($2!=0)?$4:$6;$$*=$2;printf("rule used: MS -> if E then MS else MS\n");}
-		| SEM {$$=1;printf("rule used: MS -> ;\n");}
-		| SEM MS {$$=1;printf("rule used: MS -> MS ;\n");}
-		| LBRACE MS RBRACE {printf("rule used: MS -> { MS }\n");}
+St: 	IF E THEN St {$$=($2!=0)?$4:0;$$*=$2;printf("rule used: St -> if E then St\n");}
+		| IF E THEN St ELSE St {$$=($2!=0)?$4:$6;$$*=$2;printf("rule used: St -> if E then St else St\n");}
+		| SEM {$$=1;printf("rule used: St -> ;\n");}
+		| SEM St {$$=$2;printf("rule used: St -> ; St\n");}
+		| LBRACE St RBRACE {$$=$2;printf("rule used: St -> { St }\n");}
 		;
-		
-OS:		IF E THEN S {$$=($2!=0)?$4:0;$$*=$2;printf("rule used: OS -> if E then S\n");}
-		| IF E THEN MS ELSE OS {$$=($2!=0)?$4:$6;$$*=$2;printf("rule used: OS -> if E then MS else OS\n");}
-		| LBRACE OS RBRACE {printf("rule used: OS -> { OS }\n");}
-		;
-	
 		
 E:		E ADD T {$$=$1+$3;printf("rule used: E -> E + T\n");}
 		| E SUB T {$$=$1-$3;printf("rule used: E -> E - T\n");}
@@ -106,76 +89,4 @@ int main(void) {
 ```
 ## Command-line (test case #1)
 ```
-shouvick@shouvick:~/CS-327-Compilers/lec6ex1$ ./stmt 
-if (6+6*7) then if (1+4*5) then ; else ;
-rule used: F -> num
-rule used: T -> F
-rule used: E -> T
-rule used: F -> num
-rule used: T -> F
-rule used: F -> num
-rule used: T -> T * F
-rule used: E -> E + T
-rule used: F -> ( E )
-rule used: T -> F
-rule used: E -> T
-rule used: F -> num
-rule used: T -> F
-rule used: E -> T
-rule used: F -> num
-rule used: T -> F
-rule used: F -> num
-rule used: T -> T * F
-rule used: E -> E + T
-rule used: F -> ( E )
-rule used: T -> F
-rule used: E -> T
-rule used: MS -> ;
-rule used: MS -> ;
-rule used: MS -> if E then MS else MS
-rule used: S -> MS
-rule used: OS -> if E then S
-rule used: S -> OS
-```
-## Command-line (test case #2)
-```
-shouvick@shouvick:~/CS-327-Compilers/lec6ex1$ ./stmt 
-if 4 then
-rule used: F -> num
-rule used: T -> F
-rule used: E -> T
-{
-	if 5 {{{{;;;;}}}} else {;}
-rule used: F -> num
-rule used: T -> F
-rule used: E -> T
-syntax error
-```
-## Command-line (test case #3)
-```
-if 4 then
-rule used: F -> num
-rule used: T -> F
-rule used: E -> T
-{
-	if 5 then {{{{;;;;}}}} else {;}
-rule used: F -> num
-rule used: T -> F
-rule used: E -> T
-rule used: MS -> ;
-rule used: MS -> MS ;
-rule used: MS -> MS ;
-rule used: MS -> MS ;
-rule used: MS -> { MS }
-rule used: MS -> { MS }
-rule used: MS -> { MS }
-rule used: MS -> { MS }
-rule used: MS -> ;
-rule used: MS -> { MS }
-rule used: MS -> if E then MS else MS
-}
-rule used: MS -> { MS }
-rule used: S -> MS
-rule used: OS -> if E then S
-rule used: S -> OS
 ```
