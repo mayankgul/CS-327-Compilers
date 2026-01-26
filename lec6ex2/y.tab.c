@@ -75,8 +75,10 @@
 	int yylex(void);
 	char mytext[100];
 	extern char *yytext;
+	int time;
+	FILE *fp;
 
-#line 80 "y.tab.c"
+#line 82 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -583,8 +585,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    14,    14,    17,    18,    19,    20,    21,    24,    25,
-      26,    29,    30,    31,    34,    35
+       0,    16,    16,    19,    20,    21,    22,    23,    26,    27,
+      28,    31,    32,    33,    36,    37
 };
 #endif
 
@@ -1154,91 +1156,91 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* Start: St  */
-#line 14 "stmt.y"
-           {yyval=yyvsp[0];printf("rule used: Start -> St\n");printf("The final output is %d\n",yyval);}
-#line 1160 "y.tab.c"
+#line 16 "stmt.y"
+           {yyval=yyvsp[0];printf("rule used: Start -> St\n");fprintf(fp,"\"(%d) Start\" -> \"(%d) St\"",time+1,time);printf("The final output is %d\n",yyval);time++;}
+#line 1162 "y.tab.c"
     break;
 
   case 3: /* St: IF E THEN St  */
-#line 17 "stmt.y"
-                     {yyval=(yyvsp[-2]!=0)?yyvsp[0]:0;yyval*=yyvsp[-2];printf("rule used: St -> if E then St\n");}
-#line 1166 "y.tab.c"
+#line 19 "stmt.y"
+                     {yyval=(yyvsp[-2]!=0)?yyvsp[0]:0;yyval*=yyvsp[-2];printf("rule used: St -> if E then St\n");fprintf(fp,"\"(%d) St\" -> \"(%d) if E then St\"",time+1,time);time++;}
+#line 1168 "y.tab.c"
     break;
 
   case 4: /* St: IF E THEN St ELSE St  */
-#line 18 "stmt.y"
-                                       {yyval=(yyvsp[-4]!=0)?yyvsp[-2]:yyvsp[0];yyval*=yyvsp[-4];printf("rule used: St -> if E then St else St\n");}
-#line 1172 "y.tab.c"
+#line 20 "stmt.y"
+                                       {yyval=(yyvsp[-4]!=0)?yyvsp[-2]:yyvsp[0];yyval*=yyvsp[-4];printf("rule used: St -> if E then St else St\n");fprintf(fp,"\"(%d) St\" -> \"(%d) if E then St else St\"",time+1,time);time++;}
+#line 1174 "y.tab.c"
     break;
 
   case 5: /* St: SEM  */
-#line 19 "stmt.y"
-                      {yyval=1;printf("rule used: St -> ;\n");}
-#line 1178 "y.tab.c"
+#line 21 "stmt.y"
+                      {yyval=1;printf("rule used: St -> ;\n");fprintf(fp,"\"(%d) St\" -> \"(%d) ;\"",time+1,time);time++;}
+#line 1180 "y.tab.c"
     break;
 
   case 6: /* St: SEM St  */
-#line 20 "stmt.y"
-                         {yyval=yyvsp[0];printf("rule used: St -> ; St\n");}
-#line 1184 "y.tab.c"
+#line 22 "stmt.y"
+                         {yyval=yyvsp[0];printf("rule used: St -> ; St\n");fprintf(fp,"\"(%d) St\" -> \"(%d) ; St\"",time+1,time);time++;}
+#line 1186 "y.tab.c"
     break;
 
   case 7: /* St: LBRACE St RBRACE  */
-#line 21 "stmt.y"
-                                   {yyval=yyvsp[-1];printf("rule used: St -> { St }\n");}
-#line 1190 "y.tab.c"
+#line 23 "stmt.y"
+                                   {yyval=yyvsp[-1];printf("rule used: St -> { St }\n");fprintf(fp,"\"(%d) St\" -> \"(%d) { St }\"",time+1,time);time++;}
+#line 1192 "y.tab.c"
     break;
 
   case 8: /* E: E ADD T  */
-#line 24 "stmt.y"
-                        {yyval=yyvsp[-2]+yyvsp[0];printf("rule used: E -> E + T\n");}
-#line 1196 "y.tab.c"
+#line 26 "stmt.y"
+                        {yyval=yyvsp[-2]+yyvsp[0];printf("rule used: E -> E + T\n");fprintf(fp,"\"(%d) E\" -> \"(%d) E + T\"",time+1,time);time++;}
+#line 1198 "y.tab.c"
     break;
 
   case 9: /* E: E SUB T  */
-#line 25 "stmt.y"
-                          {yyval=yyvsp[-2]-yyvsp[0];printf("rule used: E -> E - T\n");}
-#line 1202 "y.tab.c"
+#line 27 "stmt.y"
+                          {yyval=yyvsp[-2]-yyvsp[0];printf("rule used: E -> E - T\n");fprintf(fp,"\"(%d) E\" -> \"(%d) E - T\"",time+1,time);time++;}
+#line 1204 "y.tab.c"
     break;
 
   case 10: /* E: T  */
-#line 26 "stmt.y"
-                    {yyval=yyvsp[0];printf("rule used: E -> T\n");}
-#line 1208 "y.tab.c"
+#line 28 "stmt.y"
+                    {yyval=yyvsp[0];printf("rule used: E -> T\n");fprintf(fp,"\"(%d) E\" -> \"(%d) T\"",time+1,time);time++;}
+#line 1210 "y.tab.c"
     break;
 
   case 11: /* T: T MUL F  */
-#line 29 "stmt.y"
-                        {yyval=yyvsp[-2]*yyvsp[0];printf("rule used: T -> T * F\n");}
-#line 1214 "y.tab.c"
+#line 31 "stmt.y"
+                        {yyval=yyvsp[-2]*yyvsp[0];printf("rule used: T -> T * F\n");fprintf(fp,"\"(%d) T\" -> \"(%d) T * F\"",time+1,time);time++;}
+#line 1216 "y.tab.c"
     break;
 
   case 12: /* T: T DIV F  */
-#line 30 "stmt.y"
-                          {yyval=yyvsp[-2]/yyvsp[0];printf("rule used: T -> T / F\n");}
-#line 1220 "y.tab.c"
+#line 32 "stmt.y"
+                          {yyval=yyvsp[-2]/yyvsp[0];printf("rule used: T -> T / F\n");fprintf(fp,"\"(%d) T\" -> \"(%d) T / F\"",time+1,time);time++;}
+#line 1222 "y.tab.c"
     break;
 
   case 13: /* T: F  */
-#line 31 "stmt.y"
-                    {yyval=yyvsp[0];printf("rule used: T -> F\n");}
-#line 1226 "y.tab.c"
+#line 33 "stmt.y"
+                    {yyval=yyvsp[0];printf("rule used: T -> F\n");fprintf(fp,"\"(%d) T\" -> \"(%d) F\"",time+1,time);time++;}
+#line 1228 "y.tab.c"
     break;
 
   case 14: /* F: LPAR E RPAR  */
-#line 34 "stmt.y"
-                            {yyval=yyvsp[-1];printf("rule used: F -> ( E )\n");}
-#line 1232 "y.tab.c"
+#line 36 "stmt.y"
+                            {yyval=yyvsp[-1];printf("rule used: F -> ( E )\n");fprintf(fp,"\"(%d) F\" -> \"(%d) ( E )\"",time+1,time);time++;}
+#line 1234 "y.tab.c"
     break;
 
   case 15: /* F: NUM  */
-#line 35 "stmt.y"
-                      {yyval=atoi(yytext); printf("rule used: F -> num\n");}
-#line 1238 "y.tab.c"
+#line 37 "stmt.y"
+                      {yyval=atoi(yytext); printf("rule used: F -> num -> %d\n",yyval);fprintf(fp,"\"(%d) F\" -> \"(%d) num \'%d\'\"",time+1,time,yyval);time++;}
+#line 1240 "y.tab.c"
     break;
 
 
-#line 1242 "y.tab.c"
+#line 1244 "y.tab.c"
 
       default: break;
     }
@@ -1431,7 +1433,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 38 "stmt.y"
+#line 40 "stmt.y"
 
 
 void yyerror(char *s) {
@@ -1439,6 +1441,18 @@ void yyerror(char *s) {
 }
 
 int main(void) {
+	time=1;
+	fp=fopen("parse_forest.dot","wt");
+	if(fp==NULL)
+	{
+		printf("Error opening file [parse_forest.dot]\n");
+		exit(-1);
+	}
+	
+	fprintf(fp,"digraph parse_forest {\n");
 	yyparse();
+	fprintf(fp,"\n}\n");
+	fclose(fp);
+	fp=NULL;
     return 0;
 }

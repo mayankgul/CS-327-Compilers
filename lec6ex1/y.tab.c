@@ -75,8 +75,10 @@
 	int yylex(void);
 	char mytext[100];
 	extern char *yytext;
+	int time;
+	FILE *fp;
 
-#line 80 "y.tab.c"
+#line 82 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -585,8 +587,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    14,    14,    17,    18,    21,    22,    23,    24,    27,
-      28,    29,    33,    34,    35,    38,    39,    40,    43,    44
+       0,    16,    16,    19,    20,    23,    24,    25,    26,    29,
+      30,    31,    34,    35,    36,    39,    40,    41,    44,    45
 };
 #endif
 
@@ -1166,115 +1168,115 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* Start: S  */
-#line 14 "stmt.y"
-          {yyval=yyvsp[0];printf("rule used: Start -> S\n");printf("The final output is %d\n",yyval);}
-#line 1172 "y.tab.c"
+#line 16 "stmt.y"
+          {yyval=yyvsp[0];printf("rule used: Start -> S\n");fprintf(fp,"\"(%d) Start\" -> \"(%d) S\"",time+1,time);printf("The final output is %d\n",yyval);time++;}
+#line 1174 "y.tab.c"
     break;
 
   case 3: /* S: MS  */
-#line 17 "stmt.y"
-                   {yyval=yyvsp[0];printf("rule used: S -> MS\n");}
-#line 1178 "y.tab.c"
+#line 19 "stmt.y"
+                   {yyval=yyvsp[0];printf("rule used: S -> MS\n");fprintf(fp,"\"(%d) S\" -> \"(%d) MS\"",time+1,time);time++;}
+#line 1180 "y.tab.c"
     break;
 
   case 4: /* S: OS  */
-#line 18 "stmt.y"
-                     {yyval=yyvsp[0];printf("rule used: S -> OS\n");}
-#line 1184 "y.tab.c"
+#line 20 "stmt.y"
+                     {yyval=yyvsp[0];printf("rule used: S -> OS\n");fprintf(fp,"\"(%d) S\" -> \"(%d) OS\"",time+1,time);time++;}
+#line 1186 "y.tab.c"
     break;
 
   case 5: /* MS: IF E THEN MS ELSE MS  */
-#line 21 "stmt.y"
-                             {yyval=(yyvsp[-4]!=0)?yyvsp[-2]:yyvsp[0];yyval*=yyvsp[-4];printf("rule used: MS -> if E then MS else MS\n");}
-#line 1190 "y.tab.c"
+#line 23 "stmt.y"
+                             {yyval=(yyvsp[-4]!=0)?yyvsp[-2]:yyvsp[0];yyval*=yyvsp[-4];printf("rule used: MS -> if E then MS else MS\n");fprintf(fp,"\"(%d) MS\" -> \"(%d) if E then MS else MS\"",time+1,time);time++;}
+#line 1192 "y.tab.c"
     break;
 
   case 6: /* MS: SEM  */
-#line 22 "stmt.y"
-                      {yyval=1;printf("rule used: MS -> ;\n");}
-#line 1196 "y.tab.c"
+#line 24 "stmt.y"
+                      {yyval=1;printf("rule used: MS -> ;\n");fprintf(fp,"\"(%d) MS\" -> \"(%d) ;\"",time+1,time);time++;}
+#line 1198 "y.tab.c"
     break;
 
   case 7: /* MS: SEM MS  */
-#line 23 "stmt.y"
-                         {yyval=yyvsp[0];printf("rule used: MS -> ; MS\n");}
-#line 1202 "y.tab.c"
+#line 25 "stmt.y"
+                         {yyval=yyvsp[0];printf("rule used: MS -> ; MS\n");fprintf(fp,"\"(%d) MS\" -> \"(%d) ; MS\"",time+1,time);time++;}
+#line 1204 "y.tab.c"
     break;
 
   case 8: /* MS: LBRACE MS RBRACE  */
-#line 24 "stmt.y"
-                                   {yyval=yyvsp[-1];printf("rule used: MS -> { MS }\n");}
-#line 1208 "y.tab.c"
+#line 26 "stmt.y"
+                                   {yyval=yyvsp[-1];printf("rule used: MS -> { MS }\n");fprintf(fp,"\"(%d) MS\" -> \"(%d) { MS }\"",time+1,time);time++;}
+#line 1210 "y.tab.c"
     break;
 
   case 9: /* OS: IF E THEN S  */
-#line 27 "stmt.y"
-                            {yyval=(yyvsp[-2]!=0)?yyvsp[0]:0;yyval*=yyvsp[-2];printf("rule used: OS -> if E then S\n");}
-#line 1214 "y.tab.c"
+#line 29 "stmt.y"
+                            {yyval=(yyvsp[-2]!=0)?yyvsp[0]:0;yyval*=yyvsp[-2];printf("rule used: OS -> if E then S\n");fprintf(fp,"\"(%d) OS\" -> \"(%d) if E then S\"",time+1,time);time++;}
+#line 1216 "y.tab.c"
     break;
 
   case 10: /* OS: IF E THEN MS ELSE OS  */
-#line 28 "stmt.y"
-                                       {yyval=(yyvsp[-4]!=0)?yyvsp[-2]:yyvsp[0];yyval*=yyvsp[-4];printf("rule used: OS -> if E then MS else OS\n");}
-#line 1220 "y.tab.c"
+#line 30 "stmt.y"
+                                       {yyval=(yyvsp[-4]!=0)?yyvsp[-2]:yyvsp[0];yyval*=yyvsp[-4];printf("rule used: OS -> if E then MS else OS\n");fprintf(fp,"\"(%d) OS\" -> \"(%d) if E then MS else OS\"",time+1,time);time++;}
+#line 1222 "y.tab.c"
     break;
 
   case 11: /* OS: LBRACE OS RBRACE  */
-#line 29 "stmt.y"
-                                   {yyval=yyvsp[-1];printf("rule used: OS -> { OS }\n");}
-#line 1226 "y.tab.c"
+#line 31 "stmt.y"
+                                   {yyval=yyvsp[-1];printf("rule used: OS -> { OS }\n");fprintf(fp,"\"(%d) OS\" -> \"(%d) { OS }\"",time+1,time);time++;}
+#line 1228 "y.tab.c"
     break;
 
   case 12: /* E: E ADD T  */
-#line 33 "stmt.y"
-                        {yyval=yyvsp[-2]+yyvsp[0];printf("rule used: E -> E + T\n");}
-#line 1232 "y.tab.c"
+#line 34 "stmt.y"
+                        {yyval=yyvsp[-2]+yyvsp[0];printf("rule used: E -> E + T\n");fprintf(fp,"\"(%d) E\" -> \"(%d) E + T\"",time+1,time);time++;}
+#line 1234 "y.tab.c"
     break;
 
   case 13: /* E: E SUB T  */
-#line 34 "stmt.y"
-                          {yyval=yyvsp[-2]-yyvsp[0];printf("rule used: E -> E - T\n");}
-#line 1238 "y.tab.c"
+#line 35 "stmt.y"
+                          {yyval=yyvsp[-2]-yyvsp[0];printf("rule used: E -> E - T\n");fprintf(fp,"\"(%d) E\" -> \"(%d) E - T\"",time+1,time);time++;}
+#line 1240 "y.tab.c"
     break;
 
   case 14: /* E: T  */
-#line 35 "stmt.y"
-                    {yyval=yyvsp[0];printf("rule used: E -> T\n");}
-#line 1244 "y.tab.c"
+#line 36 "stmt.y"
+                    {yyval=yyvsp[0];printf("rule used: E -> T\n");fprintf(fp,"\"(%d) E\" -> \"(%d) T\"",time+1,time);time++;}
+#line 1246 "y.tab.c"
     break;
 
   case 15: /* T: T MUL F  */
-#line 38 "stmt.y"
-                        {yyval=yyvsp[-2]*yyvsp[0];printf("rule used: T -> T * F\n");}
-#line 1250 "y.tab.c"
+#line 39 "stmt.y"
+                        {yyval=yyvsp[-2]*yyvsp[0];printf("rule used: T -> T * F\n");fprintf(fp,"\"(%d) T\" -> \"(%d) T * F\"",time+1,time);time++;}
+#line 1252 "y.tab.c"
     break;
 
   case 16: /* T: T DIV F  */
-#line 39 "stmt.y"
-                          {yyval=yyvsp[-2]/yyvsp[0];printf("rule used: T -> T / F\n");}
-#line 1256 "y.tab.c"
+#line 40 "stmt.y"
+                          {yyval=yyvsp[-2]/yyvsp[0];printf("rule used: T -> T / F\n");fprintf(fp,"\"(%d) T\" -> \"(%d) T / F\"",time+1,time);time++;}
+#line 1258 "y.tab.c"
     break;
 
   case 17: /* T: F  */
-#line 40 "stmt.y"
-                    {yyval=yyvsp[0];printf("rule used: T -> F\n");}
-#line 1262 "y.tab.c"
+#line 41 "stmt.y"
+                    {yyval=yyvsp[0];printf("rule used: T -> F\n");fprintf(fp,"\"(%d) T\" -> \"(%d) F\"",time+1,time);time++;}
+#line 1264 "y.tab.c"
     break;
 
   case 18: /* F: LPAR E RPAR  */
-#line 43 "stmt.y"
-                            {yyval=yyvsp[-1];printf("rule used: F -> ( E )\n");}
-#line 1268 "y.tab.c"
+#line 44 "stmt.y"
+                            {yyval=yyvsp[-1];printf("rule used: F -> ( E )\n");fprintf(fp,"\"(%d) F\" -> \"(%d) ( E )\"",time+1,time);time++;}
+#line 1270 "y.tab.c"
     break;
 
   case 19: /* F: NUM  */
-#line 44 "stmt.y"
-                      {yyval=atoi(yytext); printf("rule used: F -> num\n");}
-#line 1274 "y.tab.c"
+#line 45 "stmt.y"
+                      {yyval=atoi(yytext); printf("rule used: F -> num -> %d\n",yyval);fprintf(fp,"\"(%d) F\" -> \"(%d) num \'%d\'\"",time+1,time,yyval);time++;}
+#line 1276 "y.tab.c"
     break;
 
 
-#line 1278 "y.tab.c"
+#line 1280 "y.tab.c"
 
       default: break;
     }
@@ -1467,7 +1469,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 47 "stmt.y"
+#line 48 "stmt.y"
 
 
 void yyerror(char *s) {
@@ -1475,6 +1477,18 @@ void yyerror(char *s) {
 }
 
 int main(void) {
+	time=1;
+	fp=fopen("parse_forest.dot","wt");
+	if(fp==NULL)
+	{
+		printf("Error opening file [parse_forest.dot]\n");
+		exit(-1);
+	}
+	
+	fprintf(fp,"digraph parse_forest {\n");
 	yyparse();
+	fprintf(fp,"\n}\n");
+	fclose(fp);
+	fp=NULL;
     return 0;
 }
