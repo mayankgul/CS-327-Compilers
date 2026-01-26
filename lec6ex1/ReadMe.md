@@ -59,23 +59,26 @@ int yywrap(void) {
 	char mytext[100];
 	extern char *yytext;
 %}
-%start S
+%start Start
 
 %%
 
-S:		MS {printf("rule used: S -> MS\n");}
-		| OS {printf("rule used: S -> OS\n");}
+Start: 	S {$$=$1;printf("rule used: Start -> S\n");printf("The final output is %d\n",$$);}
+		;
+
+S:		MS {$$=$1;printf("rule used: S -> MS\n");}
+		| OS {$$=$1;printf("rule used: S -> OS\n");}
 		;
 
 MS: 	IF E THEN MS ELSE MS {$$=($2!=0)?$4:$6;$$*=$2;printf("rule used: MS -> if E then MS else MS\n");}
 		| SEM {$$=1;printf("rule used: MS -> ;\n");}
-		| SEM MS {$$=1;printf("rule used: MS -> MS ;\n");}
-		| LBRACE MS RBRACE {printf("rule used: MS -> { MS }\n");}
+		| SEM MS {$$=$2;printf("rule used: MS -> ; MS\n");}
+		| LBRACE MS RBRACE {$$=$2;printf("rule used: MS -> { MS }\n");}
 		;
 		
 OS:		IF E THEN S {$$=($2!=0)?$4:0;$$*=$2;printf("rule used: OS -> if E then S\n");}
 		| IF E THEN MS ELSE OS {$$=($2!=0)?$4:$6;$$*=$2;printf("rule used: OS -> if E then MS else OS\n");}
-		| LBRACE OS RBRACE {printf("rule used: OS -> { OS }\n");}
+		| LBRACE OS RBRACE {$$=$2;printf("rule used: OS -> { OS }\n");}
 		;
 	
 		
@@ -136,6 +139,8 @@ rule used: MS -> if E then MS else MS
 rule used: S -> MS
 rule used: OS -> if E then S
 rule used: S -> OS
+rule used: Start -> S
+The final output is 1008
 ```
 ## Command-line (test case #2)
 ```
@@ -153,6 +158,7 @@ syntax error
 ```
 ## Command-line (test case #3)
 ```
+shouvick@shouvick:~/CS-327-Compilers/lec6ex1$ ./stmt 
 if 4 then
 rule used: F -> num
 rule used: T -> F
@@ -163,9 +169,9 @@ rule used: F -> num
 rule used: T -> F
 rule used: E -> T
 rule used: MS -> ;
-rule used: MS -> MS ;
-rule used: MS -> MS ;
-rule used: MS -> MS ;
+rule used: MS -> ; MS
+rule used: MS -> ; MS
+rule used: MS -> ; MS
 rule used: MS -> { MS }
 rule used: MS -> { MS }
 rule used: MS -> { MS }
@@ -178,4 +184,6 @@ rule used: MS -> { MS }
 rule used: S -> MS
 rule used: OS -> if E then S
 rule used: S -> OS
+rule used: Start -> S
+The final output is 20
 ```
