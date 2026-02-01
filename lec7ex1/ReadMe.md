@@ -155,7 +155,7 @@ rule used: S -> OS
 rule used: Start -> S
 The final output is 1008
 ```
-![parse forest](https://github.com/SET-IITGN/CS-327-Compilers/blob/main/lec6ex1/parse_forest.svg)
+![parse forest](https://github.com/SET-IITGN/CS-327-Compilers/blob/main/lec7ex1/parse_forest.svg)
 
 ## Command-line (test case #2)
 ```
