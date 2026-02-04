@@ -44,27 +44,27 @@ static int check_type(void);
 "/*"                                    { comment(); }
 "//".*                                    { /* consume //-comment */ }
 
-"break"					{ return(BREAK); }
-"case"					{ return(CASE); }
-"char"					{ return(CHAR); }
-"continue"				{ return(CONTINUE); }
-"default"				{ return(DEFAULT); }
-"do"					{ return(DO); }
-"double"				{ return(DOUBLE); }
-"else"					{ return(ELSE); }
-"extern"				{ return(EXTERN); }
-"float"					{ return(FLOAT); }
-"for"					{ return(FOR); }
-"if"					{ return(IF); }
-"int"					{ return(INT); }
-"long"					{ return(LONG); }
-"return"				{ return(RETURN); }
-"short"					{ return(SHORT); }
-"sizeof"				{ return(SIZEOF); }
-"struct"				{ return(STRUCT); }
-"switch"				{ return(SWITCH); }
-"void"					{ return(VOID); }
-"while"					{ return(WHILE); }
+"bas kar"					{ return(BREAK); }
+"maamla"					{ return(CASE); }
+"akshar"					{ return(CHAR); }
+"agla dekh"				{ return(CONTINUE); }
+"baaki sab"				{ return(DEFAULT); }
+"kar"					{ return(DO); }
+"lamba dashamlav"				{ return(DOUBLE); }
+"warna"					{ return(ELSE); }
+"bahar ka"				{ return(EXTERN); }
+"dashamlav"					{ return(FLOAT); }
+"ke liye"					{ return(FOR); }
+"agar"					{ return(IF); }
+"poornank"					{ return(INT); }
+"lamba"					{ return(LONG); }
+"waapas kar"				{ return(RETURN); }
+"chota"					{ return(SHORT); }
+"maap"				{ return(SIZEOF); }
+"dhancha"				{ return(STRUCT); }
+"badlo"				{ return(SWITCH); }
+"khaali"					{ return(VOID); }
+"jab tak"					{ return(WHILE); }
 
 {L}{A}*					{ return check_type(); }
 
