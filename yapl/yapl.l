@@ -83,6 +83,11 @@ static int check_type(void);
 ({SP}?\"([^"\\\n]|{ES})*\"{WS}*)+	{ return STRING_LITERAL; }
 
 "<=>"					{ return TH_OP; }
+"+="					{ return PEQ_OP; }
+"-="					{ return MEQ_OP; }
+"*="					{ return STREQ_OP; }
+"/="					{ return DEQ_OP; }
+"%="					{ return MODEQ_OP; }
 "++"					{ return INC_OP; }
 "--"					{ return DEC_OP; }
 "->"					{ return PTR_OP; }
