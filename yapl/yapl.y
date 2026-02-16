@@ -181,6 +181,7 @@ logical_or_expression
 
 conditional_expression
 	: logical_or_expression
+	| logical_or_expression '?' expression ':' conditional_expression
 	;
 
 assignment_expression
@@ -200,6 +201,11 @@ assignment_operator
 	| AND_ASSIGN
 	| XOR_ASSIGN
 	| OR_ASSIGN
+	| PEQ_OP
+	| MEQ_OP
+	| STREQ_OP
+	| DEQ_OP
+	| MODEQ_OP
 	;
 
 expression
