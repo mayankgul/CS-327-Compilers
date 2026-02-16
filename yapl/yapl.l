@@ -50,7 +50,7 @@ static int check_type(void);
 "agla dekh"				{ return(CONTINUE); }
 "baaki sab"				{ return(DEFAULT); }
 "kar"					{ return(DO); }
-"lamba dashamlav"				{ return(DOUBLE); }
+"bada dashamlav"				{ return(DOUBLE); }
 "warna"					{ return(ELSE); }
 "bahar ka"				{ return(EXTERN); }
 "dashamlav"					{ return(FLOAT); }
