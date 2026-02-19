@@ -1,404 +1,399 @@
-int fun1()
+poornank fun1()
 {
-	if(1)
+	agar(1)
 		a++;
-	else if(0) 
+	warna agar(0) 
 			b++; //1
-	else 
+	warna 
 			c++; //2 
 
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-	else if(1)
+	warna agar(1)
 	{ //2
-		if(1)
+		agar(1)
 			a++;
-		else if(0) 
+		warna agar(0) 
 			b++; //3
-		else 
+		warna 
 			c++; //4 
 	}
-	else if(9)
+	warna agar(9)
 	{ //3
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //4
-		else
+		warna
 			c++; //5
 	}
-	else if(8)
+	warna agar(8)
 	{ //4
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //5
-		else if(0)
+		warna agar(0)
 			b++; //6
-		else if(0)
+		warna agar(0)
 			b++; //7
-		else if(0)
+		warna agar(0)
 			b++; //8
-		else if(0)
+		warna agar(0)
 			c++; //9
-		else if(2)
+		warna agar(2)
 			k++; //10
-		else if(3)
+		warna agar(3)
 			k++; //11
-		else if(6)
+		warna agar(6)
 			k++; //12
-		else if(6)
+		warna agar(6)
 			k++; //13
-		else if(6)
+		warna agar(6)
 			k++; //14
-		else if(6)
+		warna agar(6)
 			k++; //15
-		else if(6)
+		warna agar(6)
 			k++; //16
-		else if(6)
+		warna agar(6)
 			k++; //17 (max depth is here)		
 	}
-	else if(0)
+	warna agar(0)
 	{ //5
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //6
-		else if(0)
+		warna agar(0)
 			b++; //7
-		else if(0)
+		warna agar(0)
 			b++; //8
-		else if(0)
+		warna agar(0)
 			b++; //9
-		else if(0)
+		warna agar(0)
 			c++; //10
-		else
+		warna
 			k++; //11		
 	}
 
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-
 }
 
-int fun2()
+poornank fun2()
 {
-	if(1)
+	agar(1)
 		a++;
-	else if(0) 
+	warna agar(0) 
 			b++; //1
-	else 
+	warna 
 			c++; //2 
 
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-	else if(1)
+	warna agar(1)
 	{ //2
-		if(1)
+		agar(1)
 			a++;
-		else if(0) 
+		warna agar(0) 
 			b++; //3
-		else 
+		warna 
 			c++; //4 
 	}
-	else if(9)
+	warna agar(9)
 	{ //3
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //4
-		else
+		warna
 			c++; //5
 	}
-	else if(8)
+	warna agar(8)
 	{ //4
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //5
-		else if(0)
+		warna agar(0)
 			b++; //6
-		else if(0)
+		warna agar(0)
 			b++; //7
-		else if(0)
+		warna agar(0)
 			b++; //8
-		else if(0)
+		warna agar(0)
 			c++; //9
-		else if(2)
+		warna agar(2)
 			k++; //10
-		else if(3)
+		warna agar(3)
 			k++; //11
-		else if(6)
+		warna agar(6)
 			k++; //12		
 	}
-	else if(0)
+	warna agar(0)
 	{ //5
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //6
-		else if(0)
+		warna agar(0)
 			b++; //7
-		else if(0)
+		warna agar(0)
 			b++; //8
-		else if(0)
+		warna agar(0)
 			b++; //9
-		else if(0)
+		warna agar(0)
 			c++; //10
-		else
+		warna
 			k++; //11		
 	}
 
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-
 }
 
-int fun3()
+poornank fun3()
 {
-	if(1)
+	agar(1)
 		a++;
-	else if(0) 
+	warna agar(0) 
 			b++; //1
-	else 
+	warna 
 			c++; //2 
 
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-	else if(1)
+	warna agar(1)
 	{ //2
-		if(1)
+		agar(1)
 			a++;
-		else if(0) 
+		warna agar(0) 
 			b++; //3
-		else 
+		warna 
 			c++; //4 
 	}
-	else if(9)
+	warna agar(9)
 	{ //3
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //4
-		else
+		warna
 			c++; //5
 	}
-	else if(8)
+	warna agar(8)
 	{ //4
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //5
-		else if(0)
+		warna agar(0)
 			b++; //6
-		else if(0)
+		warna agar(0)
 			b++; //7
-		else if(0)
+		warna agar(0)
 			b++; //8
-		else if(0)
+		warna agar(0)
 			c++; //9
-		else if(2)
+		warna agar(2)
 			k++; //10
-		else if(3)
+		warna agar(3)
 			k++; //11
-		else if(6)
+		warna agar(6)
 			k++; //12
-		else if(6)
+		warna agar(6)
 			k++; //13
-		else if(6)
+		warna agar(6)
 			k++; //14
-		else if(6)
+		warna agar(6)
 			k++; //15
-		else if(6)
+		warna agar(6)
 			k++; //16
-		else if(6)
+		warna agar(6)
 			k++; //17 (max depth is here)		
 	}
-	else if(0)
+	warna agar(0)
 	{ //5
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //6
-		else if(0)
+		warna agar(0)
 			b++; //7
-		else if(0)
+		warna agar(0)
 			b++; //8
-		else if(0)
+		warna agar(0)
 			b++; //9
-		else if(0)
+		warna agar(0)
 			c++; //10
-		else
+		warna
 			k++; //11		
 	}
 
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-
 }
 
-int fun4()
+poornank fun4()
 {
-	if(1)
+	agar(1)
 		a++;
-	else if(0) 
+	warna agar(0) 
 			b++; //1
-	else 
+	warna 
 			c++; //2 
 
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-	else if(1)
+	warna agar(1)
 	{ //2
-		if(1)
+		agar(1)
 			a++;
-		else if(0) 
+		warna agar(0) 
 			b++; //3
-		else 
+		warna 
 			c++; //4 
 	}
-	else if(9)
+	warna agar(9)
 	{ //3
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //4
-		else
+		warna
 			c++; //5
 	}
-	else if(8)
+	warna agar(8)
 	{ //4
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //5
-		else if(0)
+		warna agar(0)
 			b++; //6
-		else if(0)
+		warna agar(0)
 			b++; //7
-		else if(0)
+		warna agar(0)
 			b++; //8
-		else if(0)
+		warna agar(0)
 			c++; //9
-		else if(2)
+		warna agar(2)
 			k++; //10
-		else if(3)
+		warna agar(3)
 			k++; //11
-		else if(6)
+		warna agar(6)
 			k++; //12		
 	}
-	else if(0)
+	warna agar(0)
 	{ //5
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //6
-		else if(0)
+		warna agar(0)
 			b++; //7
-		else if(0)
+		warna agar(0)
 			b++; //8
-		else if(0)
+		warna agar(0)
 			b++; //9
-		else if(0)
+		warna agar(0)
 			c++; //10
-		else
+		warna
 			k++; //11		
 	}
 
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-
 }
 
-int fun5()
+poornank fun5()
 {
-	if(1)
+	agar(1)
 		a++;
-	else if(0) 
+	warna agar(0) 
 			b++; //1
-	else 
+	warna 
 			c++; //2 
 
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-	else if(1)
+	warna agar(1)
 	{ //2
-		if(1)
+		agar(1)
 			a++;
-		else if(0) 
+		warna agar(0) 
 			b++; //3
-		else 
+		warna 
 			c++; //4 
 	}
-	else if(9)
+	warna agar(9)
 	{ //3
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //4
-		else
+		warna
 			c++; //5
 	}
-	else if(8)
+	warna agar(8)
 	{ //4
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //5
-		else if(0)
+		warna agar(0)
 			b++; //6
-		else if(0)
+		warna agar(0)
 			b++; //7
-		else if(0)
+		warna agar(0)
 			b++; //8
-		else if(0)
+		warna agar(0)
 			c++; //9
-		else if(2)
+		warna agar(2)
 			k++; //10
-		else if(3)
+		warna agar(3)
 			k++; //11
-		else if(6)
+		warna agar(6)
 			k++; //12		
 	}
-	else if(0)
+	warna agar(0)
 	{ //5
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //6
-		else if(0)
+		warna agar(0)
 			b++; //7
-		else if(0)
+		warna agar(0)
 			b++; //8
-		else if(0)
+		warna agar(0)
 			b++; //9
-		else if(0)
+		warna agar(0)
 			c++; //10
-		else
+		warna
 			k++; //11		
 	}
 
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-
 }

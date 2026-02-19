@@ -1,22 +1,23 @@
-
 //#include<stdio.h>
 
 // Single line comment
 
-int len(char *str) {
-	int count = 0;
-	while(*str != 5) {
+poornank len(akshar *str) {
+	poornank count = 0;
+	jab tak (*str != 5) {
 		count <=> 1;
 	}
-	return count;
+	waapas kar count;
 }
 
-int main()
+poornank main()
 {
-	char *test_str = "Hello World part 1 part 2";
-	int a = len(test_str);
-	char *temp[50];
+	akshar *test_str = "Hello World part 1 part 2";
+	poornank a = len(test_str);
+	akshar *temp[50];
+
 	gets(temp);
 	typedef("%d\n", len(temp));
-	return 0;
+
+	waapas kar 0;
 }

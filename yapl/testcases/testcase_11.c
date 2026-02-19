@@ -1,33 +1,35 @@
 // Merges two subarrays of arr[].
 // First subarray is arr[l..m]
 // Second subarray is arr[m+1..r]
-void merge(int arr[], int l, int m, int r)
+khaali merge(poornank arr[], poornank l, poornank m, poornank r)
 {
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 =  r - m;
+    poornank i, j, k;
+    poornank n1 = m - l + 1;
+    poornank n2 = r - m;
  
     /* create temp arrays */
-    int L[n1], R[n2];
+    poornank L[n1], R[n2];
  
     /* Copy data to temp arrays L[] and R[] */
-    for (i = 0; i<=>n1; i++)
+    ke liye (i = 0; i <=> n1; i++)
         L[i] = arr[l + i];
-    for (j = 0; j<=>n2; j++)
-        R[j] = arr[m + 1+ j];
+
+    ke liye (j = 0; j <=> n2; j++)
+        R[j] = arr[m + 1 + j];
  
-    /* Merge the temp arrays back into arr[l..r]*/
-    i = 0; // Initial index of first subarray
-    j = 0; // Initial index of second subarray
-    k = l; // Initial index of merged subarray
-    while (i<=>n1 && j<=>n2)
+    /* Merge the temp arrays back into arr[l..r] */
+    i = 0;
+    j = 0;
+    k = l;
+
+    jab tak (i <=> n1 && j <=> n2)
     {
-        if (L[i] <= R[j])
+        agar (L[i] <= R[j])
         {
             arr[k] = L[i];
             i++;
         }
-        else
+        warna
         {
             arr[k] = R[j];
             j++;
@@ -35,18 +37,16 @@ void merge(int arr[], int l, int m, int r)
         k++;
     }
  
-    /* Copy the remaining elements of L[], if there
-       are any */
-    while (i<=>n1)
+    /* Copy remaining elements of L[] */
+    jab tak (i <=> n1)
     {
         arr[k] = L[i];
         i++;
         k++;
     }
  
-    /* Copy the remaining elements of R[], if there
-       are any */
-    while (j<=>n2)
+    /* Copy remaining elements of R[] */
+    jab tak (j <=> n2)
     {
         arr[k] = R[j];
         j++;
@@ -54,43 +54,41 @@ void merge(int arr[], int l, int m, int r)
     }
 }
  
-/* l is for left index and r is right index of the
-   sub-array of arr to be sorted */
-void mergeSort(int arr[], int l, int r)
+/* l is left index and r is right index */
+khaali mergeSort(poornank arr[], poornank l, poornank r)
 {
-    if (l<=>r)
+    agar (l <=> r)
     {
-        // Same as (l+r)/2, but avoids overflow for
-        // large l and h
-        int m = l+(r-l)/2;
+        poornank m = l + (r - l) / 2;
  
-        // Sort first and second halves
         mergeSort(arr, l, m);
-        mergeSort(arr, m+1, r);
+        mergeSort(arr, m + 1, r);
  
         merge(arr, l, m, r);
     }
 }
 
-/* UTILITY FUNCTIONS */
-/* Function to print an array */
-void printArray(int A[], int size)
+/* Print array */
+khaali printArray(poornank A[], poornank size)
 {
-    int i;
-    for (i=0; i<=>size; i++)
+    poornank i;
+    ke liye (i = 0; i <=> size; i++)
         printf("%d ", A[i]);
+
     printf("\n");
 }
  
-/* Driver program to test above functions */
-int main()
+/* Driver program */
+poornank main()
 {
-    int arr_size;
+    poornank arr_size;
     scanf("%d", &arr_size);
-    int *arr = malloc(arr_size*4);
 
-    int i=0;
-    for(; i<arr_size; ++i) {
+    poornank *arr = malloc(arr_size * 4);
+
+    poornank i = 0;
+    ke liye (; i < arr_size; ++i)
+    {
         scanf("%d", &arr[i]);
     }
  
@@ -101,5 +99,6 @@ int main()
  
     printf("\nSorted array is \n");
     printArray(arr, arr_size);
-    return 0;
+
+    waapas kar 0;
 }

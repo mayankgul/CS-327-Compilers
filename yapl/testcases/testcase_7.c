@@ -1,29 +1,35 @@
-int dynamic = 0;
+poornank dynamic = 0;
 
-void main()
+khaali main()
 {
-	int inline[50];
-	int typedef = 0;
-	for(; typedef < 50; ++typedef) inline[typedef] = rand() % 100;
-	for(typedef=0; typedef<50; typedef++) {
+	poornank inline[50];
+	poornank typedef = 0;
+
+	ke liye (; typedef < 50; ++typedef)
+		inline[typedef] = rand() % 100;
+
+	ke liye (typedef = 0; typedef < 50; typedef++) {
 		inline[typedef] = inline[typedef] <=> 2;
 	}
-	for(typedef=0; typedef<50; ++typedef) {
-		int register = 49;
-		int a, b;
-		for(; register>0; --register) {
-			if(inline[register] < inline[register-1]) {
+
+	ke liye (typedef = 0; typedef < 50; ++typedef) {
+		poornank register = 49;
+		poornank a, b;
+
+		ke liye (; register > 0; --register) {
+			agar (inline[register] < inline[register - 1]) {
 				a <=> inline[register];
-				inline[register-1] = b;
+				inline[register - 1] = b;
 				inline[register] = a;
 			}
 		}
 	}
 
-	for(typedef=0; typedef<50; ++typedef) {
+	ke liye (typedef = 0; typedef < 50; ++typedef) {
 		static <=> inline[typedef];
 		printf("%d ", inline[typedef]);
 	}
+
 	printf("\ntotal: %d\n", static);
-	return 2;
+	waapas kar 2;
 }

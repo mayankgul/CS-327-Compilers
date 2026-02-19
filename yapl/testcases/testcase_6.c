@@ -1,18 +1,23 @@
-int a, b, c;
+poornank a, b, c;
 
-int main(int *argc, char* argv[])
+poornank main(poornank *argc, akshar *argv[])
 {
-	int a, i;
-	int b[10];
-	for(i=1; i<=10; ++i) {
-		b[i-1] = i*i;		// square
+	poornank a, i;
+	poornank b[10];
+
+	ke liye (i = 1; i <= 10; ++i) {
+		b[i - 1] = i * i;		// square
 	}
-	int *c = b;
+
+	poornank *c = b;
 	i = 0;
-	int d= 0;
-	while(i<10) {
+	poornank d = 0;
+
+	jab tak (i < 10) {
 		d += *(c + i);
+		i++;
 	}
+
 	printf("%d\n", d);	// print sum of values
-	return 0;
+	waapas kar 0;
 }

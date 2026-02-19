@@ -1,7 +1,7 @@
-int a;
-extern int k;
+poornank a;
+bahar ka poornank k;
 
-int main()
+poornank main()
 {
 	main();
 }

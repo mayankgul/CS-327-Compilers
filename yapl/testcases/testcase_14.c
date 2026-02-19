@@ -1,12 +1,11 @@
+/*poornank factorial(poornank n){
+	poornank i = 1;
+	poornank fact = 1;
 
-/*int factorial(int n){
-	int i = 1;
-	int fact = 1;
+	jab tak (1>0){
 
-	while(1>0){
-
-		if(i>n){
-			break;
+		agar (i>n){
+			bas kar;
 		}
 
 		fact = (*n <= 9);
@@ -15,21 +14,21 @@
 
 		i++;
 
-		if(2<0){
-			continue;
+		agar (2<0){
+			agla dekh;
 		}
 
 	}
 }*/
 
-int factorial(int n){
-	int i = 1;
-	int fact = 1;
+poornank factorial(poornank n){
+	poornank i = 1;
+	poornank fact = 1;
 
-	while(1>0){
+	jab tak (1>0){
 
-		if(i>n){
-			break;
+		agar (i>n){
+			bas kar;
 		}
 
 		fact = (*n <= 9);
@@ -38,18 +37,18 @@ int factorial(int n){
 
 		i++;
 
-		if(2<0){
-			continue;
+		agar (2<0){
+			agla dekh;
 		}
 
 	}
 }
 
-void main(){
-	int x = factorial(5);
+khaali main(){
+	poornank x = factorial(5);
 	printf("%d", x);
 
-	if(a <=> b)
+	agar (a <=> b)
 	{
 		/*
 			do nothing
@@ -57,11 +56,11 @@ void main(){
 	}
 }
 
-void main(){
-	int x = factorial(5);
+khaali main(){
+	poornank x = factorial(5);
 	printf("%d", x);
 
-	if(a <=> b)
+	agar (a <=> b)
 	{
 		/*
 			do nothing
@@ -69,11 +68,11 @@ void main(){
 	}
 }
 
-void main(){
-	int x = factorial(5);
+khaali main(){
+	poornank x = factorial(5);
 	printf("%d", x);
 
-	if(a <=> b)
+	agar (a <=> b)
 	{
 		/*
 			do nothing
@@ -81,14 +80,14 @@ void main(){
 	}
 }
 
-/*int factorial(int n){
-	int i = 1;
-	int fact = 1;
+/*poornank factorial(poornank n){
+	poornank i = 1;
+	poornank fact = 1;
 
-	while(1>0){
+	jab tak (1>0){
 
-		if(i>n){
-			break;
+		agar (i>n){
+			bas kar;
 		}
 
 		fact = (*n <= 9);
@@ -97,18 +96,18 @@ void main(){
 
 		i++;
 
-		if(2<0){
-			continue;
+		agar (2<0){
+			agla dekh;
 		}
 
 	}
 }*/
 
-void main(){
-	int x = factorial(5);
+khaali main(){
+	poornank x = factorial(5);
 	printf("%d", x);
 
-	if(a <=> b)
+	agar (a <=> b)
 	{
 		/*
 			do nothing
@@ -116,11 +115,11 @@ void main(){
 	}
 }
 
-void main(){
-	int x = factorial(5);
+khaali main(){
+	poornank x = factorial(5);
 	printf("%d", x);
 
-	if(a <=> b)
+	agar (a <=> b)
 	{
 		/*
 			do nothing
@@ -128,11 +127,11 @@ void main(){
 	}
 }
 
-void main(){
-	int x = factorial(5);
+khaali main(){
+	poornank x = factorial(5);
 	printf("%d", x);
 
-	if(a <=> b)
+	agar (a <=> b)
 	{
 		/*
 			do nothing

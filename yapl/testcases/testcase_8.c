@@ -1,97 +1,97 @@
-int main()
+poornank main()
 {
 
-	switch(volatile)
+	badlo (volatile)
 	{
-		case 1:
+		maamla 1:
 
-		if(1)
+		agar (1)
 		{
-			if(1)
-				if(2)
-					if(3)
-						if(4)
-						if(5)
-					if(6)
-				if(7)
-			if(8)
+			agar (1)
+				agar (2)
+					agar (3)
+						agar (4)
+							agar (5)
+						agar (6)
+					agar (7)
+			agar (8)
 			{
 				/***** // just for fun ********/
 			}
-			else if(2)
-					if(3)
-						if(4)
-							if(5)
-						if(6)
-				if(7)
-			if(8)
+			warna agar (2)
+					agar (3)
+						agar (4)
+							agar (5)
+						agar (6)
+				agar (7)
+			agar (8)
 			{
 				/***** // just for fun ********/
 			}
-			else
+			warna
 			{
 			}
 		}
 
-		break;
+		bas kar;
 
-		case 6:
+		maamla 6:
 		
-		if(1)
+		agar (1)
 		{
-			if(1)
-				if(2)
-					if(3)
-						if(4)
+			agar (1)
+				agar (2)
+					agar (3)
+						agar (4)
 						{
-							if(1)
+							agar (1)
 							{
-								if(1)
-									if(2)
-										if(3)
-											if(4)
-											if(5)
-										if(6)
-									if(7)
-								if(8)
+								agar (1)
+									agar (2)
+										agar (3)
+											agar (4)
+												agar (5)
+										agar (6)
+									agar (7)
+								agar (8)
 								{
 									/***** // just for fun ********/
 								}
-								else if(2)
-					if(3)
-							if(4)
-					if(5)
-							if(6)
-					if(7)
-							if(8)
+								warna agar (2)
+					agar (3)
+							agar (4)
+					agar (5)
+							agar (6)
+					agar (7)
+							agar (8)
 							{
 								/***** // just for fun ********/
 							}
 					}							
 																}
-						if(5)
-					if(6)
-				if(7)
-			if(8)
+						agar (5)
+					agar (6)
+				agar (7)
+			agar (8)
 			{
 				/***** // just for fun ********/
 			}
-			else if(2)
-					if(3)
-						if(4)
-							if(5)
-						if(6)
-				if(7)
-			if(8)
+			warna agar (2)
+					agar (3)
+						agar (4)
+							agar (5)
+						agar (6)
+				agar (7)
+			agar (8)
 			{
 				/***** // just for fun ********/
 			}
 		}
 
-		default:
-			return;
+		baaki sab:
+			waapas kar;
 	}
 
-	return(-4);
+	waapas kar (-4);
 	
 }

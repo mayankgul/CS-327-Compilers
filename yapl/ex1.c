@@ -1,25 +1,25 @@
-int fun()
+poornank fun()
 {
-	if(1)
+	agar(1)
 		a++;
-	else if(0) //1
+	warna agar(0) //1
 		b++;
-	else if(1)
+	warna agar(1)
 	{ //2
-		if(1)
+		agar(1)
 			a++;
-		else if(0) 
+		warna agar(0) 
 			b++; //3
-		else 
+		warna 
 			c++; //4 
 	}
-	else
+	warna
 	{ //3
-		if(1)
+		agar(1)
 			a++;
-		else if(0)
+		warna agar(0)
 			b++; //4
-		else
+		warna
 			c++; //5 (max depth is here)	
 	}
 }

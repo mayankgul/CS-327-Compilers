@@ -1,41 +1,40 @@
-
-void fun(int args,char *argv)
+khaali fun(poornank args, akshar *argv)
 {
-	if(auto*register*static)
+	agar (auto * register * static)
 	{
 		printf(1);
 	}
 }
 
-void avoid(void *k)
+khaali avoid(khaali *k)
 {
-	int i,j;
-	float dx=0.33;
+	poornank i, j;
+	dashamlav dx = 0.33;
 
-	if(i==1)
-		y=f(x);
-	else if(2)
-		y=f(x)*dx;
-	else
+	agar (i == 1)
+		y = f(x);
+	warna agar (2)
+		y = f(x) * dx;
+	warna
 	{
-		if(j==1)
+		agar (j == 1)
 		{
 			fun(1);
 		}
-		else
+		warna
 		{
-			if(i==1)
-				y=f(x);
-			else if(2)
-				y=f(x)*dx;
-			else
+			agar (i == 1)
+				y = f(x);
+			warna agar (2)
+				y = f(x) * dx;
+			warna
 			{
-				if(i==1)
-					y=f(x);
-				else if(2)
-					y=f(x)*dx;
-				else
-					y=0;
+				agar (i == 1)
+					y = f(x);
+				warna agar (2)
+					y = f(x) * dx;
+				warna
+					y = 0;
 			}
 		}
 	}

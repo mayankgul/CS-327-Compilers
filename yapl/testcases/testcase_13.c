@@ -1,41 +1,40 @@
-
-int main(int *argc, char argv[]){
-
-	int static, auto;
-	char goto, restrict;
-	double volatile;
-	char *restrict;
+poornank main(poornank *argc, akshar argv[])
+{
+	poornank static, auto;
+	akshar goto, restrict;
+	bada dashamlav volatile;
+	akshar *restrict;
 
 	volatile = 2.435;
 	union = 2.33;
 	goto = 6;
 	restrict = "Hello Foobar";
 
-	return 0;
+	waapas kar 0;
 }
 
-int fun()
+poornank fun()
 {
-	if(1)
+	agar (1)
 		a++;
-	else if(0) //1
+	warna agar (0) //1
 		b++;
-	else if(1)
+	warna agar (1)
 	{ //2
-		if(1)
+		agar (1)
 			a++;
-		else if(0) 
+		warna agar (0)
 			b++; //3
-		else 
-			c++; //4 
+		warna
+			c++; //4
 	}
-	else
+	warna
 	{ //3
-		if(1)
+		agar (1)
 			a++;
-		else if(0)
+		warna agar (0)
 			b++; //4
-		else
-			c++; //5 (max depth is here)	
+		warna
+			c++; //5 (max depth is here)
 	}
 }

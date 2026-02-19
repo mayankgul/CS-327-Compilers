@@ -1,32 +1,31 @@
+poornank *var = 6;
+dhancha mystruct *ms = &var;
 
-int *var=6;
-struct mystruct *ms=&var;
+poornank auto, static, inline;
 
-int auto, static, inline;
+bahar ka khaali *k;
+poornank p;
+poornank p;
+poornank p;
 
-extern void *k;
-int p;
-int p;
-int p;
+poornank *hh(akshar *p);
 
-int *hh(char *p);
-
-int main(int b)
+poornank main(poornank b)
 {
-	int auto=2,b=3,c;
-	c=auto+b;
-	printf("%d",c);
+	poornank auto = 2, b = 3, c;
+	c = auto + b;
+	printf("%d", c);
 
-	struct player
+	dhancha player
 	{
-		int a;
-		double c;
+		poornank a;
+		bada dashamlav c;
 	};
 
-	int *jj=&auto;
+	poornank *jj = &auto;
 
 	System.out.print("java here");
-	char echo[3]="bash here";
+	akshar echo[3] = "bash here";
 	myprintf("CS3300 here");
 	printf(echo);
 
@@ -34,58 +33,58 @@ int main(int b)
 		mixing things here a bit
 	*/
 
-	if(a==9)
+	agar (a == 9)
 	{
 		//NO-OP
 	}
 	
-	if(a==1)
+	agar (a == 1)
 		hh(++jj);
-	else if(a==2)
+	warna agar (a == 2)
 		hh(jj++);
-	else if(a==3)
+	warna agar (a == 3)
 		hh(*jj++);
-	else
+	warna
 	{
 		//NO-OP
 	}
 			
-	struct player *p;
-	p=(struct player *)malloc(sizeof(struct player));
+	dhancha player *p;
+	p = (dhancha player *)malloc(maap(dhancha player));
 	
-	p->a=1;
-	p->b=2.4;
+	p->a = 1;
+	p->b = 2.4;
 
 	//#pragma omp parallel for
-	for(a=1;a<=5;a++)
+	ke liye (a = 1; a <= 5; a++)
 		static(a);
 
-	int *p;
-	float *j;
-	p=&auto;
-	j=0x1234;
-	printf("*j=%p",(char *)j);
+	poornank *p;
+	dashamlav *j;
+	p = &auto;
+	j = 0x1234;
+	printf("*j=%p", (akshar *)j);
 
-	void *static=&c;
+	khaali *static = &c;
 
-	int a=5,b=8,c;
-	c=a<=>b;
+	poornank a = 5, b = 8, c;
+	c = a <=> b;
 
 	hh(p);
 	
-	return(0);
+	waapas kar (0);
 }	
 
-int *hh(char *p)
+poornank *hh(akshar *p)
 {
-	int n=7;
+	poornank n = 7;
 
-	scanf("%d",&n);
+	scanf("%d", &n);
 	
-	if(n==0)
-		printf("%d\n",n+1);
-	else if(n==1)
-		printf("%d\n",n+2);
+	agar (n == 0)
+		printf("%d\n", n + 1);
+	warna agar (n == 1)
+		printf("%d\n", n + 2);
 	
-	return(NULL);
-}	
+	waapas kar (NULL);
+}
