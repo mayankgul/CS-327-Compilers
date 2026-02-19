@@ -1,7 +1,11 @@
 
 %{
 #include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 extern char *yytext;
+int yylex(void);
+void yyerror(const char *);
 int global_declarations=0;
 int func_definitions=0;
 int int_consts=0;

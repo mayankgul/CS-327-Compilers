@@ -1,0 +1,90 @@
+poornank *var = 6;
+dhancha mystruct *ms = &var;
+
+poornank auto, static, inline;
+
+bahar ka khaali *k;
+poornank p;
+poornank p;
+poornank p;
+
+poornank *hh(akshar *p);
+
+poornank main(poornank b)
+{
+	poornank auto = 2, b = 3, c;
+	c = auto + b;
+	printf("%d", c);
+
+	dhancha player
+	{
+		poornank a;
+		bada dashamlav c;
+	};
+
+	poornank *jj = &auto;
+
+	System.out.print("java here");
+	akshar echo[3] = "bash here";
+	myprintf("CS3300 here");
+	printf(echo);
+
+	/*
+		mixing things here a bit
+	*/
+
+	agar (a == 9)
+	{
+		//NO-OP
+	}
+	
+	agar (a == 1)
+		hh(++jj);
+	warna agar (a == 2)
+		hh(jj++);
+	warna agar (a == 3)
+		hh(*jj++);
+	warna
+	{
+		//NO-OP
+	}
+			
+	dhancha player *p;
+	p = (dhancha player *)malloc(maap(dhancha player));
+	
+	p->a = 1;
+	p->b = 2.4;
+
+	//#pragma omp parallel for
+	ke liye (a = 1; a <= 5; a++)
+		static(a);
+
+	poornank *p;
+	dashamlav *j;
+	p = &auto;
+	j = 0x1234;
+	printf("*j=%p", (akshar *)j);
+
+	khaali *static = &c;
+
+	poornank a = 5, b = 8, c;
+	c = a <=> b;
+
+	hh(p);
+	
+	waapas kar (0);
+}	
+
+poornank *hh(akshar *p)
+{
+	poornank n = 7;
+
+	scanf("%d", &n);
+	
+	agar (n == 0)
+		printf("%d\n", n + 1);
+	warna agar (n == 1)
+		printf("%d\n", n + 2);
+	
+	waapas kar (NULL);
+}

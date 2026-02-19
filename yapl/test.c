@@ -1,0 +1,1 @@
+poornank x=0;
