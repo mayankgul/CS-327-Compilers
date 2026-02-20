@@ -1,40 +1,140 @@
-poornank main(poornank *argc, akshar argv[])
-{
-	poornank static, auto;
-	akshar goto, restrict;
-	bada dashamlav volatile;
-	akshar *restrict;
+/*poornank factorial(poornank n){
+	poornank i = 1;
+	poornank fact = 1;
 
-	volatile = 2.435;
-	union = 2.33;
-	goto = 6;
-	restrict = "Hello Foobar";
+	jab tak (1>0){
 
-	waapas kar 0;
+		agar (i>n){
+			bas kar;
+		}
+
+		fact = (*n <= 9);
+
+		fact = fact ^ 1;
+
+		i++;
+
+		agar (2<0){
+			agla dekh;
+		}
+
+	}
+}*/
+
+poornank factorial(poornank n){
+	poornank i = 1;
+	poornank fact = 1;
+
+	jab tak (1>0){
+
+		agar (i>n){
+			bas kar;
+		}
+
+		fact = (*n <= 9);
+
+		fact = fact ^ 1;
+
+		i++;
+
+		agar (2<0){
+			agla dekh;
+		}
+
+	}
 }
 
-poornank fun()
-{
-	agar (1)
-		a++;
-	warna agar (0) //1
-		b++;
-	warna agar (1)
-	{ //2
-		agar (1)
-			a++;
-		warna agar (0)
-			b++; //3
-		warna
-			c++; //4
+khaali main(){
+	poornank x = factorial(5);
+	printf("%d", x);
+
+	agar (a <=> b)
+	{
+		/*
+			do nothing
+		*/
 	}
-	warna
-	{ //3
-		agar (1)
-			a++;
-		warna agar (0)
-			b++; //4
-		warna
-			c++; //5 (max depth is here)
+}
+
+khaali main(){
+	poornank x = factorial(5);
+	printf("%d", x);
+
+	agar (a <=> b)
+	{
+		/*
+			do nothing
+		*/
+	}
+}
+
+khaali main(){
+	poornank x = factorial(5);
+	printf("%d", x);
+
+	agar (a <=> b)
+	{
+		/*
+			do nothing
+		*/
+	}
+}
+
+/*poornank factorial(poornank n){
+	poornank i = 1;
+	poornank fact = 1;
+
+	jab tak (1>0){
+
+		agar (i>n){
+			bas kar;
+		}
+
+		fact = (*n <= 9);
+
+		fact = fact ^ 1;
+
+		i++;
+
+		agar (2<0){
+			agla dekh;
+		}
+
+	}
+}*/
+
+khaali main(){
+	poornank x = factorial(5);
+	printf("%d", x);
+
+	agar (a <=> b)
+	{
+		/*
+			do nothing
+		*/
+	}
+}
+
+khaali main(){
+	poornank x = factorial(5);
+	printf("%d", x);
+
+	agar (a <=> b)
+	{
+		/*
+			do nothing
+		*/
+	}
+}
+
+khaali main(){
+	poornank x = factorial(5);
+	printf("%d", x);
+
+	agar (a <=> b)
+	{
+		/*
+			do nothing
+		*/
 	}
 }
