@@ -300,6 +300,7 @@ State 13
 
     $default  reduce using rule 4 (T)
 ```
+![LR(0) Automaton](https://github.com/SET-IITGN/CS-327-Compilers/blob/main/bottom-up/y.svg)
 
 ## Command-line (test case #1)
 ```
