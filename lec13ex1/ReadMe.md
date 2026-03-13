@@ -1,4 +1,4 @@
-# Bottom-Up parsing: LR(0) automaton and SLR(1) parsing table
+# Bottom-Up parsing: LR(0) automaton
 ### Grammar
 ```
 S → A S | b
