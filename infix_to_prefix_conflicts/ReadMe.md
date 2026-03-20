@@ -1,4 +1,4 @@
-# Infix to Prefix Translation CONFLICTS (representation only)
+# Infix to Prefix Translation (representation only) CONFLICTS
 
 ## ``if2prfc.l``
 ```
