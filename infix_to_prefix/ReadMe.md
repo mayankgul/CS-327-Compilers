@@ -348,7 +348,7 @@ State 17
 
     $default  reduce using rule 6 (Term)
 ```
-![TBD](TBD)
+![Automaton](https://github.com/SET-IITGN/CS-327-Compilers/blob/main/infix_to_prefix/y.svg)
 
 ## Command-line (test case #1)
 ```
