@@ -1,6 +1,6 @@
-# Infix to Prefix Translation (representation only)
+# Infix to Prefix Translation CONFLICTS (representation only)
 
-## ``if2prf.l``
+## ``if2prfc.l``
 ```
 %{
 	#include <stdlib.h>
@@ -10,12 +10,10 @@
 %%
 
 "+"		  			{return ADD;}
-"-"  	  			{return SUB;}
 "*"		  			{return MUL;}
-"/"		  			{return DIV;}
 "("		  			{return LPAR;}
 ")"		  			{return RPAR;}
-([0-9]+|[a-zA-Z]+)	{strcpy(yylval.buff,yytext); return NUM;}
+([0-9]+|[a-zA-Z]+)	{yylval=atoi(yytext);return NUM;}
 .|\n	  			{;}
 
 %%
@@ -24,47 +22,34 @@ int yywrap(void) {
     return 1;
 }
 ```
-## ``if2prf.y``
+## ``if2prfc.y``
 ```
-%union
-{
-	int val;
-	char buff[1024];
-}
-
-%token <buff> ADD SUB MUL DIV LPAR RPAR
-%token <buff> NUM
-%type  <buff> S Expr Term Factor
+%token ADD MUL LPAR RPAR NUM
 
 %{
 	#include<stdio.h>
 	#include<stdlib.h>
-	#include<string.h>
 	void yyerror(char *);
 	int yylex(void);
-	char aux[256];
 	extern char *yytext;
 %}
 %start S
 
 %%
 
-S:	    Expr {strcpy($$,$1);printf("S: %s\n\n%s\n",$$,$$);}
-	    ;
+S:	E
+	;
+		
+E:	{printf("+");} E ADD T
+	| T
+	;
+
+T:	{printf("*");} T MUL F
+	| F
+	;
 	
-Expr:   Expr ADD Term {strcpy(aux,"\0");strcat(aux,"+");strcat(aux,$1);strcat(aux,$3);strcpy($$,aux);printf("Expr: %s\n",$$);}
-  	    | Expr SUB Term {strcpy(aux,"\0");strcat(aux,"-");strcat(aux,$1);strcat(aux,$3);strcpy($$,aux);printf("Expr: %s\n",$$);}
-  	    | Term {strcpy($$,$1);printf("Expr: %s\n",$$);}
-	    ;
-
-Term:   Term MUL Factor {strcpy(aux,"\0");strcat(aux,"*");strcat(aux,$1);strcat(aux,$3);strcpy($$,aux);printf("Term: %s\n",$$);}
-  	    | Term DIV Factor {strcpy(aux,"\0");strcat(aux,"/");strcat(aux,$1);strcat(aux,$3);strcpy($$,aux);printf("Term: %s\n",$$);}
-  	    | Factor {strcpy($$,$1);printf("Term: %s\n",$$);}
-  	    ;
-
-Factor:	LPAR Expr RPAR {strcpy($$,$2);printf("Factor: %s\n",$$);}
-	    | NUM {strcpy($$,$1);printf("Factor: %s\n",$$);}
-	    ;
+F:	LPAR E RPAR
+	| NUM {printf("%d",$1);}
 
 %%
 
@@ -80,289 +65,313 @@ int main(void) {
 ## Makefile
 ```
 a.out: y.tab.c lex.yy.c
-	gcc lex.yy.c y.tab.c -o if2prf
-	@echo "Run the program as ./if2prf < input.txt"
+	gcc lex.yy.c y.tab.c -o if2prfc
+	@echo "Run the program as ./if2prfc < input.txt"
 
-y.tab.c: if2prf.y 
-	yacc -d --report=itemsets,states,lookaheads -g if2prf.y
+y.tab.c: if2prfc.y 
+	yacc -d --report=itemsets,states,lookaheads -g if2prfc.y
 
-lex.yy.c: if2prf.l y.tab.h
-	lex if2prf.l
+lex.yy.c: if2prfc.l y.tab.h
+	lex if2prfc.l
 
 clean:
-	@rm -f lex.yy.c y.tab.h y.tab.c if2prf *.output *.gv *.svg
+	@rm -f lex.yy.c y.tab.h y.tab.c if2prfc *.output *.gv *.svg
 ```
 ## y.output
 ```
+Rules useless in parser due to conflicts
+
+    2 $@1: %empty
+
+    5 $@2: %empty
+
+
+State 0 conflicts: 2 shift/reduce, 2 reduce/reduce
+State 1 conflicts: 2 shift/reduce, 2 reduce/reduce
+State 5 conflicts: 2 shift/reduce, 2 reduce/reduce
+State 7 conflicts: 2 shift/reduce
+State 14 conflicts: 2 shift/reduce
+
+
 Grammar
 
     0 $accept: S $end
 
-    1 S: Expr
+    1 S: E
 
-    2 Expr: Expr ADD Term
-    3     | Expr SUB Term
-    4     | Term
+    2 $@1: %empty
 
-    5 Term: Term MUL Factor
-    6     | Term DIV Factor
-    7     | Factor
+    3 E: $@1 E ADD T
+    4  | T
 
-    8 Factor: LPAR Expr RPAR
-    9       | NUM
+    5 $@2: %empty
+
+    6 T: $@2 T MUL F
+    7  | F
+
+    8 F: LPAR E RPAR
+    9  | NUM
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    ADD <buff> (258) 2
-    SUB <buff> (259) 3
-    MUL <buff> (260) 5
-    DIV <buff> (261) 6
-    LPAR <buff> (262) 8
-    RPAR <buff> (263) 8
-    NUM <buff> (264) 9
+    ADD (258) 3
+    MUL (259) 6
+    LPAR (260) 8
+    RPAR (261) 8
+    NUM (262) 9
 
 
 Nonterminals, with rules where they appear
 
-    $accept (10)
+    $accept (8)
         on left: 0
-    S <buff> (11)
+    S (9)
         on left: 1
         on right: 0
-    Expr <buff> (12)
-        on left: 2 3 4
-        on right: 1 2 3 8
-    Term <buff> (13)
-        on left: 5 6 7
-        on right: 2 3 4 5 6
-    Factor <buff> (14)
+    E (10)
+        on left: 3 4
+        on right: 1 3 8
+    $@1 (11)
+        on left: 2
+        on right: 3
+    T (12)
+        on left: 6 7
+        on right: 3 4 6
+    $@2 (13)
+        on left: 5
+        on right: 6
+    F (14)
         on left: 8 9
-        on right: 5 6 7
+        on right: 6 7
 
 
 State 0
 
     0 $accept: . S $end
-    1 S: . Expr
-    2 Expr: . Expr ADD Term
-    3     | . Expr SUB Term
-    4     | . Term
-    5 Term: . Term MUL Factor
-    6     | . Term DIV Factor
-    7     | . Factor
-    8 Factor: . LPAR Expr RPAR
-    9       | . NUM
+    1 S: . E
+    2 $@1: %empty .  [LPAR, NUM]
+    3 E: . $@1 E ADD T
+    4  | . T
+    5 $@2: %empty .  [LPAR, NUM]
+    6 T: . $@2 T MUL F
+    7  | . F
+    8 F: . LPAR E RPAR
+    9  | . NUM
 
     LPAR  shift, and go to state 1
     NUM   shift, and go to state 2
 
-    S       go to state 3
-    Expr    go to state 4
-    Term    go to state 5
-    Factor  go to state 6
+    LPAR  [reduce using rule 2 ($@1)]
+    LPAR  [reduce using rule 5 ($@2)]
+    NUM   [reduce using rule 2 ($@1)]
+    NUM   [reduce using rule 5 ($@2)]
+
+    S    go to state 3
+    E    go to state 4
+    $@1  go to state 5
+    T    go to state 6
+    $@2  go to state 7
+    F    go to state 8
 
 
 State 1
 
-    2 Expr: . Expr ADD Term
-    3     | . Expr SUB Term
-    4     | . Term
-    5 Term: . Term MUL Factor
-    6     | . Term DIV Factor
-    7     | . Factor
-    8 Factor: . LPAR Expr RPAR
-    8       | LPAR . Expr RPAR
-    9       | . NUM
+    2 $@1: %empty .  [LPAR, NUM]
+    3 E: . $@1 E ADD T
+    4  | . T
+    5 $@2: %empty .  [LPAR, NUM]
+    6 T: . $@2 T MUL F
+    7  | . F
+    8 F: . LPAR E RPAR
+    8  | LPAR . E RPAR
+    9  | . NUM
 
     LPAR  shift, and go to state 1
     NUM   shift, and go to state 2
 
-    Expr    go to state 7
-    Term    go to state 5
-    Factor  go to state 6
+    LPAR  [reduce using rule 2 ($@1)]
+    LPAR  [reduce using rule 5 ($@2)]
+    NUM   [reduce using rule 2 ($@1)]
+    NUM   [reduce using rule 5 ($@2)]
+
+    E    go to state 9
+    $@1  go to state 5
+    T    go to state 6
+    $@2  go to state 7
+    F    go to state 8
 
 
 State 2
 
-    9 Factor: NUM .
+    9 F: NUM .
 
-    $default  reduce using rule 9 (Factor)
+    $default  reduce using rule 9 (F)
 
 
 State 3
 
     0 $accept: S . $end
 
-    $end  shift, and go to state 8
+    $end  shift, and go to state 10
 
 
 State 4
 
-    1 S: Expr .  [$end]
-    2 Expr: Expr . ADD Term
-    3     | Expr . SUB Term
-
-    ADD  shift, and go to state 9
-    SUB  shift, and go to state 10
+    1 S: E .
 
     $default  reduce using rule 1 (S)
 
 
 State 5
 
-    4 Expr: Term .  [$end, ADD, SUB, RPAR]
-    5 Term: Term . MUL Factor
-    6     | Term . DIV Factor
+    2 $@1: %empty .  [LPAR, NUM]
+    3 E: . $@1 E ADD T
+    3  | $@1 . E ADD T
+    4  | . T
+    5 $@2: %empty .  [LPAR, NUM]
+    6 T: . $@2 T MUL F
+    7  | . F
+    8 F: . LPAR E RPAR
+    9  | . NUM
 
-    MUL  shift, and go to state 11
-    DIV  shift, and go to state 12
+    LPAR  shift, and go to state 1
+    NUM   shift, and go to state 2
 
-    $default  reduce using rule 4 (Expr)
+    LPAR  [reduce using rule 2 ($@1)]
+    LPAR  [reduce using rule 5 ($@2)]
+    NUM   [reduce using rule 2 ($@1)]
+    NUM   [reduce using rule 5 ($@2)]
+
+    E    go to state 11
+    $@1  go to state 5
+    T    go to state 6
+    $@2  go to state 7
+    F    go to state 8
 
 
 State 6
 
-    7 Term: Factor .
+    4 E: T .
 
-    $default  reduce using rule 7 (Term)
+    $default  reduce using rule 4 (E)
 
 
 State 7
 
-    2 Expr: Expr . ADD Term
-    3     | Expr . SUB Term
-    8 Factor: LPAR Expr . RPAR
+    5 $@2: %empty .  [LPAR, NUM]
+    6 T: . $@2 T MUL F
+    6  | $@2 . T MUL F
+    7  | . F
+    8 F: . LPAR E RPAR
+    9  | . NUM
 
-    ADD   shift, and go to state 9
-    SUB   shift, and go to state 10
-    RPAR  shift, and go to state 13
+    LPAR  shift, and go to state 1
+    NUM   shift, and go to state 2
+
+    LPAR  [reduce using rule 5 ($@2)]
+    NUM   [reduce using rule 5 ($@2)]
+
+    T    go to state 12
+    $@2  go to state 7
+    F    go to state 8
 
 
 State 8
+
+    7 T: F .
+
+    $default  reduce using rule 7 (T)
+
+
+State 9
+
+    8 F: LPAR E . RPAR
+
+    RPAR  shift, and go to state 13
+
+
+State 10
 
     0 $accept: S $end .
 
     $default  accept
 
 
-State 9
-
-    2 Expr: Expr ADD . Term
-    5 Term: . Term MUL Factor
-    6     | . Term DIV Factor
-    7     | . Factor
-    8 Factor: . LPAR Expr RPAR
-    9       | . NUM
-
-    LPAR  shift, and go to state 1
-    NUM   shift, and go to state 2
-
-    Term    go to state 14
-    Factor  go to state 6
-
-
-State 10
-
-    3 Expr: Expr SUB . Term
-    5 Term: . Term MUL Factor
-    6     | . Term DIV Factor
-    7     | . Factor
-    8 Factor: . LPAR Expr RPAR
-    9       | . NUM
-
-    LPAR  shift, and go to state 1
-    NUM   shift, and go to state 2
-
-    Term    go to state 15
-    Factor  go to state 6
-
-
 State 11
 
-    5 Term: Term MUL . Factor
-    8 Factor: . LPAR Expr RPAR
-    9       | . NUM
+    3 E: $@1 E . ADD T
 
-    LPAR  shift, and go to state 1
-    NUM   shift, and go to state 2
-
-    Factor  go to state 16
+    ADD  shift, and go to state 14
 
 
 State 12
 
-    6 Term: Term DIV . Factor
-    8 Factor: . LPAR Expr RPAR
-    9       | . NUM
+    6 T: $@2 T . MUL F
 
-    LPAR  shift, and go to state 1
-    NUM   shift, and go to state 2
-
-    Factor  go to state 17
+    MUL  shift, and go to state 15
 
 
 State 13
 
-    8 Factor: LPAR Expr RPAR .
+    8 F: LPAR E RPAR .
 
-    $default  reduce using rule 8 (Factor)
+    $default  reduce using rule 8 (F)
 
 
 State 14
 
-    2 Expr: Expr ADD Term .  [$end, ADD, SUB, RPAR]
-    5 Term: Term . MUL Factor
-    6     | Term . DIV Factor
+    3 E: $@1 E ADD . T
+    5 $@2: %empty .  [LPAR, NUM]
+    6 T: . $@2 T MUL F
+    7  | . F
+    8 F: . LPAR E RPAR
+    9  | . NUM
 
-    MUL  shift, and go to state 11
-    DIV  shift, and go to state 12
+    LPAR  shift, and go to state 1
+    NUM   shift, and go to state 2
 
-    $default  reduce using rule 2 (Expr)
+    LPAR  [reduce using rule 5 ($@2)]
+    NUM   [reduce using rule 5 ($@2)]
+
+    T    go to state 16
+    $@2  go to state 7
+    F    go to state 8
 
 
 State 15
 
-    3 Expr: Expr SUB Term .  [$end, ADD, SUB, RPAR]
-    5 Term: Term . MUL Factor
-    6     | Term . DIV Factor
+    6 T: $@2 T MUL . F
+    8 F: . LPAR E RPAR
+    9  | . NUM
 
-    MUL  shift, and go to state 11
-    DIV  shift, and go to state 12
+    LPAR  shift, and go to state 1
+    NUM   shift, and go to state 2
 
-    $default  reduce using rule 3 (Expr)
+    F  go to state 17
 
 
 State 16
 
-    5 Term: Term MUL Factor .
+    3 E: $@1 E ADD T .
 
-    $default  reduce using rule 5 (Term)
+    $default  reduce using rule 3 (E)
 
 
 State 17
 
-    6 Term: Term DIV Factor .
+    6 T: $@2 T MUL F .
 
-    $default  reduce using rule 6 (Term)
+    $default  reduce using rule 6 (T)
 ```
-![Automaton](https://github.com/SET-IITGN/CS-327-Compilers/blob/main/infix_to_prefix/y.svg)
+![Automaton](https://github.com/SET-IITGN/CS-327-Compilers/blob/main/infix_to_prefix_conflicts/y.svg)
 
 ## Command-line (test case #1)
 ```
-shouvick@shouvick:~/CS-327-Compilers/infix_to_prefix$ ./if2prf
-1+4*6
-Factor: 1
-Term: 1
-Expr: 1
-Factor: 4
-Term: 4
-Factor: 6
-Term: *46
-Expr: +1*46
-S: +1*46
-
-+1*46
+shouvick@shouvick:~/CS-327-Compilers/infix_to_prefix_conflicts$ ./if2prfc 
+4+7
+syntax error
+4
 ```
