@@ -1,5 +1,5 @@
 
-#line 2 "lex.yy.c"
+#line 3 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -681,8 +681,8 @@ extern int sym_type(const char *);  /* returns type from symbol table */
 
 static void comment(void);
 static int check_type(void);
-#line 684 "lex.yy.c"
 #line 685 "lex.yy.c"
+#line 686 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -901,7 +901,7 @@ YY_DECL
 	{
 #line 43 "yapl.l"
 
-#line 904 "lex.yy.c"
+#line 905 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1345,7 +1345,7 @@ YY_RULE_SETUP
 #line 128 "yapl.l"
 ECHO;
 	YY_BREAK
-#line 1348 "lex.yy.c"
+#line 1349 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

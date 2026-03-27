@@ -1,3 +1,4 @@
+
 %{
 #include<stdio.h>
 #include<stdlib.h>
@@ -18,22 +19,22 @@ int ladder_len=0,hold=0;
 int max=-1;
 %}
 
-%token IDENTIFIER I_CONSTANT F_CONSTANT STRING_LITERAL FUNC_NAME SIZEOF
-%token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP TH_OP PEQ_OP MEQ_OP STREQ_OP DEQ_OP MODEQ_OP TER_OP
-%token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
-%token SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
-%token XOR_ASSIGN OR_ASSIGN
-%token TYPEDEF_NAME ENUMERATION_CONSTANT
+%token	IDENTIFIER I_CONSTANT F_CONSTANT STRING_LITERAL FUNC_NAME SIZEOF
+%token	PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP TH_OP PEQ_OP MEQ_OP STREQ_OP DEQ_OP MODEQ_OP TER_OP
+%token	AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
+%token	SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
+%token	XOR_ASSIGN OR_ASSIGN
+%token	TYPEDEF_NAME ENUMERATION_CONSTANT
 
-%token TYPEDEF EXTERN STATIC AUTO REGISTER INLINE
-%token CONST RESTRICT VOLATILE
-%token BOOL CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE VOID
-%token COMPLEX IMAGINARY
-%token STRUCT UNION ENUM ELLIPSIS
+%token	TYPEDEF EXTERN STATIC AUTO REGISTER INLINE
+%token	CONST RESTRICT VOLATILE
+%token	BOOL CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE VOID
+%token	COMPLEX IMAGINARY 
+%token	STRUCT UNION ENUM ELLIPSIS
 
-%token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
+%token	CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
-%token ALIGNAS ALIGNOF ATOMIC GENERIC NORETURN STATIC_ASSERT THREAD_LOCAL
+%token	ALIGNAS ALIGNOF ATOMIC GENERIC NORETURN STATIC_ASSERT THREAD_LOCAL
 %nonassoc IFX
 %nonassoc ELSE
 %right '='
@@ -46,553 +47,586 @@ int max=-1;
 
 %union
 {
-int val;
-struct symtab *symp;
+	int val;
+	struct symtab *symp;
 }
 
 %%
 
 primary_expression
-: IDENTIFIER
-| constant
-| string
-| '(' expression ')'
-| generic_selection
-;
+	: IDENTIFIER
+	| constant
+	| string
+	| '(' expression ')'
+	| generic_selection
+	;
 
 constant
-: I_CONSTANT {int_consts++;} /* includes character_constant */
-| F_CONSTANT
-| ENUMERATION_CONSTANT /* after it has been defined as such */
-;
+	: I_CONSTANT {int_consts++;}	/* includes character_constant */
+	| F_CONSTANT
+	| ENUMERATION_CONSTANT	/* after it has been defined as such */
+	;
 
-enumeration_constant /* before it has been defined as such */
-: IDENTIFIER
-;
+enumeration_constant		/* before it has been defined as such */
+	: IDENTIFIER
+	;
 
 string
-: STRING_LITERAL
-| FUNC_NAME
-;
+	: STRING_LITERAL
+	| FUNC_NAME
+	;
 
 generic_selection
-: GENERIC '(' assignment_expression ',' generic_assoc_list ')'
-;
+	: GENERIC '(' assignment_expression ',' generic_assoc_list ')'
+	;
 
 generic_assoc_list
-: generic_association
-| generic_assoc_list ',' generic_association
-;
+	: generic_association
+	| generic_assoc_list ',' generic_association
+	;
 
 generic_association
-: type_name ':' assignment_expression
-| DEFAULT ':' assignment_expression
-;
+	: type_name ':' assignment_expression
+	| DEFAULT ':' assignment_expression
+	;
 
 postfix_expression
-: primary_expression
-| postfix_expression '[' expression ']'
-| postfix_expression '(' argument_expression_list_opt ')'
-| postfix_expression '.' IDENTIFIER
-| postfix_expression PTR_OP IDENTIFIER
-| postfix_expression INC_OP
-| postfix_expression DEC_OP
-| '(' type_name ')' '{' initializer_list '}'
-| '(' type_name ')' '{' initializer_list ',' '}'
-;
-
+	: primary_expression
+	| postfix_expression '[' expression ']'
+	| postfix_expression '(' argument_expression_list_opt ')'
+	| postfix_expression '.' IDENTIFIER
+	| postfix_expression PTR_OP IDENTIFIER
+	| postfix_expression INC_OP
+	| postfix_expression DEC_OP
+	| '(' type_name ')' '{' initializer_list '}'
+	| '(' type_name ')' '{' initializer_list ',' '}'
+	;
+	
 argument_expression_list_opt
-: /* empty */          
-| argument_expression_list  
-;
+	: /* empty */          
+	| argument_expression_list   
+	;
 
 argument_expression_list
-: assignment_expression
-| argument_expression_list ',' assignment_expression
-;
+	: assignment_expression
+	| argument_expression_list ',' assignment_expression
+	;
 
 unary_expression
-: postfix_expression
-| INC_OP unary_expression
-| DEC_OP unary_expression
-| unary_operator cast_expression
-| SIZEOF unary_expression
-| SIZEOF '(' type_name ')'
-| ALIGNOF '(' type_name ')'
-;
+	: postfix_expression
+	| INC_OP unary_expression
+	| DEC_OP unary_expression
+	| unary_operator cast_expression
+	| SIZEOF unary_expression
+	| SIZEOF '(' type_name ')'
+	| ALIGNOF '(' type_name ')'
+	;
 
 unary_operator
-: '&'
-| '*'
-| '+'
-| '-'
-| '~'
-| '!'
-;
+	: '&'
+	| '*'
+	| '+'
+	| '-'
+	| '~'
+	| '!'
+	;
 
 cast_expression
-: unary_expression
-| '(' type_name ')' cast_expression
-;
+	: unary_expression
+	| '(' type_name ')' cast_expression
+	;
 
 multiplicative_expression
-: cast_expression
-| multiplicative_expression '*' cast_expression
-| multiplicative_expression '/' cast_expression
-| multiplicative_expression '%' cast_expression
-;
+	: cast_expression
+	| multiplicative_expression '*' cast_expression
+	| multiplicative_expression '/' cast_expression
+	| multiplicative_expression '%' cast_expression
+	;
 
 additive_expression
-: multiplicative_expression
-| additive_expression '+' multiplicative_expression
-| additive_expression '-' multiplicative_expression
-;
+	: multiplicative_expression
+	| additive_expression '+' multiplicative_expression
+	| additive_expression '-' multiplicative_expression
+	;
 
 shift_expression
-: additive_expression
-| shift_expression LEFT_OP additive_expression
-| shift_expression RIGHT_OP additive_expression
-;
+	: additive_expression
+	| shift_expression LEFT_OP additive_expression
+	| shift_expression RIGHT_OP additive_expression
+	;
 
 relational_expression
-: shift_expression
-| relational_expression '<' shift_expression
-| relational_expression '>' shift_expression
-| relational_expression LE_OP shift_expression
-| relational_expression GE_OP shift_expression
-| relational_expression TH_OP shift_expression
-;
+	: shift_expression
+	| relational_expression '<' shift_expression
+	| relational_expression '>' shift_expression
+	| relational_expression LE_OP shift_expression
+	| relational_expression GE_OP shift_expression
+	| relational_expression TH_OP shift_expression
+	;
 
 equality_expression
-: relational_expression
-| equality_expression EQ_OP relational_expression
-| equality_expression NE_OP relational_expression
-;
+	: relational_expression
+	| equality_expression EQ_OP relational_expression
+	| equality_expression NE_OP relational_expression
+	;
 
 and_expression
-: equality_expression
-| and_expression '&' equality_expression
-;
+	: equality_expression
+	| and_expression '&' equality_expression
+	;
 
 exclusive_or_expression
-: and_expression
-| exclusive_or_expression '^' and_expression
-;
+	: and_expression
+	| exclusive_or_expression '^' and_expression
+	;
 
 inclusive_or_expression
-: exclusive_or_expression
-| inclusive_or_expression '|' exclusive_or_expression
-;
+	: exclusive_or_expression
+	| inclusive_or_expression '|' exclusive_or_expression
+	;
 
 logical_and_expression
-: inclusive_or_expression
-| logical_and_expression AND_OP inclusive_or_expression
-;
+	: inclusive_or_expression
+	| logical_and_expression AND_OP inclusive_or_expression
+	;
 
 logical_or_expression
-: logical_and_expression
-| logical_or_expression OR_OP logical_and_expression
-;
+	: logical_and_expression
+	| logical_or_expression OR_OP logical_and_expression
+	;
 
 conditional_expression
-: logical_or_expression
-| logical_or_expression '?' expression ':' conditional_expression
-;
+	: logical_or_expression
+	| logical_or_expression '?' expression ':' conditional_expression
+	;
 
 assignment_expression
-: conditional_expression {
-sprintf(derivations[dtop++], "assignment_expression -> conditional_expression");
-}
-| unary_expression assignment_operator assignment_expression {
-sprintf(derivations[dtop++], "assignment_expression -> unary_expression assignment_operator assignment_expression");
-}
-;
+	: conditional_expression {
+		sprintf(derivations[dtop++], "assignment_expression -> conditional_expression");
+	}
+	| unary_expression assignment_operator assignment_expression {
+		sprintf(derivations[dtop++], "assignment_expression -> unary_expression assignment_operator assignment_expression");
+	}
+	;
 
 assignment_operator
-: '='
-| MUL_ASSIGN
-| DIV_ASSIGN
-| MOD_ASSIGN
-| ADD_ASSIGN
-| SUB_ASSIGN
-| LEFT_ASSIGN
-| RIGHT_ASSIGN
-| AND_ASSIGN
-| XOR_ASSIGN
-| OR_ASSIGN
-| PEQ_OP
-| MEQ_OP
-| STREQ_OP
-| DEQ_OP
-| MODEQ_OP
-;
+	: '='
+	| MUL_ASSIGN
+	| DIV_ASSIGN
+	| MOD_ASSIGN
+	| ADD_ASSIGN
+	| SUB_ASSIGN
+	| LEFT_ASSIGN
+	| RIGHT_ASSIGN
+	| AND_ASSIGN
+	| XOR_ASSIGN
+	| OR_ASSIGN
+	| PEQ_OP
+	| MEQ_OP
+	| STREQ_OP
+	| DEQ_OP
+	| MODEQ_OP
+	;
 
 expression
-: assignment_expression {
-sprintf(derivations[dtop++], "expression -> assignment_expression");
-}
-| expression ',' assignment_expression {
-sprintf(derivations[dtop++], "expression -> expression , assignment_expression");
-}
-;
+	: assignment_expression {
+		sprintf(derivations[dtop++], "expression -> assignment_expression");
+	}
+	| expression ',' assignment_expression {
+		sprintf(derivations[dtop++], "expression -> expression , assignment_expression");
+	}
+	;
 
 constant_expression
-: conditional_expression /* with constraints */
-;
+	: conditional_expression	/* with constraints */
+	;
 
 declaration
-: declaration_specifiers ';'
-| declaration_specifiers init_declarator_list ';'
-| static_assert_declaration
-;
+	: declaration_specifiers ';' {
+		sprintf(derivations[dtop++], "declaration -> declaration_specifiers ;");
+	}
+	| declaration_specifiers init_declarator_list ';' {
+		sprintf(derivations[dtop++], "declaration -> declaration_specifiers init_declarator_list ;");
+	}
+	| static_assert_declaration {
+		sprintf(derivations[dtop++], "declaration -> static_assert_declaration");
+	}
+	;
 
 declaration_specifiers
-: storage_class_specifier declaration_specifiers
-| storage_class_specifier
-| type_specifier declaration_specifiers
-| type_specifier
-| type_qualifier declaration_specifiers
-| type_qualifier
-| function_specifier declaration_specifiers
-| function_specifier
-| alignment_specifier declaration_specifiers
-| alignment_specifier
-;
+	: storage_class_specifier declaration_specifiers
+	| storage_class_specifier
+	| type_specifier declaration_specifiers
+	| type_specifier
+	| type_qualifier declaration_specifiers
+	| type_qualifier
+	| function_specifier declaration_specifiers
+	| function_specifier
+	| alignment_specifier declaration_specifiers
+	| alignment_specifier
+	;
 
 init_declarator_list
-: init_declarator
-| init_declarator_list ',' init_declarator
-;
+	: init_declarator
+	| init_declarator_list ',' init_declarator
+	;
 
 init_declarator
-: declarator '=' initializer
-| declarator
-;
+	: declarator '=' initializer
+	| declarator
+	;
 
 storage_class_specifier
-: TYPEDEF /* identifiers must be flagged as TYPEDEF_NAME */
-| EXTERN
-| STATIC
-| THREAD_LOCAL
-| AUTO
-| REGISTER
-;
+	: TYPEDEF	/* identifiers must be flagged as TYPEDEF_NAME */
+	| EXTERN
+	| STATIC
+	| THREAD_LOCAL
+	| AUTO
+	| REGISTER
+	;
 
 type_specifier
-: VOID
-| CHAR
-| SHORT
-| INT
-| LONG
-| FLOAT
-| DOUBLE
-| SIGNED
-| UNSIGNED
-| BOOL
-| COMPLEX
-| IMAGINARY   /* non-mandated extension */
-| atomic_type_specifier
-| struct_or_union_specifier
-| enum_specifier
-| TYPEDEF_NAME /* after it has been defined as such */
-;
+	: VOID
+	| CHAR
+	| SHORT
+	| INT
+	| LONG
+	| FLOAT
+	| DOUBLE
+	| SIGNED
+	| UNSIGNED
+	| BOOL
+	| COMPLEX
+	| IMAGINARY	  	/* non-mandated extension */
+	| atomic_type_specifier
+	| struct_or_union_specifier
+	| enum_specifier
+	| TYPEDEF_NAME		/* after it has been defined as such */
+	;
 
 struct_or_union_specifier
-: struct_or_union '{' struct_declaration_list '}'
-| struct_or_union IDENTIFIER '{' struct_declaration_list '}'
-| struct_or_union IDENTIFIER
-;
+	: struct_or_union '{' struct_declaration_list '}'
+	| struct_or_union IDENTIFIER '{' struct_declaration_list '}'
+	| struct_or_union IDENTIFIER
+	;
 
 struct_or_union
-: STRUCT
-| UNION
-;
+	: STRUCT
+	| UNION
+	;
 
 struct_declaration_list
-: struct_declaration
-| struct_declaration_list struct_declaration
-;
+	: struct_declaration
+	| struct_declaration_list struct_declaration
+	;
 
 struct_declaration
-: specifier_qualifier_list ';' /* for anonymous struct/union */
-| specifier_qualifier_list struct_declarator_list ';'
-| static_assert_declaration
-;
+	: specifier_qualifier_list ';'	/* for anonymous struct/union */
+	| specifier_qualifier_list struct_declarator_list ';'
+	| static_assert_declaration
+	;
 
 specifier_qualifier_list
-: type_specifier specifier_qualifier_list
-| type_specifier
-| type_qualifier specifier_qualifier_list
-| type_qualifier
-;
+	: type_specifier specifier_qualifier_list
+	| type_specifier
+	| type_qualifier specifier_qualifier_list
+	| type_qualifier
+	;
 
 struct_declarator_list
-: struct_declarator
-| struct_declarator_list ',' struct_declarator
-;
+	: struct_declarator
+	| struct_declarator_list ',' struct_declarator
+	;
 
 struct_declarator
-: ':' constant_expression
-| declarator ':' constant_expression
-| declarator
-;
+	: ':' constant_expression
+	| declarator ':' constant_expression
+	| declarator
+	;
 
 enum_specifier
-: ENUM '{' enumerator_list '}'
-| ENUM '{' enumerator_list ',' '}'
-| ENUM IDENTIFIER '{' enumerator_list '}'
-| ENUM IDENTIFIER '{' enumerator_list ',' '}'
-| ENUM IDENTIFIER
-;
+	: ENUM '{' enumerator_list '}'
+	| ENUM '{' enumerator_list ',' '}'
+	| ENUM IDENTIFIER '{' enumerator_list '}'
+	| ENUM IDENTIFIER '{' enumerator_list ',' '}'
+	| ENUM IDENTIFIER
+	;
 
 enumerator_list
-: enumerator
-| enumerator_list ',' enumerator
-;
+	: enumerator
+	| enumerator_list ',' enumerator
+	;
 
-enumerator /* identifiers must be flagged as ENUMERATION_CONSTANT */
-: enumeration_constant '=' constant_expression
-| enumeration_constant
-;
+enumerator	/* identifiers must be flagged as ENUMERATION_CONSTANT */
+	: enumeration_constant '=' constant_expression
+	| enumeration_constant
+	;
 
 atomic_type_specifier
-: ATOMIC '(' type_name ')'
-;
+	: ATOMIC '(' type_name ')'
+	;
 
 type_qualifier
-: CONST
-| RESTRICT
-| VOLATILE
-| ATOMIC
-;
+	: CONST
+	| RESTRICT
+	| VOLATILE
+	| ATOMIC
+	;
 
 function_specifier
-: INLINE
-| NORETURN
-;
+	: INLINE
+	| NORETURN
+	;
 
 alignment_specifier
-: ALIGNAS '(' type_name ')'
-| ALIGNAS '(' constant_expression ')'
-;
+	: ALIGNAS '(' type_name ')'
+	| ALIGNAS '(' constant_expression ')'
+	;
 
 declarator
-: pointer {pointer_decls++;} direct_declarator
-| direct_declarator
-;
+	: pointer {pointer_decls++;} direct_declarator
+	| direct_declarator
+	;
 
 direct_declarator
-: IDENTIFIER
-| '(' declarator ')'
-| direct_declarator '[' ']'
-| direct_declarator '[' '*' ']'
-| direct_declarator '[' STATIC type_qualifier_list assignment_expression ']'
-| direct_declarator '[' STATIC assignment_expression ']'
-| direct_declarator '[' type_qualifier_list '*' ']'
-| direct_declarator '[' type_qualifier_list STATIC assignment_expression ']'
-| direct_declarator '[' type_qualifier_list assignment_expression ']'
-| direct_declarator '[' type_qualifier_list ']'
-| direct_declarator '[' assignment_expression ']'
-| direct_declarator '(' parameter_type_list ')'
-| direct_declarator '(' ')'
-| direct_declarator '(' identifier_list ')'
-;
+	: IDENTIFIER
+	| '(' declarator ')'
+	| direct_declarator '[' ']'
+	| direct_declarator '[' '*' ']'
+	| direct_declarator '[' STATIC type_qualifier_list assignment_expression ']'
+	| direct_declarator '[' STATIC assignment_expression ']'
+	| direct_declarator '[' type_qualifier_list '*' ']'
+	| direct_declarator '[' type_qualifier_list STATIC assignment_expression ']'
+	| direct_declarator '[' type_qualifier_list assignment_expression ']'
+	| direct_declarator '[' type_qualifier_list ']'
+	| direct_declarator '[' assignment_expression ']'
+	| direct_declarator '(' parameter_type_list ')' 
+	| direct_declarator '(' ')'
+	| direct_declarator '(' identifier_list ')'
+	;
 
 pointer
-: '*' type_qualifier_list pointer
-| '*' type_qualifier_list
-| '*' pointer
-| '*'
-;
+	: '*' type_qualifier_list pointer
+	| '*' type_qualifier_list
+	| '*' pointer
+	| '*'
+	;
 
 type_qualifier_list
-: type_qualifier
-| type_qualifier_list type_qualifier
-;
+	: type_qualifier
+	| type_qualifier_list type_qualifier
+	;
 
 
 parameter_type_list
-: parameter_list ',' ELLIPSIS
-| parameter_list
-;
+	: parameter_list ',' ELLIPSIS
+	| parameter_list
+	;
 
 parameter_list
-: parameter_declaration
-| parameter_list ',' parameter_declaration
-;
+	: parameter_declaration
+	| parameter_list ',' parameter_declaration
+	;
 
 parameter_declaration
-: declaration_specifiers declarator
-| declaration_specifiers abstract_declarator
-| declaration_specifiers
-;
+	: declaration_specifiers declarator
+	| declaration_specifiers abstract_declarator
+	| declaration_specifiers
+	;
 
 identifier_list
-: IDENTIFIER
-| identifier_list ',' IDENTIFIER
-;
+	: IDENTIFIER
+	| identifier_list ',' IDENTIFIER
+	;
 
 type_name
-: specifier_qualifier_list abstract_declarator
-| specifier_qualifier_list
-;
+	: specifier_qualifier_list abstract_declarator
+	| specifier_qualifier_list
+	;
 
 abstract_declarator
-: pointer direct_abstract_declarator
-| pointer
-| direct_abstract_declarator
-;
+	: pointer direct_abstract_declarator
+	| pointer
+	| direct_abstract_declarator
+	;
 
 direct_abstract_declarator
-: '(' abstract_declarator ')'
-| '[' ']'
-| '[' '*' ']'
-| '[' STATIC type_qualifier_list assignment_expression ']'
-| '[' STATIC assignment_expression ']'
-| '[' type_qualifier_list STATIC assignment_expression ']'
-| '[' type_qualifier_list assignment_expression ']'
-| '[' type_qualifier_list ']'
-| '[' assignment_expression ']'
-| direct_abstract_declarator '[' ']'
-| direct_abstract_declarator '[' '*' ']'
-| direct_abstract_declarator '[' STATIC type_qualifier_list assignment_expression ']'
-| direct_abstract_declarator '[' STATIC assignment_expression ']'
-| direct_abstract_declarator '[' type_qualifier_list assignment_expression ']'
-| direct_abstract_declarator '[' type_qualifier_list STATIC assignment_expression ']'
-| direct_abstract_declarator '[' type_qualifier_list ']'
-| direct_abstract_declarator '[' assignment_expression ']'
-| '(' ')'
-| '(' parameter_type_list ')'
-| direct_abstract_declarator '(' ')'
-| direct_abstract_declarator '(' parameter_type_list ')'
-;
+	: '(' abstract_declarator ')'
+	| '[' ']'
+	| '[' '*' ']'
+	| '[' STATIC type_qualifier_list assignment_expression ']'
+	| '[' STATIC assignment_expression ']'
+	| '[' type_qualifier_list STATIC assignment_expression ']'
+	| '[' type_qualifier_list assignment_expression ']'
+	| '[' type_qualifier_list ']'
+	| '[' assignment_expression ']'
+	| direct_abstract_declarator '[' ']'
+	| direct_abstract_declarator '[' '*' ']'
+	| direct_abstract_declarator '[' STATIC type_qualifier_list assignment_expression ']'
+	| direct_abstract_declarator '[' STATIC assignment_expression ']'
+	| direct_abstract_declarator '[' type_qualifier_list assignment_expression ']'
+	| direct_abstract_declarator '[' type_qualifier_list STATIC assignment_expression ']'
+	| direct_abstract_declarator '[' type_qualifier_list ']'
+	| direct_abstract_declarator '[' assignment_expression ']'
+	| '(' ')'
+	| '(' parameter_type_list ')'
+	| direct_abstract_declarator '(' ')'
+	| direct_abstract_declarator '(' parameter_type_list ')'
+	;
 
 initializer
-: '{' initializer_list '}'
-| '{' initializer_list ',' '}'
-| assignment_expression
-;
+	: '{' initializer_list '}'
+	| '{' initializer_list ',' '}'
+	| assignment_expression
+	;
 
 initializer_list
-: designation initializer
-| initializer
-| initializer_list ',' designation initializer
-| initializer_list ',' initializer
-;
+	: designation initializer
+	| initializer
+	| initializer_list ',' designation initializer
+	| initializer_list ',' initializer
+	;
 
 designation
-: designator_list '='
-;
+	: designator_list '='
+	;
 
 designator_list
-: designator
-| designator_list designator
-;
+	: designator
+	| designator_list designator
+	;
 
 designator
-: '[' constant_expression ']'
-| '.' IDENTIFIER
-;
+	: '[' constant_expression ']'
+	| '.' IDENTIFIER
+	;
 
 static_assert_declaration
-: STATIC_ASSERT '(' constant_expression ',' STRING_LITERAL ')' ';'
-;
+	: STATIC_ASSERT '(' constant_expression ',' STRING_LITERAL ')' ';'
+	;
 
 statement
-: labeled_statement {
-sprintf(derivations[dtop++], "statement -> labeled_statement");
-}
-| compound_statement {
-sprintf(derivations[dtop++], "statement -> compound_statement");
-}
-| expression_statement {
-sprintf(derivations[dtop++], "statement -> expression_statement");
-}
-| selection_statement {
-sprintf(derivations[dtop++], "statement -> selection_statement");
-}
-| iteration_statement {
-sprintf(derivations[dtop++], "statement -> iteration_statement");
-}
-| jump_statement {
-sprintf(derivations[dtop++], "statement -> jump_statement");
-}
-;
+	: labeled_statement {
+		sprintf(derivations[dtop++], "statement -> labeled_statement");
+	}
+	| compound_statement {
+		sprintf(derivations[dtop++], "statement -> compound_statement");
+	}
+	| expression_statement {
+		sprintf(derivations[dtop++], "statement -> expression_statement");
+	}
+	| selection_statement {
+		sprintf(derivations[dtop++], "statement -> selection_statement");
+	}
+	| iteration_statement {
+		sprintf(derivations[dtop++], "statement -> iteration_statement");
+	}
+	| jump_statement {
+		sprintf(derivations[dtop++], "statement -> jump_statement");
+	}
+	;
 
 labeled_statement
-: IDENTIFIER ':' statement
-| CASE constant_expression ':' statement
-| DEFAULT ':' statement
-;
+	: IDENTIFIER ':' statement
+	| CASE constant_expression ':' statement
+	| DEFAULT ':' statement
+	;
 
 compound_statement
-: '{' '}'
-| '{'  block_item_list '}'
-;
+	: '{' '}' {
+		sprintf(derivations[dtop++], "compound_statement -> { }");
+	}
+	| '{' block_item_list '}' {
+		sprintf(derivations[dtop++], "compound_statement -> { block_item_list }");
+	}
+	;
 
 block_item_list
-: block_item
-| block_item_list block_item
-;
+	: block_item {
+		sprintf(derivations[dtop++], "block_item_list -> block_item");
+	}
+	| block_item_list block_item {
+		sprintf(derivations[dtop++], "block_item_list -> block_item_list block_item");
+	}
+	;
 
 block_item
-: declaration
-| statement
-;
+	: declaration {
+		sprintf(derivations[dtop++], "block_item -> declaration");
+	}
+	| statement {
+		sprintf(derivations[dtop++], "block_item -> statement");
+	}
+	;
 
 expression_statement
-: ';'
-| expression ';'
-;
+	: ';' {
+		sprintf(derivations[dtop++], "expression_statement -> ;");
+	}
+	| expression ';' {
+		sprintf(derivations[dtop++], "expression_statement -> expression ;");
+	}
+	;
 
 selection_statement
-: IF '(' expression ')' statement ELSE {ladder_len++;$6=(ladder_len-1);} statement {if(ladder_len>=max){max=ladder_len;} /*printf("ladder_len=%d\n",ladder_len);*/ladder_len=$6;}
-| IF '(' expression ')' statement %prec IFX {ifs_wo_else++;}
-| SWITCH '(' expression ')' statement
-;
+	: IF '(' expression ')' statement ELSE statement {
+		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement ELSE statement");
+	}
+	| IF '(' expression ')' statement %prec IFX {
+		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement");
+		ifs_wo_else++;
+	}
+	| SWITCH '(' expression ')' statement {
+		sprintf(derivations[dtop++], "selection_statement -> SWITCH ( expression ) statement");
+	}
+	;
 
 iteration_statement
-: WHILE '(' expression ')' statement
-| DO statement WHILE '(' expression ')' ';'
-| FOR '(' expression_statement expression_statement ')' statement
-| FOR '(' expression_statement expression_statement expression ')' statement
-| FOR '(' declaration expression_statement ')' statement
-| FOR '(' declaration expression_statement expression ')' statement
-;
+	: WHILE '(' expression ')' statement
+	| DO statement WHILE '(' expression ')' ';'
+	| FOR '(' expression_statement expression_statement ')' statement
+	| FOR '(' expression_statement expression_statement expression ')' statement
+	| FOR '(' declaration expression_statement ')' statement
+	| FOR '(' declaration expression_statement expression ')' statement
+	;
 
 jump_statement
-: GOTO IDENTIFIER ';'
-| CONTINUE ';'
-| BREAK ';'
-| RETURN ';'
-| RETURN expression ';'
-;
+	: GOTO IDENTIFIER ';'
+	| CONTINUE ';'
+	| BREAK ';'
+	| RETURN ';'
+	| RETURN expression ';'
+	;
 
 translation_unit
-: external_declaration {
-global_declarations++;
-sprintf(derivations[dtop++], "translation_unit -> external_declaration");
-}
-| translation_unit external_declaration {
-global_declarations++;
-sprintf(derivations[dtop++], "translation_unit -> translation_unit external_declaration");
-}
-;
+	: external_declaration {
+		global_declarations++;
+		sprintf(derivations[dtop++], "translation_unit -> external_declaration");
+	}
+	| translation_unit external_declaration {
+		global_declarations++;
+		sprintf(derivations[dtop++], "translation_unit -> translation_unit external_declaration");
+	}
+	;
 
 external_declaration
-: function_definition {func_definitions++;}
-| declaration
-;
+	: function_definition {func_definitions++;}
+	| declaration
+	;
 
 function_definition
-: declaration_specifiers declarator declaration_list compound_statement
-| declaration_specifiers declarator compound_statement
-;
+	: declaration_specifiers declarator declaration_list compound_statement {
+		sprintf(derivations[dtop++], "function_definition -> declaration_specifiers declarator declaration_list compound_statement");
+	}
+	| declaration_specifiers declarator compound_statement {
+		sprintf(derivations[dtop++], "function_definition -> declaration_specifiers declarator compound_statement");
+	}
+	;
 
 declaration_list
-: declaration
-| declaration_list declaration
-;
+	: declaration
+	| declaration_list declaration
+	;
 
 %%
 #include <stdio.h>
@@ -606,58 +640,119 @@ int mode=-1;
 
 void yyerror(const char *s)
 {
-fflush(stdout);
-
-if(mode==-1)
-printf("***parsing terminated*** [syntax error]\n");
-else if(mode==0 || mode==1)
-printf("%s\n",s);
-
-exit(-1);
+	fflush(stdout);
+	
+	if(mode==-1)
+		printf("***parsing terminated*** [syntax error]\n");
+	else if(mode==0 || mode==1)
+		printf("%s\n",s);
+		
+	exit(-1);
 }
+
+void print_parsing_table()
+{
+    printf("\nLALR(1) Parsing Table (Partial):\n\n");
+
+    printf("%-6s %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
+           "State", "TYPEDEF_NAME", "TYPEDEF", "EXTERN", "$",
+           "decl", "decl_spec", "func_def");
+
+    // State 0
+    printf("%-6d %-15s %-10s %-10s %-6s %-12d %-12d %-12d\n",
+           0, "S1", "S2", "S3", "",
+           31, 32, 45);
+
+    // State 1
+    printf("%-6d %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
+           1, "", "", "", "R135",
+           "", "", "");
+
+    // State 2
+    printf("%-6d %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
+           2, "", "", "", "R114",
+           "", "", "");
+
+    // State 3
+    printf("%-6d %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
+           3, "", "", "", "R115",
+           "", "", "");
+}
+
 
 int main(int argc, char **argv)
 {
     extern FILE *yyin;
 
-if(argc<2)
-{
-sprintf(buff,"***process terminated*** [input error]: invalid number of command-line arguments");
-mode=1;
-yyerror(buff);
-exit(1);
+	if(argc<2)
+	{
+		sprintf(buff,"***process terminated*** [input error]: invalid number of command-line arguments");
+		mode=1;
+		yyerror(buff);
+		exit(1);
+	}
+
+	yyin=fopen(argv[1],"r");
+
+	if(yyin==NULL)
+	{
+		sprintf(buff,"***process terminated*** [input error]: no such file \"%s\" exists",argv[1]);
+		mode=1;
+		yyerror(buff);
+		exit(1);
+	}
+	else
+	{
+		do
+		{
+			yyparse();
+		}
+		while(!feof(yyin));
+	}
+
+	printf("***parsing successful***\n");
+	printf("#global_declarations = %d\n",global_declarations);
+	printf("#function_definitions = %d\n",func_definitions);
+	printf("#integer_constants = %d\n",int_consts);
+	printf("#pointers_declarations = %d\n",pointer_decls);
+	printf("#ifs_without_else = %d\n",ifs_wo_else);
+	printf("if-else max-depth = %d\n",((max<0)?0:max));
+
+    print_parsing_table();
+
+    printf("\nReverse Derivation:\n");
+	for(int i = dtop - 1; i >= 0; i--)
+	{
+		printf("%s\n", derivations[i]);
+	}
+
+    int indent = 0;
+
+    printf("\nTree-like Reverse Derivation:\n");
+
+    for(int i = dtop - 1; i >= 0; i--)
+    {
+        // print indentation
+        for(int j = 0; j < indent; j++)
+            printf("  ");
+
+        printf("%s\n", derivations[i]);
+
+        // increase indent for deeper levels
+        if (strstr(derivations[i], "translation_unit") ||
+            strstr(derivations[i], "function_definition") ||
+            strstr(derivations[i], "compound_statement") ||
+            strstr(derivations[i], "statement") ||
+            strstr(derivations[i], "expression"))
+        {
+            indent++;
+        }
+
+        // limit indent (avoid going too deep)
+        if(indent > 10) indent = 10;
+    }
+
+	return(0);
 }
 
-yyin=fopen(argv[1],"r");
 
-if(yyin==NULL)
-{
-sprintf(buff,"***process terminated*** [input error]: no such file \"%s\" exists",argv[1]);
-mode=1;
-yyerror(buff);
-exit(1);
-}
-else
-{
-do
-{
-yyparse();
-}
-while(!feof(yyin));
-}
-
-printf("***parsing successful***\n");
-printf("\nReverse Derivation:\n");
-for(int i = dtop - 1; i >= 0; i--)
-{
-printf("%s\n", derivations[i]);
-}
-printf("#global_declarations = %d\n",global_declarations);
-printf("#function_definitions = %d\n",func_definitions);
-printf("#integer_constants = %d\n",int_consts);
-printf("#pointers_declarations = %d\n",pointer_decls);
-printf("#ifs_without_else = %d\n",ifs_wo_else);
-printf("if-else max-depth = %d\n",((max<0)?0:max));
-
-return(0);
-}
