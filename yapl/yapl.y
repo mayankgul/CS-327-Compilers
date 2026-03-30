@@ -375,7 +375,7 @@ type_qualifier
 	: CONST
 	| RESTRICT
 	| VOLATILE
-	| ATOMIC
+	  //| ATOMIC
 	;
 
 function_specifier
@@ -389,7 +389,7 @@ alignment_specifier
 	;
 
 declarator
-	: pointer {pointer_decls++;} direct_declarator
+	: pointer direct_declarator {pointer_decls++;}
 	| direct_declarator
 	;
 
@@ -578,12 +578,12 @@ expression_statement
 	;
 
 selection_statement
-	: IF '(' expression ')' statement ELSE statement {
-		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement ELSE statement");
-	}
-	| IF '(' expression ')' statement %prec IFX {
+	: IF '(' expression ')' statement %prec IFX {
 		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement");
 		ifs_wo_else++;
+	}
+	| IF '(' expression ')' statement ELSE statement {
+		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement ELSE statement");
 	}
 	| SWITCH '(' expression ')' statement {
 		sprintf(derivations[dtop++], "selection_statement -> SWITCH ( expression ) statement");
