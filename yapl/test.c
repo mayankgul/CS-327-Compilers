@@ -1,4 +1,4 @@
 poornank main() {
-    poornank a;
+    poornank a
     agar(a) a = 5;
 }

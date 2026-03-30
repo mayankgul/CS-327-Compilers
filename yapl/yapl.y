@@ -7,9 +7,14 @@
 char derivations[1000][200];
 int dtop = 0;
 
+extern int line_no;
 extern char *yytext;
 int yylex(void);
-void yyerror(const char *);
+void yyerror(const char *s)
+{
+    fprintf(stderr, "\nSyntax Error at line %d near token '%s'\n", line_no, yytext);
+    exit(1);
+}
 int global_declarations=0;
 int func_definitions=0;
 int int_consts=0;
@@ -506,7 +511,11 @@ static_assert_declaration
 	;
 
 statement
-	: labeled_statement {
+	: error ';' {
+        printf("Recovered from error at line %d near token '%s'\n", line_no, yytext);
+        yyerrok;
+    }
+	| labeled_statement {
 		sprintf(derivations[dtop++], "statement -> labeled_statement");
 	}
 	| compound_statement {
@@ -638,6 +647,7 @@ char buff[2048];
 int yylex(void);
 int mode=-1;
 
+/*
 void yyerror(const char *s)
 {
 	fflush(stdout);
@@ -649,6 +659,7 @@ void yyerror(const char *s)
 		
 	exit(-1);
 }
+*/
 
 void print_parsing_table()
 {
