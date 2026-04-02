@@ -1,4 +1,3 @@
-
 %e  1019
 %p  2807
 %n  371
@@ -27,6 +26,7 @@ WS  [ \t\v\n\f]
 #include <stdlib.h>
 #include <string.h>
 #include "y.tab.h"
+
 int line_no = 1;
 
 extern char buff[2048];
@@ -123,12 +123,8 @@ static int check_type(void);
 "|"					{ return '|'; }
 "?"					{ return '?'; }
 
-\n      { line_no++; }
-[ \t\v\f]+   { /* ignore other whitespace */ }
-
-.   {
-    printf("Lexical Error at line %d: invalid character '%s'\n", line_no, yytext);
-}
+{WS}+					{ /* whitespace separates tokens */ }
+.					{ /* discard bad characters */ }
 
 %%
 
