@@ -4,5 +4,5 @@ poornank main() {
         agar(a)
             a = 5;
         warna
-            a = 10;
+            a = 10
 }
