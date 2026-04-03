@@ -72,6 +72,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "table_data.h"
 
 char derivations[1000][200];
 int dtop = 0;
@@ -92,7 +93,7 @@ int ifs_wo_else=0;
 int ladder_len=0,hold=0;
 int max=-1;
 
-#line 96 "yapl.tab.c"
+#line 97 "yapl.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -700,35 +701,35 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    62,    62,    63,    64,    65,    66,    70,    71,    72,
-      76,    80,    81,    85,    89,    90,    94,    95,    99,   100,
-     101,   102,   103,   104,   105,   106,   107,   111,   112,   116,
-     117,   121,   122,   123,   124,   125,   126,   127,   131,   132,
-     133,   134,   135,   136,   140,   141,   145,   146,   147,   148,
-     152,   153,   154,   158,   159,   160,   164,   165,   166,   167,
-     168,   169,   173,   174,   175,   179,   180,   184,   185,   189,
-     190,   194,   195,   199,   200,   204,   205,   209,   212,   218,
-     219,   220,   221,   222,   223,   224,   225,   226,   227,   228,
-     229,   230,   231,   232,   233,   237,   240,   246,   250,   253,
-     256,   262,   263,   264,   265,   266,   267,   268,   269,   270,
-     271,   275,   276,   280,   281,   285,   286,   287,   288,   289,
-     290,   294,   295,   296,   297,   298,   299,   300,   301,   302,
-     303,   304,   305,   306,   307,   308,   309,   313,   314,   315,
-     319,   320,   324,   325,   329,   330,   331,   335,   336,   337,
-     338,   342,   343,   347,   348,   349,   353,   354,   355,   356,
-     357,   361,   362,   366,   367,   371,   375,   376,   377,   382,
-     383,   387,   388,   392,   393,   397,   398,   399,   400,   401,
-     402,   403,   404,   405,   406,   407,   408,   409,   410,   414,
-     415,   416,   417,   421,   422,   427,   428,   432,   433,   437,
-     438,   439,   443,   444,   448,   449,   453,   454,   455,   459,
-     460,   461,   462,   463,   464,   465,   466,   467,   468,   469,
-     470,   471,   472,   473,   474,   475,   476,   477,   478,   479,
-     483,   484,   485,   489,   490,   491,   492,   496,   500,   501,
-     505,   506,   510,   514,   518,   521,   524,   527,   530,   533,
-     539,   540,   541,   545,   548,   554,   557,   563,   566,   572,
-     575,   581,   585,   588,   594,   595,   596,   597,   598,   599,
-     603,   604,   605,   606,   607,   611,   615,   622,   623,   627,
-     630,   636,   637
+       0,    63,    63,    64,    65,    66,    67,    71,    72,    73,
+      77,    81,    82,    86,    90,    91,    95,    96,   100,   101,
+     102,   103,   104,   105,   106,   107,   108,   112,   113,   117,
+     118,   122,   123,   124,   125,   126,   127,   128,   132,   133,
+     134,   135,   136,   137,   141,   142,   146,   147,   148,   149,
+     153,   154,   155,   159,   160,   161,   165,   166,   167,   168,
+     169,   170,   174,   175,   176,   180,   181,   185,   186,   190,
+     191,   195,   196,   200,   201,   205,   206,   210,   213,   219,
+     220,   221,   222,   223,   224,   225,   226,   227,   228,   229,
+     230,   231,   232,   233,   234,   238,   241,   247,   251,   254,
+     257,   263,   264,   265,   266,   267,   268,   269,   270,   271,
+     272,   276,   277,   281,   282,   286,   287,   288,   289,   290,
+     291,   295,   296,   297,   298,   299,   300,   301,   302,   303,
+     304,   305,   306,   307,   308,   309,   310,   314,   315,   316,
+     320,   321,   325,   326,   330,   331,   332,   336,   337,   338,
+     339,   343,   344,   348,   349,   350,   354,   355,   356,   357,
+     358,   362,   363,   367,   368,   372,   376,   377,   378,   383,
+     384,   388,   389,   393,   394,   398,   399,   400,   401,   402,
+     403,   404,   405,   406,   407,   408,   409,   410,   411,   415,
+     416,   417,   418,   422,   423,   428,   429,   433,   434,   438,
+     439,   440,   444,   445,   449,   450,   454,   455,   456,   460,
+     461,   462,   463,   464,   465,   466,   467,   468,   469,   470,
+     471,   472,   473,   474,   475,   476,   477,   478,   479,   480,
+     484,   485,   486,   490,   491,   492,   493,   497,   501,   502,
+     506,   507,   511,   515,   519,   522,   525,   528,   531,   534,
+     540,   541,   542,   546,   549,   555,   558,   564,   567,   573,
+     576,   582,   586,   589,   595,   596,   597,   598,   599,   600,
+     604,   605,   606,   607,   608,   612,   616,   623,   624,   628,
+     631,   637,   638
 };
 #endif
 
@@ -2006,261 +2007,261 @@ yyreduce:
   switch (yyn)
     {
   case 7: /* constant: I_CONSTANT  */
-#line 70 "yapl.y"
+#line 71 "yapl.y"
                      {int_consts++;}
-#line 2012 "yapl.tab.c"
+#line 2013 "yapl.tab.c"
     break;
 
   case 77: /* assignment_expression: conditional_expression  */
-#line 209 "yapl.y"
+#line 210 "yapl.y"
                                  {
 		sprintf(derivations[dtop++], "assignment_expression -> conditional_expression");
 	}
-#line 2020 "yapl.tab.c"
+#line 2021 "yapl.tab.c"
     break;
 
   case 78: /* assignment_expression: unary_expression assignment_operator assignment_expression  */
-#line 212 "yapl.y"
+#line 213 "yapl.y"
                                                                      {
 		sprintf(derivations[dtop++], "assignment_expression -> unary_expression assignment_operator assignment_expression");
 	}
-#line 2028 "yapl.tab.c"
+#line 2029 "yapl.tab.c"
     break;
 
   case 95: /* expression: assignment_expression  */
-#line 237 "yapl.y"
+#line 238 "yapl.y"
                                 {
 		sprintf(derivations[dtop++], "expression -> assignment_expression");
 	}
-#line 2036 "yapl.tab.c"
+#line 2037 "yapl.tab.c"
     break;
 
   case 96: /* expression: expression ',' assignment_expression  */
-#line 240 "yapl.y"
+#line 241 "yapl.y"
                                                {
 		sprintf(derivations[dtop++], "expression -> expression , assignment_expression");
 	}
-#line 2044 "yapl.tab.c"
+#line 2045 "yapl.tab.c"
     break;
 
   case 98: /* declaration: declaration_specifiers ';'  */
-#line 250 "yapl.y"
+#line 251 "yapl.y"
                                      {
 		sprintf(derivations[dtop++], "declaration -> declaration_specifiers ;");
 	}
-#line 2052 "yapl.tab.c"
+#line 2053 "yapl.tab.c"
     break;
 
   case 99: /* declaration: declaration_specifiers init_declarator_list ';'  */
-#line 253 "yapl.y"
+#line 254 "yapl.y"
                                                           {
 		sprintf(derivations[dtop++], "declaration -> declaration_specifiers init_declarator_list ;");
 	}
-#line 2060 "yapl.tab.c"
+#line 2061 "yapl.tab.c"
     break;
 
   case 100: /* declaration: static_assert_declaration  */
-#line 256 "yapl.y"
+#line 257 "yapl.y"
                                     {
 		sprintf(derivations[dtop++], "declaration -> static_assert_declaration");
 	}
-#line 2068 "yapl.tab.c"
+#line 2069 "yapl.tab.c"
     break;
 
   case 173: /* declarator: pointer direct_declarator  */
-#line 392 "yapl.y"
+#line 393 "yapl.y"
                                     {pointer_decls++;}
-#line 2074 "yapl.tab.c"
+#line 2075 "yapl.tab.c"
     break;
 
   case 243: /* statement: error ';'  */
-#line 514 "yapl.y"
+#line 515 "yapl.y"
                     {
         printf("Recovered from error at line %d near token '%s'\n", line_no, yytext);
         yyerrok;
     }
-#line 2083 "yapl.tab.c"
+#line 2084 "yapl.tab.c"
     break;
 
   case 244: /* statement: labeled_statement  */
-#line 518 "yapl.y"
+#line 519 "yapl.y"
                             {
 		sprintf(derivations[dtop++], "statement -> labeled_statement");
 	}
-#line 2091 "yapl.tab.c"
+#line 2092 "yapl.tab.c"
     break;
 
   case 245: /* statement: compound_statement  */
-#line 521 "yapl.y"
+#line 522 "yapl.y"
                              {
 		sprintf(derivations[dtop++], "statement -> compound_statement");
 	}
-#line 2099 "yapl.tab.c"
+#line 2100 "yapl.tab.c"
     break;
 
   case 246: /* statement: expression_statement  */
-#line 524 "yapl.y"
+#line 525 "yapl.y"
                                {
 		sprintf(derivations[dtop++], "statement -> expression_statement");
 	}
-#line 2107 "yapl.tab.c"
+#line 2108 "yapl.tab.c"
     break;
 
   case 247: /* statement: selection_statement  */
-#line 527 "yapl.y"
+#line 528 "yapl.y"
                               {
 		sprintf(derivations[dtop++], "statement -> selection_statement");
 	}
-#line 2115 "yapl.tab.c"
+#line 2116 "yapl.tab.c"
     break;
 
   case 248: /* statement: iteration_statement  */
-#line 530 "yapl.y"
+#line 531 "yapl.y"
                               {
 		sprintf(derivations[dtop++], "statement -> iteration_statement");
 	}
-#line 2123 "yapl.tab.c"
+#line 2124 "yapl.tab.c"
     break;
 
   case 249: /* statement: jump_statement  */
-#line 533 "yapl.y"
+#line 534 "yapl.y"
                          {
 		sprintf(derivations[dtop++], "statement -> jump_statement");
 	}
-#line 2131 "yapl.tab.c"
+#line 2132 "yapl.tab.c"
     break;
 
   case 253: /* compound_statement: '{' '}'  */
-#line 545 "yapl.y"
+#line 546 "yapl.y"
                   {
 		sprintf(derivations[dtop++], "compound_statement -> { }");
 	}
-#line 2139 "yapl.tab.c"
+#line 2140 "yapl.tab.c"
     break;
 
   case 254: /* compound_statement: '{' block_item_list '}'  */
-#line 548 "yapl.y"
+#line 549 "yapl.y"
                                   {
 		sprintf(derivations[dtop++], "compound_statement -> { block_item_list }");
 	}
-#line 2147 "yapl.tab.c"
+#line 2148 "yapl.tab.c"
     break;
 
   case 255: /* block_item_list: block_item  */
-#line 554 "yapl.y"
+#line 555 "yapl.y"
                      {
 		sprintf(derivations[dtop++], "block_item_list -> block_item");
 	}
-#line 2155 "yapl.tab.c"
+#line 2156 "yapl.tab.c"
     break;
 
   case 256: /* block_item_list: block_item_list block_item  */
-#line 557 "yapl.y"
+#line 558 "yapl.y"
                                      {
 		sprintf(derivations[dtop++], "block_item_list -> block_item_list block_item");
 	}
-#line 2163 "yapl.tab.c"
+#line 2164 "yapl.tab.c"
     break;
 
   case 257: /* block_item: declaration  */
-#line 563 "yapl.y"
+#line 564 "yapl.y"
                       {
 		sprintf(derivations[dtop++], "block_item -> declaration");
 	}
-#line 2171 "yapl.tab.c"
+#line 2172 "yapl.tab.c"
     break;
 
   case 258: /* block_item: statement  */
-#line 566 "yapl.y"
+#line 567 "yapl.y"
                     {
 		sprintf(derivations[dtop++], "block_item -> statement");
 	}
-#line 2179 "yapl.tab.c"
+#line 2180 "yapl.tab.c"
     break;
 
   case 259: /* expression_statement: ';'  */
-#line 572 "yapl.y"
+#line 573 "yapl.y"
               {
 		sprintf(derivations[dtop++], "expression_statement -> ;");
 	}
-#line 2187 "yapl.tab.c"
+#line 2188 "yapl.tab.c"
     break;
 
   case 260: /* expression_statement: expression ';'  */
-#line 575 "yapl.y"
+#line 576 "yapl.y"
                          {
 		sprintf(derivations[dtop++], "expression_statement -> expression ;");
 	}
-#line 2195 "yapl.tab.c"
+#line 2196 "yapl.tab.c"
     break;
 
   case 261: /* selection_statement: IF '(' expression ')' statement  */
-#line 581 "yapl.y"
+#line 582 "yapl.y"
                                                     {
 		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement");
 		ifs_wo_else++;
 	}
-#line 2204 "yapl.tab.c"
+#line 2205 "yapl.tab.c"
     break;
 
   case 262: /* selection_statement: IF '(' expression ')' statement ELSE statement  */
-#line 585 "yapl.y"
+#line 586 "yapl.y"
                                                          {
 		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement ELSE statement");
 	}
-#line 2212 "yapl.tab.c"
+#line 2213 "yapl.tab.c"
     break;
 
   case 263: /* selection_statement: SWITCH '(' expression ')' statement  */
-#line 588 "yapl.y"
+#line 589 "yapl.y"
                                               {
 		sprintf(derivations[dtop++], "selection_statement -> SWITCH ( expression ) statement");
 	}
-#line 2220 "yapl.tab.c"
+#line 2221 "yapl.tab.c"
     break;
 
   case 275: /* translation_unit: external_declaration  */
-#line 611 "yapl.y"
+#line 612 "yapl.y"
                                {
 		global_declarations++;
 		sprintf(derivations[dtop++], "translation_unit -> external_declaration");
 	}
-#line 2229 "yapl.tab.c"
+#line 2230 "yapl.tab.c"
     break;
 
   case 276: /* translation_unit: translation_unit external_declaration  */
-#line 615 "yapl.y"
+#line 616 "yapl.y"
                                                 {
 		global_declarations++;
 		sprintf(derivations[dtop++], "translation_unit -> translation_unit external_declaration");
 	}
-#line 2238 "yapl.tab.c"
+#line 2239 "yapl.tab.c"
     break;
 
   case 277: /* external_declaration: function_definition  */
-#line 622 "yapl.y"
+#line 623 "yapl.y"
                               {func_definitions++;}
-#line 2244 "yapl.tab.c"
+#line 2245 "yapl.tab.c"
     break;
 
   case 279: /* function_definition: declaration_specifiers declarator declaration_list compound_statement  */
-#line 627 "yapl.y"
+#line 628 "yapl.y"
                                                                                 {
 		sprintf(derivations[dtop++], "function_definition -> declaration_specifiers declarator declaration_list compound_statement");
 	}
-#line 2252 "yapl.tab.c"
+#line 2253 "yapl.tab.c"
     break;
 
   case 280: /* function_definition: declaration_specifiers declarator compound_statement  */
-#line 630 "yapl.y"
+#line 631 "yapl.y"
                                                                {
 		sprintf(derivations[dtop++], "function_definition -> declaration_specifiers declarator compound_statement");
 	}
-#line 2260 "yapl.tab.c"
+#line 2261 "yapl.tab.c"
     break;
 
 
-#line 2264 "yapl.tab.c"
+#line 2265 "yapl.tab.c"
 
       default: break;
     }
@@ -2453,7 +2454,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 640 "yapl.y"
+#line 641 "yapl.y"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -2478,33 +2479,60 @@ void yyerror(const char *s)
 }
 */
 
-void print_parsing_table()
-{
-    printf("\nLALR(1) Parsing Table (Partial):\n\n");
+void print_parsing_table() {
+    printf("\nLALR(1) PARSING TABLE (Sparse Format)\n");
+    printf("======================================\n");
+    printf("%-10s | %-s\n", "State", "Actions / Transitions");
+    printf("-----------|----------------------------------\n");
 
-    printf("%-6s %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
-           "State", "TYPEDEF_NAME", "TYPEDEF", "EXTERN", "$",
-           "decl", "decl_spec", "func_def");
+    for (int i = 0; i < NUM_STATES; i++) {
+        printf("State %-4d | ", i);
+        int transitions_found = 0;
+        for (int j = 0; j < (NUM_TERMS + NUM_NON_TERMS); j++) {
+            if (strlen(parsing_table[i][j]) > 0) {
+                const char* sym_name = (j < NUM_TERMS) ? terminals[j] : non_terminals[j - NUM_TERMS];
+                printf("[%s: %s] ", sym_name, parsing_table[i][j]);
+                transitions_found = 1;
+            }
+        }
+        if (!transitions_found) printf("-");
+        printf("\n");
+    }
+}
 
-    // State 0
-    printf("%-6d %-15s %-10s %-10s %-6s %-12d %-12d %-12d\n",
-           0, "S1", "S2", "S3", "",
-           31, 32, 45);
+void export_parsing_table_to_csv() {
+    FILE *fp = fopen("parsing_table.csv", "w");
+    if (fp == NULL) {
+        printf("Error opening file for CSV export!\n");
+        return;
+    }
 
-    // State 1
-    printf("%-6d %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
-           1, "", "", "", "R135",
-           "", "", "");
+    // Write Header: State, then all terminal names, then all non-terminal names
+    fprintf(fp, "State");
+    for (int i = 0; i < NUM_TERMS; i++) {
+        fprintf(fp, ",%s", terminals[i]);
+    }
+    for (int i = 0; i < NUM_NON_TERMS; i++) {
+        fprintf(fp, ",%s", non_terminals[i]);
+    }
+    fprintf(fp, "\n");
 
-    // State 2
-    printf("%-6d %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
-           2, "", "", "", "R114",
-           "", "", "");
+    // Write Data Rows
+    for (int i = 0; i < NUM_STATES; i++) {
+        fprintf(fp, "%d", i); // State number
+        for (int j = 0; j < (NUM_TERMS + NUM_NON_TERMS); j++) {
+            // Check if the cell has an action
+            if (parsing_table[i][j] && strlen(parsing_table[i][j]) > 0) {
+                fprintf(fp, ",%s", parsing_table[i][j]);
+            } else {
+                fprintf(fp, ",-"); // Empty cell
+            }
+        }
+        fprintf(fp, "\n");
+    }
 
-    // State 3
-    printf("%-6d %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
-           3, "", "", "", "R115",
-           "", "", "");
+    fclose(fp);
+    printf("\nSuccessfully exported LALR(1) table to 'parsing_table.csv'\n");
 }
 
 
@@ -2546,7 +2574,8 @@ int main(int argc, char **argv)
 	printf("#ifs_without_else = %d\n",ifs_wo_else);
 	printf("if-else max-depth = %d\n",((max<0)?0:max));
 
-    print_parsing_table();
+
+    export_parsing_table_to_csv();
 
     printf("\nReverse Derivation:\n");
 	for(int i = dtop - 1; i >= 0; i--)

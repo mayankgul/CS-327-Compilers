@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "table_data.h"
 
 char derivations[1000][200];
 int dtop = 0;
@@ -661,33 +662,60 @@ void yyerror(const char *s)
 }
 */
 
-void print_parsing_table()
-{
-    printf("\nLALR(1) Parsing Table (Partial):\n\n");
+void print_parsing_table() {
+    printf("\nLALR(1) PARSING TABLE (Sparse Format)\n");
+    printf("======================================\n");
+    printf("%-10s | %-s\n", "State", "Actions / Transitions");
+    printf("-----------|----------------------------------\n");
 
-    printf("%-6s %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
-           "State", "TYPEDEF_NAME", "TYPEDEF", "EXTERN", "$",
-           "decl", "decl_spec", "func_def");
+    for (int i = 0; i < NUM_STATES; i++) {
+        printf("State %-4d | ", i);
+        int transitions_found = 0;
+        for (int j = 0; j < (NUM_TERMS + NUM_NON_TERMS); j++) {
+            if (strlen(parsing_table[i][j]) > 0) {
+                const char* sym_name = (j < NUM_TERMS) ? terminals[j] : non_terminals[j - NUM_TERMS];
+                printf("[%s: %s] ", sym_name, parsing_table[i][j]);
+                transitions_found = 1;
+            }
+        }
+        if (!transitions_found) printf("-");
+        printf("\n");
+    }
+}
 
-    // State 0
-    printf("%-6d %-15s %-10s %-10s %-6s %-12d %-12d %-12d\n",
-           0, "S1", "S2", "S3", "",
-           31, 32, 45);
+void export_parsing_table_to_csv() {
+    FILE *fp = fopen("parsing_table.csv", "w");
+    if (fp == NULL) {
+        printf("Error opening file for CSV export!\n");
+        return;
+    }
 
-    // State 1
-    printf("%-6d %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
-           1, "", "", "", "R135",
-           "", "", "");
+    // Write Header: State, then all terminal names, then all non-terminal names
+    fprintf(fp, "State");
+    for (int i = 0; i < NUM_TERMS; i++) {
+        fprintf(fp, ",%s", terminals[i]);
+    }
+    for (int i = 0; i < NUM_NON_TERMS; i++) {
+        fprintf(fp, ",%s", non_terminals[i]);
+    }
+    fprintf(fp, "\n");
 
-    // State 2
-    printf("%-6d %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
-           2, "", "", "", "R114",
-           "", "", "");
+    // Write Data Rows
+    for (int i = 0; i < NUM_STATES; i++) {
+        fprintf(fp, "%d", i); // State number
+        for (int j = 0; j < (NUM_TERMS + NUM_NON_TERMS); j++) {
+            // Check if the cell has an action
+            if (parsing_table[i][j] && strlen(parsing_table[i][j]) > 0) {
+                fprintf(fp, ",%s", parsing_table[i][j]);
+            } else {
+                fprintf(fp, ",-"); // Empty cell
+            }
+        }
+        fprintf(fp, "\n");
+    }
 
-    // State 3
-    printf("%-6d %-15s %-10s %-10s %-6s %-12s %-12s %-12s\n",
-           3, "", "", "", "R115",
-           "", "", "");
+    fclose(fp);
+    printf("\nSuccessfully exported LALR(1) table to 'parsing_table.csv'\n");
 }
 
 
@@ -729,7 +757,8 @@ int main(int argc, char **argv)
 	printf("#ifs_without_else = %d\n",ifs_wo_else);
 	printf("if-else max-depth = %d\n",((max<0)?0:max));
 
-    print_parsing_table();
+
+    export_parsing_table_to_csv();
 
     printf("\nReverse Derivation:\n");
 	for(int i = dtop - 1; i >= 0; i--)

@@ -27,7 +27,7 @@ WS  [ \t\v\n\f]
 #include <string.h>
 #include "y.tab.h"
 
-int line_no = 1;
+int line_no = 0;
 
 extern char buff[2048];
 extern int mode;
@@ -123,7 +123,8 @@ static int check_type(void);
 "|"					{ return '|'; }
 "?"					{ return '?'; }
 
-{WS}+					{ /* whitespace separates tokens */ }
+\n            { line_no++; }
+[ \t\v\f]+    { /* ignore spaces */ }
 .					{ /* discard bad characters */ }
 
 %%
