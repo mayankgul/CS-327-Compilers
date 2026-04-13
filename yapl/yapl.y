@@ -1,5 +1,44 @@
 
 %{
+
+//  TAC (Quadruple) structure
+int temp_count = 0;
+
+typedef struct {
+    char op[10];
+    char arg1[20];
+    char arg2[20];
+    char result[20];
+} quad;
+
+quad quads[1000];
+int quad_index = 0;
+int label_count = 0;
+
+//  Generate temporary variables (t1, t2, ...)
+char* new_temp() {
+    char *temp = (char*)malloc(10);
+    sprintf(temp, "t%d", temp_count++);
+    return temp;
+}
+
+//  Generate labels (L0, L1, ...)
+char* new_label() {
+    char *label = (char*)malloc(20);
+    sprintf(label, "L%d", label_count++);
+    return label;
+}
+
+//  Add a quadruple
+void add_quad(char *op, char *arg1, char *arg2, char *result) {
+    strcpy(quads[quad_index].op, op);
+    strcpy(quads[quad_index].arg1, arg1);
+    strcpy(quads[quad_index].arg2, arg2);
+    strcpy(quads[quad_index].result, result);
+    quad_index++;
+}
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -41,6 +80,10 @@ int max=-1;
 %token	CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
 %token	ALIGNAS ALIGNOF ATOMIC GENERIC NORETURN STATIC_ASSERT THREAD_LOCAL
+%type <place> expression assignment_expression additive_expression multiplicative_expression primary_expression constant string generic_selection generic_assoc_list generic_association postfix_expression unary_expression cast_expression shift_expression relational_expression equality_expression and_expression exclusive_or_expression inclusive_or_expression logical_and_expression logical_or_expression conditional_expression expression_statement
+%type <op> assignment_operator
+
+
 %nonassoc IFX
 %nonassoc ELSE
 %right '='
@@ -54,16 +97,20 @@ int max=-1;
 %union
 {
 	int val;
+	char* place;
+	char* op;
 	struct symtab *symp;
 }
 
 %%
 
 primary_expression
-	: IDENTIFIER
+	: IDENTIFIER {
+		$$ = strdup(yytext);
+	}
 	| constant
 	| string
-	| '(' expression ')'
+| '(' expression ')' { $$ = $2; }
 	| generic_selection
 	;
 
@@ -83,7 +130,7 @@ string
 	;
 
 generic_selection
-	: GENERIC '(' assignment_expression ',' generic_assoc_list ')'
+	: GENERIC '(' assignment_expression ',' generic_assoc_list ')' { $$ = $3; }
 	;
 
 generic_assoc_list
@@ -97,15 +144,15 @@ generic_association
 	;
 
 postfix_expression
-	: primary_expression
-	| postfix_expression '[' expression ']'
-	| postfix_expression '(' argument_expression_list_opt ')'
-	| postfix_expression '.' IDENTIFIER
-	| postfix_expression PTR_OP IDENTIFIER
-	| postfix_expression INC_OP
-	| postfix_expression DEC_OP
-	| '(' type_name ')' '{' initializer_list '}'
-	| '(' type_name ')' '{' initializer_list ',' '}'
+	: primary_expression { $$ = $1; }
+	| postfix_expression '[' expression ']' { $$ = $1; }
+	| postfix_expression '(' argument_expression_list_opt ')' { $$ = $1; }
+	| postfix_expression '.' IDENTIFIER { $$ = $1; }
+	| postfix_expression PTR_OP IDENTIFIER { $$ = $1; }
+	| postfix_expression INC_OP { $$ = $1; }
+	| postfix_expression DEC_OP { $$ = $1; }
+	| '(' type_name ')' '{' initializer_list '}' { $$ = NULL; }
+	| '(' type_name ')' '{' initializer_list ',' '}' { $$ = NULL; }
 	;
 	
 argument_expression_list_opt
@@ -119,13 +166,13 @@ argument_expression_list
 	;
 
 unary_expression
-	: postfix_expression
-	| INC_OP unary_expression
-	| DEC_OP unary_expression
-	| unary_operator cast_expression
-	| SIZEOF unary_expression
-	| SIZEOF '(' type_name ')'
-	| ALIGNOF '(' type_name ')'
+	: postfix_expression { $$ = $1; }
+	| INC_OP unary_expression { $$ = $2; }
+	| DEC_OP unary_expression { $$ = $2; }
+	| unary_operator cast_expression { $$ = $2; }
+	| SIZEOF unary_expression { $$ = NULL; }
+	| SIZEOF '(' type_name ')' { $$ = NULL; }
+	| ALIGNOF '(' type_name ')' { $$ = NULL; }
 	;
 
 unary_operator
@@ -138,107 +185,175 @@ unary_operator
 	;
 
 cast_expression
-	: unary_expression
-	| '(' type_name ')' cast_expression
+	: unary_expression { $$ = $1; }
+	| '(' type_name ')' cast_expression { $$ = $2; }
 	;
 
 multiplicative_expression
-	: cast_expression
-	| multiplicative_expression '*' cast_expression
-	| multiplicative_expression '/' cast_expression
-	| multiplicative_expression '%' cast_expression
+	: cast_expression { $$ = $1; }
+	| multiplicative_expression '*' cast_expression {
+		$$ = new_temp();
+		add_quad("*", $1, $3, $$);
+	}
+	| multiplicative_expression '/' cast_expression {
+		$$ = new_temp();
+		add_quad("/", $1, $3, $$);
+	}
+	| multiplicative_expression '%' cast_expression {
+		$$ = new_temp();
+		add_quad("%", $1, $3, $$);
+	}
 	;
 
 additive_expression
-	: multiplicative_expression
-	| additive_expression '+' multiplicative_expression
-	| additive_expression '-' multiplicative_expression
+	: multiplicative_expression { $$ = $1; }
+	| additive_expression '+' multiplicative_expression {
+		$$ = new_temp();
+		add_quad("+", $1, $3, $$);
+	}
+	| additive_expression '-' multiplicative_expression {
+		$$ = new_temp();
+		add_quad("-", $1, $3, $$);
+	}
 	;
 
 shift_expression
-	: additive_expression
-	| shift_expression LEFT_OP additive_expression
-	| shift_expression RIGHT_OP additive_expression
+	: additive_expression { $$ = $1; }
+	| shift_expression LEFT_OP additive_expression {
+		$$ = new_temp();
+		add_quad("<<", $1, $3, $$);
+	}
+	| shift_expression RIGHT_OP additive_expression {
+		$$ = new_temp();
+		add_quad(">>", $1, $3, $$);
+	}
 	;
 
 relational_expression
-	: shift_expression
-	| relational_expression '<' shift_expression
-	| relational_expression '>' shift_expression
-	| relational_expression LE_OP shift_expression
-	| relational_expression GE_OP shift_expression
-	| relational_expression TH_OP shift_expression
-	;
+	: shift_expression { $$ = $1; }
+    | relational_expression '<' shift_expression {
+        $$ = new_temp();
+        add_quad("<", $1, $3, $$);
+    }
+    | relational_expression '>' shift_expression {
+        $$ = new_temp();
+        add_quad(">", $1, $3, $$);
+    }
+    | relational_expression LE_OP shift_expression {
+        $$ = new_temp();
+        add_quad("<=", $1, $3, $$);
+    }
+    | relational_expression GE_OP shift_expression {
+        $$ = new_temp();
+        add_quad(">=", $1, $3, $$);
+    }
+    | relational_expression TH_OP shift_expression {
+        $$ = new_temp();
+        add_quad("<=>", $1, $3, $$);
+    }
+    ;
 
 equality_expression
-	: relational_expression
-	| equality_expression EQ_OP relational_expression
-	| equality_expression NE_OP relational_expression
-	;
+	: relational_expression { $$ = $1; }
+    | equality_expression EQ_OP relational_expression {
+        $$ = new_temp();
+        add_quad("==", $1, $3, $$);
+    }
+    | equality_expression NE_OP relational_expression {
+        $$ = new_temp();
+        add_quad("!=", $1, $3, $$);
+    }
+    ;
 
 and_expression
-	: equality_expression
-	| and_expression '&' equality_expression
+	: equality_expression { $$ = $1; }
+	| and_expression '&' equality_expression {
+		$$ = new_temp();
+		add_quad("&", $1, $3, $$);
+	}
 	;
 
 exclusive_or_expression
-	: and_expression
-	| exclusive_or_expression '^' and_expression
+	: and_expression { $$ = $1; }
+	| exclusive_or_expression '^' and_expression {
+		$$ = new_temp();
+		add_quad("^", $1, $3, $$);
+	}
 	;
 
 inclusive_or_expression
-	: exclusive_or_expression
-	| inclusive_or_expression '|' exclusive_or_expression
+	: exclusive_or_expression { $$ = $1; }
+	| inclusive_or_expression '|' exclusive_or_expression {
+		$$ = new_temp();
+		add_quad("|", $1, $3, $$);
+	}
 	;
 
 logical_and_expression
-	: inclusive_or_expression
-	| logical_and_expression AND_OP inclusive_or_expression
-	;
+	: inclusive_or_expression { $$ = $1; }
+    | logical_and_expression AND_OP inclusive_or_expression {
+        $$ = new_temp();
+        add_quad("&&", $1, $3, $$);
+    }
+    ;
 
 logical_or_expression
-	: logical_and_expression
-	| logical_or_expression OR_OP logical_and_expression
+	: logical_and_expression { $$ = $1; }
+	| logical_or_expression OR_OP logical_and_expression {
+        $$ = new_temp();
+        add_quad("||", $1, $3, $$);
+    }
 	;
 
 conditional_expression
-	: logical_or_expression
-	| logical_or_expression '?' expression ':' conditional_expression
+	: logical_or_expression { $$ = $1; }
+	| logical_or_expression '?' expression ':' conditional_expression { $$ = $1; }
 	;
 
 assignment_expression
 	: conditional_expression {
+		$$ = $1;
 		sprintf(derivations[dtop++], "assignment_expression -> conditional_expression");
 	}
 	| unary_expression assignment_operator assignment_expression {
+		if (strcmp($2, "=") == 0) {
+			add_quad("=", $3, "", $1);
+		} else {
+			char *tmp = new_temp();
+			add_quad($2, $1, $3, tmp);
+			add_quad("=", tmp, "", $1);
+		}
+		$$ = $1;
 		sprintf(derivations[dtop++], "assignment_expression -> unary_expression assignment_operator assignment_expression");
 	}
 	;
 
 assignment_operator
-	: '='
-	| MUL_ASSIGN
-	| DIV_ASSIGN
-	| MOD_ASSIGN
-	| ADD_ASSIGN
-	| SUB_ASSIGN
-	| LEFT_ASSIGN
-	| RIGHT_ASSIGN
-	| AND_ASSIGN
-	| XOR_ASSIGN
-	| OR_ASSIGN
-	| PEQ_OP
-	| MEQ_OP
-	| STREQ_OP
-	| DEQ_OP
-	| MODEQ_OP
+	: '=' { $$ = strdup("="); }
+	| MUL_ASSIGN { $$ = strdup("*"); }
+	| DIV_ASSIGN { $$ = strdup("/"); }
+	| MOD_ASSIGN { $$ = strdup("%"); }
+	| ADD_ASSIGN { $$ = strdup("+"); }
+	| SUB_ASSIGN { $$ = strdup("-"); }
+	| LEFT_ASSIGN { $$ = strdup("<<"); }
+	| RIGHT_ASSIGN { $$ = strdup(">>"); }
+	| AND_ASSIGN { $$ = strdup("&"); }
+	| XOR_ASSIGN { $$ = strdup("^"); }
+	| OR_ASSIGN { $$ = strdup("|"); }
+	| PEQ_OP { $$ = strdup("+"); }
+	| MEQ_OP { $$ = strdup("-"); }
+	| STREQ_OP { $$ = strdup("*"); }
+	| DEQ_OP { $$ = strdup("/"); }
+	| MODEQ_OP { $$ = strdup("%"); }
 	;
 
 expression
 	: assignment_expression {
+		$$ = $1;
 		sprintf(derivations[dtop++], "expression -> assignment_expression");
 	}
 	| expression ',' assignment_expression {
+		$$ = $3;
 		sprintf(derivations[dtop++], "expression -> expression , assignment_expression");
 	}
 	;
@@ -571,20 +686,28 @@ block_item
 
 expression_statement
 	: ';' {
+		$$ = NULL;
 		sprintf(derivations[dtop++], "expression_statement -> ;");
 	}
 	| expression ';' {
+		$$ = $1;
 		sprintf(derivations[dtop++], "expression_statement -> expression ;");
 	}
 	;
 
 selection_statement
-	: IF '(' expression ')' statement %prec IFX {
+	: IF '(' expression ')' { char *false_label = new_label(); add_quad("iffalse", $3, "", false_label); $$ = false_label; hold++; if (hold > max) max = hold; } statement %prec IFX {
+		char *false_label = $5;
 		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement");
 		ifs_wo_else++;
+		add_quad("label", "", "", false_label);
+		hold--;
 	}
-	| IF '(' expression ')' statement ELSE statement {
+	| IF '(' expression ')' { char *else_label = new_label(); add_quad("iffalse", $3, "", else_label); $$ = else_label; hold++; if (hold > max) max = hold; } statement { char *end_label = new_label(); add_quad("goto", "", "", end_label); add_quad("label", "", "", $5); $$ = end_label; } ELSE statement {
+		char *end_label = $7;
 		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement ELSE statement");
+		add_quad("label", "", "", end_label);
+		hold--;
 	}
 	| SWITCH '(' expression ')' statement {
 		sprintf(derivations[dtop++], "selection_statement -> SWITCH ( expression ) statement");
@@ -592,12 +715,50 @@ selection_statement
 	;
 
 iteration_statement
-	: WHILE '(' expression ')' statement
-	| DO statement WHILE '(' expression ')' ';'
-	| FOR '(' expression_statement expression_statement ')' statement
-	| FOR '(' expression_statement expression_statement expression ')' statement
-	| FOR '(' declaration expression_statement ')' statement
-	| FOR '(' declaration expression_statement expression ')' statement
+	: WHILE { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } '(' expression ')' { char *end = new_label(); add_quad("iffalse", $2, "", end); $$ = end; } statement {
+		char *start = $2;
+		char *end = $6;
+		sprintf(derivations[dtop++], "iteration_statement -> WHILE ( expression ) statement");
+		add_quad("goto", "", "", start);
+		add_quad("label", "", "", end);
+	}
+	| DO { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } statement WHILE '(' expression ')' ';' {
+		char *start = $2;
+		sprintf(derivations[dtop++], "iteration_statement -> DO statement WHILE ( expression ) ;");
+		add_quad("ifgoto", $6, "", start);
+	}
+	| FOR '(' expression_statement { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } expression_statement ')' statement {
+		char *start = $4;
+		char *end = new_label();
+		add_quad("iffalse", $5, "", end);
+		sprintf(derivations[dtop++], "iteration_statement -> FOR ( expression_statement expression_statement ) statement");
+		add_quad("goto", "", "", start);
+		add_quad("label", "", "", end);
+	}
+	| FOR '(' expression_statement { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } expression_statement expression ')' statement {
+		char *start = $4;
+		char *end = new_label();
+		add_quad("iffalse", $5, "", end);
+		sprintf(derivations[dtop++], "iteration_statement -> FOR ( expression_statement expression_statement expression ) statement");
+		add_quad("goto", "", "", start);
+		add_quad("label", "", "", end);
+	}
+	| FOR '(' declaration { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } expression_statement ')' statement {
+		char *start = $4;
+		char *end = new_label();
+		add_quad("iffalse", $5, "", end);
+		sprintf(derivations[dtop++], "iteration_statement -> FOR ( declaration expression_statement ) statement");
+		add_quad("goto", "", "", start);
+		add_quad("label", "", "", end);
+	}
+	| FOR '(' declaration { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } expression_statement expression ')' statement {
+		char *start = $4;
+		char *end = new_label();
+		add_quad("iffalse", $5, "", end);
+		sprintf(derivations[dtop++], "iteration_statement -> FOR ( declaration expression_statement expression ) statement");
+		add_quad("goto", "", "", start);
+		add_quad("label", "", "", end);
+	}
 	;
 
 jump_statement
@@ -791,6 +952,17 @@ int main(int argc, char **argv)
         // limit indent (avoid going too deep)
         if(indent > 10) indent = 10;
     }
+
+	printf("\nQuadruple Table:\n");
+	printf("Op\tArg1\tArg2\tResult\n");
+
+	for(int i = 0; i < quad_index; i++) {
+		printf("%s\t%s\t%s\t%s\n",
+			quads[i].op,
+			quads[i].arg1,
+			quads[i].arg2,
+			quads[i].result);
+	}
 
 	return(0);
 }

@@ -482,7 +482,7 @@ Nonterminals, with rules where they appear
 
     $accept (108)
         on left: 0
-    primary_expression (109)
+    primary_expression <place> (109)
         on left: 1 2 3 4 5
         on right: 17
     constant (110)
@@ -521,10 +521,10 @@ Nonterminals, with rules where they appear
     cast_expression (121)
         on left: 43 44
         on right: 33 44 45 46 47 48
-    multiplicative_expression (122)
+    multiplicative_expression <place> (122)
         on left: 45 46 47 48
         on right: 46 47 48 49 50 51
-    additive_expression (123)
+    additive_expression <place> (123)
         on left: 49 50 51
         on right: 50 51 52 53 54
     shift_expression (124)
@@ -554,13 +554,13 @@ Nonterminals, with rules where they appear
     conditional_expression (132)
         on left: 74 75
         on right: 75 76 96
-    assignment_expression (133)
+    assignment_expression <place> (133)
         on left: 76 77
         on right: 12 15 16 28 29 77 94 95 178 179 181 182 184 211 212 213 214 216 219 220 221 222 224 231
     assignment_operator (134)
         on left: 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93
         on right: 77
-    expression (135)
+    expression <place> (135)
         on left: 94 95
         on right: 4 18 75 95 259 260 261 262 263 264 266 268 273
     constant_expression (136)
