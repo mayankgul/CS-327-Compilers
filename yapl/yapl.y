@@ -67,7 +67,7 @@ int ladder_len=0,hold=0;
 int max=-1;
 %}
 
-%token	IDENTIFIER I_CONSTANT F_CONSTANT STRING_LITERAL FUNC_NAME SIZEOF
+%token	<place> IDENTIFIER I_CONSTANT F_CONSTANT STRING_LITERAL FUNC_NAME SIZEOF
 %token	PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP TH_OP PEQ_OP MEQ_OP STREQ_OP DEQ_OP MODEQ_OP TER_OP
 %token	AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
 %token	SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
@@ -110,7 +110,7 @@ int max=-1;
 
 primary_expression
 	: IDENTIFIER {
-		$$ = strdup(yytext);
+		$$ = $1;
 	}
 	| constant
 	| string
@@ -126,7 +126,9 @@ constant
 	| F_CONSTANT {
 		$$ = strdup(yytext);
 	}
-	| ENUMERATION_CONSTANT	/* after it has been defined as such */
+	| ENUMERATION_CONSTANT {
+    	$$ = strdup(yytext);
+	}	/* after it has been defined as such */
 	;
 
 enumeration_constant		/* before it has been defined as such */
@@ -149,9 +151,12 @@ generic_assoc_list
 	;
 
 generic_association
-	: type_name ':' assignment_expression
-	| DEFAULT ':' assignment_expression
-	;
+    : type_name ':' assignment_expression {
+        $$ = $3;
+    }
+    | DEFAULT ':' assignment_expression {
+        $$ = $3;
+    }
 
 postfix_expression
 	: primary_expression { $$ = $1; }
@@ -189,12 +194,11 @@ unary_expression
 	;
 
 unary_operator
-	: '&'
-	| '*'
-	| '+'
-	| '-'
-	| '~'
-	| '!'
+    : '&'
+    | '*'
+    | '+'
+    | '~'
+    | '!'
 	;
 
 cast_expression
@@ -324,22 +328,22 @@ conditional_expression
 	;
 
 assignment_expression
-	: conditional_expression {
-		$$ = $1;
-		sprintf(derivations[dtop++], "assignment_expression -> conditional_expression");
-	}
-	| unary_expression assignment_operator assignment_expression {
-		if (strcmp($2, "=") == 0) {
-			add_quad("=", $3, "", $1);
-		} else {
-			char *tmp = new_temp();
-			add_quad($2, $1, $3, tmp);
-			add_quad("=", tmp, "", $1);
-		}
-		$$ = $1;
-		sprintf(derivations[dtop++], "assignment_expression -> unary_expression assignment_operator assignment_expression");
-	}
-	;
+    : conditional_expression {
+        $$ = $1;
+        sprintf(derivations[dtop++], "assignment_expression -> conditional_expression");
+    }
+    | unary_expression assignment_operator assignment_expression {
+        if (strcmp($2, "=") == 0) {
+            add_quad("=", $3, "", $1);
+        } else {
+            char *tmp = new_temp();
+            add_quad($2, $1, $3, tmp);
+            add_quad("=", tmp, "", $1);
+        }
+        $$ = $1;
+        sprintf(derivations[dtop++], "assignment_expression -> IDENTIFIER assignment_operator assignment_expression");
+    }
+    ;
 
 assignment_operator
 	: '=' { $$ = strdup("="); }
