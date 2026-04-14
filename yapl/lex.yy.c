@@ -351,8 +351,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 78
-#define YY_END_OF_BUFFER 79
+#define YY_NUM_RULES 79
+#define YY_END_OF_BUFFER 80
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -362,32 +362,32 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[269] =
     {   0,
-        0,    0,   79,   77,   76,   75,   63,   77,   69,   62,
-       77,   57,   58,   67,   66,   54,   65,   61,   68,   27,
-       26,   55,   51,   70,   56,   71,   74,   24,   24,   59,
-       60,   72,   24,   24,   24,   24,   24,   24,   24,   24,
-       24,   24,   24,   52,   73,   53,   64,   76,   50,    0,
-       35,    0,   41,   53,   45,    0,    0,   39,   42,   37,
-       43,   38,   44,   30,    1,    2,   40,   31,   27,    0,
-        0,   27,   27,    0,   27,   26,   26,   26,   26,   60,
-       52,   59,   47,   49,   48,   24,    0,    0,   24,   24,
+        0,    0,   80,   78,   77,   76,   64,   78,   70,   63,
+       78,   58,   59,   68,   67,   55,   66,   62,   69,   27,
+       26,   56,   52,   71,   57,   72,   75,   24,   24,   60,
+       61,   73,   24,   24,   24,   24,   24,   24,   24,   24,
+       24,   24,   24,   53,   74,   54,   65,   77,   51,    0,
+       36,    0,   42,   54,   46,    0,    0,   40,   43,   38,
+       44,   39,   45,   31,    1,    2,   41,   32,   27,   29,
+        0,   27,   27,    0,   27,   26,   26,   26,   26,   61,
+       53,   60,   48,   50,   49,   24,    0,    0,   24,   24,
        24,   24,   24,   24,   24,   24,   24,   24,   24,   24,
 
-       24,   24,   24,   46,   35,    0,    0,    0,    0,   28,
-        0,    0,    0,   30,    2,    0,   31,    0,   29,   27,
-       27,   27,   27,    0,   25,   26,   26,   26,   26,   36,
+       24,   24,   24,   47,   36,    0,    0,    0,    0,   28,
+        0,    0,    0,   31,    2,    0,   32,    0,   30,   27,
+       27,   27,   27,    0,   25,   26,   26,   26,   26,   37,
        24,   24,   24,   24,   24,   24,   24,   24,   24,   24,
        24,    8,    0,   24,   24,   24,   24,   24,   24,    0,
-        0,    0,    0,    0,   30,    0,   31,   29,   27,    0,
+        0,    0,    0,    0,   31,    0,   32,   30,   27,    0,
         0,   25,    0,   25,   25,   26,   14,   24,   24,   24,
        24,   24,   24,    0,   24,   24,   24,    0,    0,   24,
        24,   24,   19,   24,   24,   24,    0,    0,    0,    0,
-        0,    0,   25,   25,    0,   32,   25,   25,    0,   24,
+        0,    0,   25,   25,    0,   33,   25,   25,    0,   24,
 
        24,    0,   21,   24,    0,   18,   24,   24,    0,    0,
-       24,   16,   24,   24,   24,   10,    0,   33,    0,   34,
-       32,   25,    0,    5,    0,    0,    0,    0,   24,   24,
-        0,    0,   22,    4,   24,   24,   33,   34,    0,    0,
+       24,   16,   24,   24,   24,   10,    0,   34,    0,   35,
+       33,   25,    0,    5,    0,    0,    0,    0,   24,   24,
+        0,    0,   22,    4,   24,   24,   34,   35,    0,    0,
         0,    0,    3,   24,   20,   23,   13,   24,    0,    0,
         0,    0,   11,   24,   15,    0,    6,    7,    0,   12,
         0,    0,   17,    0,    0,    0,    9,    0
@@ -665,11 +665,13 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "yapl.l"
-#line 25 "yapl.l"
+#line 26 "yapl.l"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "y.tab.h"
+#include "yapl.tab.h"
+
+extern YYSTYPE yylval;
 
 int line_no = 0;
 
@@ -683,8 +685,8 @@ extern int sym_type(const char *);  /* returns type from symbol table */
 
 static void comment(void);
 static int check_type(void);
-#line 687 "lex.yy.c"
-#line 688 "lex.yy.c"
+#line 689 "lex.yy.c"
+#line 690 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -901,9 +903,9 @@ YY_DECL
 		}
 
 	{
-#line 44 "yapl.l"
+#line 47 "yapl.l"
 
-#line 907 "lex.yy.c"
+#line 909 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -962,397 +964,405 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 45 "yapl.l"
+#line 48 "yapl.l"
 { comment(); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 46 "yapl.l"
+#line 49 "yapl.l"
 { /* consume //-comment */ }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 48 "yapl.l"
+#line 51 "yapl.l"
 { return(BREAK); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 49 "yapl.l"
+#line 52 "yapl.l"
 { return(CASE); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 50 "yapl.l"
+#line 53 "yapl.l"
 { return(CHAR); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 51 "yapl.l"
+#line 54 "yapl.l"
 { return(CONTINUE); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 52 "yapl.l"
+#line 55 "yapl.l"
 { return(DEFAULT); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 53 "yapl.l"
+#line 56 "yapl.l"
 { return(DO); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 54 "yapl.l"
+#line 57 "yapl.l"
 { return(DOUBLE); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 55 "yapl.l"
+#line 58 "yapl.l"
 { return(ELSE); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 56 "yapl.l"
+#line 59 "yapl.l"
 { return(EXTERN); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 57 "yapl.l"
+#line 60 "yapl.l"
 { return(FLOAT); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 58 "yapl.l"
+#line 61 "yapl.l"
 { return(FOR); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 59 "yapl.l"
+#line 62 "yapl.l"
 { return(IF); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 60 "yapl.l"
+#line 63 "yapl.l"
 { return(INT); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 61 "yapl.l"
+#line 64 "yapl.l"
 { return(LONG); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 62 "yapl.l"
+#line 65 "yapl.l"
 { return(RETURN); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 63 "yapl.l"
+#line 66 "yapl.l"
 { return(SHORT); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 64 "yapl.l"
+#line 67 "yapl.l"
 { return(SIZEOF); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 65 "yapl.l"
+#line 68 "yapl.l"
 { return(STRUCT); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 66 "yapl.l"
+#line 69 "yapl.l"
 { return(SWITCH); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 67 "yapl.l"
+#line 70 "yapl.l"
 { return(VOID); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 68 "yapl.l"
+#line 71 "yapl.l"
 { return(WHILE); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 70 "yapl.l"
-{ return check_type(); }
+#line 73 "yapl.l"
+{
+	yylval.place = strdup(yytext);
+	return IDENTIFIER;
+}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 72 "yapl.l"
+#line 78 "yapl.l"
 { return I_CONSTANT; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 73 "yapl.l"
+#line 79 "yapl.l"
 { return I_CONSTANT; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 74 "yapl.l"
+#line 80 "yapl.l"
 { return I_CONSTANT; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 75 "yapl.l"
+#line 81 "yapl.l"
 { return I_CONSTANT; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 77 "yapl.l"
-{ return F_CONSTANT; }
+#line 82 "yapl.l"
+{ yylval.place = strdup(yytext); return I_CONSTANT; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 78 "yapl.l"
+#line 84 "yapl.l"
 { return F_CONSTANT; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 79 "yapl.l"
+#line 85 "yapl.l"
 { return F_CONSTANT; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 80 "yapl.l"
+#line 86 "yapl.l"
 { return F_CONSTANT; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 81 "yapl.l"
+#line 87 "yapl.l"
 { return F_CONSTANT; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 82 "yapl.l"
+#line 88 "yapl.l"
 { return F_CONSTANT; }
 	YY_BREAK
 case 35:
-/* rule 35 can match eol */
 YY_RULE_SETUP
-#line 84 "yapl.l"
-{ return STRING_LITERAL; }
+#line 89 "yapl.l"
+{ return F_CONSTANT; }
 	YY_BREAK
 case 36:
+/* rule 36 can match eol */
 YY_RULE_SETUP
-#line 86 "yapl.l"
-{ return TH_OP; }
+#line 91 "yapl.l"
+{ return STRING_LITERAL; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 87 "yapl.l"
-{ return PEQ_OP; }
+#line 93 "yapl.l"
+{ return TH_OP; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 88 "yapl.l"
-{ return MEQ_OP; }
+#line 94 "yapl.l"
+{ return PEQ_OP; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 89 "yapl.l"
-{ return STREQ_OP; }
+#line 95 "yapl.l"
+{ return MEQ_OP; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 90 "yapl.l"
-{ return DEQ_OP; }
+#line 96 "yapl.l"
+{ return STREQ_OP; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 91 "yapl.l"
-{ return MODEQ_OP; }
+#line 97 "yapl.l"
+{ return DEQ_OP; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 92 "yapl.l"
-{ return INC_OP; }
+#line 98 "yapl.l"
+{ return MODEQ_OP; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 93 "yapl.l"
-{ return DEC_OP; }
+#line 99 "yapl.l"
+{ return INC_OP; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 94 "yapl.l"
-{ return PTR_OP; }
+#line 100 "yapl.l"
+{ return DEC_OP; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 95 "yapl.l"
-{ return AND_OP; }
+#line 101 "yapl.l"
+{ return PTR_OP; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 96 "yapl.l"
-{ return OR_OP; }
+#line 102 "yapl.l"
+{ return AND_OP; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 97 "yapl.l"
-{ return LE_OP; }
+#line 103 "yapl.l"
+{ return OR_OP; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 98 "yapl.l"
-{ return GE_OP; }
+#line 104 "yapl.l"
+{ return LE_OP; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 99 "yapl.l"
-{ return EQ_OP; }
+#line 105 "yapl.l"
+{ return GE_OP; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 100 "yapl.l"
-{ return NE_OP; }
+#line 106 "yapl.l"
+{ return EQ_OP; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 101 "yapl.l"
-{ return ';'; }
+#line 107 "yapl.l"
+{ return NE_OP; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 102 "yapl.l"
-{ return '{'; }
+#line 108 "yapl.l"
+{ return ';'; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 103 "yapl.l"
-{ return '}'; }
+#line 109 "yapl.l"
+{ return '{'; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 104 "yapl.l"
-{ return ','; }
+#line 110 "yapl.l"
+{ return '}'; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 105 "yapl.l"
-{ return ':'; }
+#line 111 "yapl.l"
+{ return ','; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 106 "yapl.l"
-{ return '='; }
+#line 112 "yapl.l"
+{ return ':'; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 107 "yapl.l"
-{ return '('; }
+#line 113 "yapl.l"
+{ return '='; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 108 "yapl.l"
-{ return ')'; }
+#line 114 "yapl.l"
+{ return '('; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 109 "yapl.l"
-{ return '['; }
+#line 115 "yapl.l"
+{ return ')'; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 110 "yapl.l"
-{ return ']'; }
+#line 116 "yapl.l"
+{ return '['; }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 111 "yapl.l"
-{ return '.'; }
+#line 117 "yapl.l"
+{ return ']'; }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 112 "yapl.l"
-{ return '&'; }
+#line 118 "yapl.l"
+{ return '.'; }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 113 "yapl.l"
-{ return '!'; }
+#line 119 "yapl.l"
+{ return '&'; }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 114 "yapl.l"
-{ return '~'; }
+#line 120 "yapl.l"
+{ return '!'; }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 115 "yapl.l"
-{ return '-'; }
+#line 121 "yapl.l"
+{ return '~'; }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 116 "yapl.l"
-{ return '+'; }
+#line 122 "yapl.l"
+{ return '-'; }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 117 "yapl.l"
-{ return '*'; }
+#line 123 "yapl.l"
+{ return '+'; }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 118 "yapl.l"
-{ return '/'; }
+#line 124 "yapl.l"
+{ return '*'; }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 119 "yapl.l"
-{ return '%'; }
+#line 125 "yapl.l"
+{ return '/'; }
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 120 "yapl.l"
-{ return '<'; }
+#line 126 "yapl.l"
+{ return '%'; }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 121 "yapl.l"
-{ return '>'; }
+#line 127 "yapl.l"
+{ return '<'; }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 122 "yapl.l"
-{ return '^'; }
+#line 128 "yapl.l"
+{ return '>'; }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 123 "yapl.l"
-{ return '|'; }
+#line 129 "yapl.l"
+{ return '^'; }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 124 "yapl.l"
-{ return '?'; }
+#line 130 "yapl.l"
+{ return '|'; }
 	YY_BREAK
 case 75:
-/* rule 75 can match eol */
 YY_RULE_SETUP
-#line 126 "yapl.l"
-{ line_no++; }
+#line 131 "yapl.l"
+{ return '?'; }
 	YY_BREAK
 case 76:
+/* rule 76 can match eol */
 YY_RULE_SETUP
-#line 127 "yapl.l"
-{ /* ignore spaces */ }
+#line 133 "yapl.l"
+{ line_no++; }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 128 "yapl.l"
-{ /* discard bad characters */ }
+#line 134 "yapl.l"
+{ /* ignore spaces */ }
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 130 "yapl.l"
+#line 135 "yapl.l"
+{ /* discard bad characters */ }
+	YY_BREAK
+case 79:
+YY_RULE_SETUP
+#line 137 "yapl.l"
 ECHO;
 	YY_BREAK
-#line 1356 "lex.yy.c"
+#line 1366 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2357,7 +2367,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 130 "yapl.l"
+#line 137 "yapl.l"
 
 
 int yywrap(void)        /* called at end of input */

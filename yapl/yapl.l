@@ -1,3 +1,4 @@
+
 %e  1019
 %p  2807
 %n  371
@@ -25,7 +26,9 @@ WS  [ \t\v\n\f]
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "y.tab.h"
+#include "yapl.tab.h"
+
+extern YYSTYPE yylval;
 
 int line_no = 0;
 
@@ -67,12 +70,16 @@ static int check_type(void);
 "khaali"					{ return(VOID); }
 "jab tak"					{ return(WHILE); }
 
-{L}{A}*					{ return check_type(); }
+{L}{A}* {
+	yylval.place = strdup(yytext);
+	return IDENTIFIER;
+}
 
 {HP}{H}+{IS}?				{ return I_CONSTANT; }
 {NZ}{D}*{IS}?				{ return I_CONSTANT; }
 "0"{O}*{IS}?				{ return I_CONSTANT; }
 {CP}?"'"([^'\\\n]|{ES})+"'"		{ return I_CONSTANT; }
+{D}+                            { yylval.place = strdup(yytext); return I_CONSTANT; }
 
 {D}+{E}{FS}?				{ return F_CONSTANT; }
 {D}*"."{D}+{E}?{FS}?			{ return F_CONSTANT; }

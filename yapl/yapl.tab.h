@@ -143,13 +143,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 89 "yapl.y"
+#line 102 "yapl.y"
 
 	int val;
 	char* place;
+	char* op;
 	struct symtab *symp;
 
-#line 153 "yapl.tab.h"
+#line 154 "yapl.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -14,6 +14,9 @@ typedef struct {
 quad quads[1000];
 int quad_index = 0;
 int label_count = 0;
+char *last_false_label;
+char *last_start_label;
+char *last_end_label;
 
 //  Generate temporary variables (t1, t2, ...)
 char* new_temp() {
@@ -80,7 +83,8 @@ int max=-1;
 %token	CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
 %token	ALIGNAS ALIGNOF ATOMIC GENERIC NORETURN STATIC_ASSERT THREAD_LOCAL
-%type <place> expression assignment_expression additive_expression multiplicative_expression primary_expression constant string generic_selection generic_assoc_list generic_association postfix_expression unary_expression cast_expression shift_expression relational_expression equality_expression and_expression exclusive_or_expression inclusive_or_expression logical_and_expression logical_or_expression conditional_expression expression_statement
+%type <place> expression assignment_expression additive_expression multiplicative_expression primary_expression constant string generic_selection generic_assoc_list generic_association postfix_expression unary_expression cast_expression shift_expression relational_expression equality_expression and_expression exclusive_or_expression inclusive_or_expression logical_and_expression logical_or_expression conditional_expression expression_statement selection_statement iteration_statement statement
+
 %type <op> assignment_operator
 
 
@@ -115,8 +119,13 @@ primary_expression
 	;
 
 constant
-	: I_CONSTANT {int_consts++;}	/* includes character_constant */
-	| F_CONSTANT
+	: I_CONSTANT {
+		int_consts++;
+		$$ = strdup(yytext);
+	}
+	| F_CONSTANT {
+		$$ = strdup(yytext);
+	}
 	| ENUMERATION_CONSTANT	/* after it has been defined as such */
 	;
 
@@ -125,8 +134,9 @@ enumeration_constant		/* before it has been defined as such */
 	;
 
 string
-	: STRING_LITERAL
-	| FUNC_NAME
+	: STRING_LITERAL {
+		$$ = strdup(yytext);
+	}
 	;
 
 generic_selection
@@ -173,6 +183,9 @@ unary_expression
 	| SIZEOF unary_expression { $$ = NULL; }
 	| SIZEOF '(' type_name ')' { $$ = NULL; }
 	| ALIGNOF '(' type_name ')' { $$ = NULL; }
+	| '-' unary_expression {
+		$$ = new_temp();
+		add_quad("uminus", $2, "", $$);}
 	;
 
 unary_operator
@@ -186,7 +199,7 @@ unary_operator
 
 cast_expression
 	: unary_expression { $$ = $1; }
-	| '(' type_name ')' cast_expression { $$ = $2; }
+	| '(' type_name ')' cast_expression { $$ = $4; }
 	;
 
 multiplicative_expression
@@ -696,68 +709,73 @@ expression_statement
 	;
 
 selection_statement
-	: IF '(' expression ')' { char *false_label = new_label(); add_quad("iffalse", $3, "", false_label); $$ = false_label; hold++; if (hold > max) max = hold; } statement %prec IFX {
-		char *false_label = $5;
-		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement");
-		ifs_wo_else++;
-		add_quad("label", "", "", false_label);
-		hold--;
+	: IF '(' expression ')'
+	{
+		last_false_label = new_label();
+		add_quad("iffalse", $3, "", last_false_label);
 	}
-	| IF '(' expression ')' { char *else_label = new_label(); add_quad("iffalse", $3, "", else_label); $$ = else_label; hold++; if (hold > max) max = hold; } statement { char *end_label = new_label(); add_quad("goto", "", "", end_label); add_quad("label", "", "", $5); $$ = end_label; } ELSE statement {
-		char *end_label = $7;
-		sprintf(derivations[dtop++], "selection_statement -> IF ( expression ) statement ELSE statement");
-		add_quad("label", "", "", end_label);
-		hold--;
+	statement %prec IFX
+	{
+		add_quad("label", "", "", last_false_label);
 	}
-	| SWITCH '(' expression ')' statement {
-		sprintf(derivations[dtop++], "selection_statement -> SWITCH ( expression ) statement");
+
+	| IF '(' expression ')'
+	{
+		last_false_label = new_label();
+		add_quad("iffalse", $3, "", last_false_label);
 	}
-	;
+	statement
+	{
+		last_end_label = new_label();
+		add_quad("goto", "", "", last_end_label);
+		add_quad("label", "", "", last_false_label);
+	}
+	ELSE
+	statement
+	{
+		add_quad("label", "", "", last_end_label);
+	}
+    ;
 
 iteration_statement
-	: WHILE { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } '(' expression ')' { char *end = new_label(); add_quad("iffalse", $2, "", end); $$ = end; } statement {
-		char *start = $2;
-		char *end = $6;
-		sprintf(derivations[dtop++], "iteration_statement -> WHILE ( expression ) statement");
-		add_quad("goto", "", "", start);
-		add_quad("label", "", "", end);
+	: WHILE '(' expression ')'
+		{
+			last_start_label = new_label();
+			last_end_label = new_label();
+
+			add_quad("label", "", "", last_start_label);
+			add_quad("iffalse", $3, "", last_end_label);
+		}
+	statement
+		{
+			add_quad("goto", "", "", last_start_label);
+			add_quad("label", "", "", last_end_label);
+		}
+	|DO
+	{
+		last_start_label = new_label();
+		add_quad("label", "", "", last_start_label);
 	}
-	| DO { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } statement WHILE '(' expression ')' ';' {
-		char *start = $2;
-		sprintf(derivations[dtop++], "iteration_statement -> DO statement WHILE ( expression ) ;");
-		add_quad("ifgoto", $6, "", start);
+	statement
+	WHILE '(' expression ')' ';'
+	{
+		add_quad("ifgoto", $6, "", last_start_label);
 	}
-	| FOR '(' expression_statement { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } expression_statement ')' statement {
-		char *start = $4;
-		char *end = new_label();
-		add_quad("iffalse", $5, "", end);
-		sprintf(derivations[dtop++], "iteration_statement -> FOR ( expression_statement expression_statement ) statement");
-		add_quad("goto", "", "", start);
-		add_quad("label", "", "", end);
+	|FOR '(' expression_statement expression_statement expression ')' 
+	{
+		last_start_label = new_label();
+		last_end_label = new_label();
+
+		add_quad("label", "", "", last_start_label);
+		add_quad("iffalse", $4, "", last_end_label);
 	}
-	| FOR '(' expression_statement { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } expression_statement expression ')' statement {
-		char *start = $4;
-		char *end = new_label();
-		add_quad("iffalse", $5, "", end);
-		sprintf(derivations[dtop++], "iteration_statement -> FOR ( expression_statement expression_statement expression ) statement");
-		add_quad("goto", "", "", start);
-		add_quad("label", "", "", end);
-	}
-	| FOR '(' declaration { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } expression_statement ')' statement {
-		char *start = $4;
-		char *end = new_label();
-		add_quad("iffalse", $5, "", end);
-		sprintf(derivations[dtop++], "iteration_statement -> FOR ( declaration expression_statement ) statement");
-		add_quad("goto", "", "", start);
-		add_quad("label", "", "", end);
-	}
-	| FOR '(' declaration { char *start = new_label(); add_quad("label", "", "", start); $$ = start; } expression_statement expression ')' statement {
-		char *start = $4;
-		char *end = new_label();
-		add_quad("iffalse", $5, "", end);
-		sprintf(derivations[dtop++], "iteration_statement -> FOR ( declaration expression_statement expression ) statement");
-		add_quad("goto", "", "", start);
-		add_quad("label", "", "", end);
+	statement
+	{
+		// update expression (3rd expression)
+		add_quad("eval", $5, "", "");
+
+		add_quad("goto", "", "", last_start_label);
+		add_quad("label", "", "", last_end_label);
 	}
 	;
 
