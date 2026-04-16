@@ -1,7 +1,36 @@
-***parsing successful***
-#global_declarations = 3
-#function_definitions = 1
-#integer_constants = 0
-#pointers_declarations = 0
-#ifs_without_else = 0
-if-else max-depth = 0
+
+=================================================================
+  SOURCE PROGRAM : testcases/testcase_2.c
+=================================================================
+   1 | poornank a;
+   2 | bahar ka poornank k;
+   3 | 
+   4 | poornank main()
+   5 | {
+   6 | 	main();
+   7 | }
+=================================================================
+
+=================================================================
+  PARSING RESULTS
+=================================================================
+  ***parsing successful***
+  #global_declarations  = 3
+  #function_definitions = 1
+  #integer_constants    = 0
+  #pointer_declarations = 0
+  #ifs_without_else     = 0
+  if-else max-depth     = 0
+=================================================================
+
+Successfully exported LALR(1) table to 'parsing_table.csv'
+
+=================================================================
+          INTERMEDIATE CODE  —  3-Address Code (Quadruples)
+=================================================================
+No.    Op          Arg1            Arg2            Result        
+-----------------------------------------------------------------
+=================================================================
+  Total quadruples generated : 0
+=================================================================
+

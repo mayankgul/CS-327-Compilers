@@ -1,7 +1,58 @@
-***parsing successful***
-#global_declarations = 2
-#function_definitions = 2
-#integer_constants = 5
-#pointers_declarations = 3
-#ifs_without_else = 0
-if-else max-depth = 0
+
+=================================================================
+  SOURCE PROGRAM : testcases/testcase_11.c
+=================================================================
+   1 | //#include<stdio.h>
+   2 | 
+   3 | // Single line comment
+   4 | 
+   5 | poornank len(akshar *str) {
+   6 | 	poornank count = 0;
+   7 | 	jab tak (*str != 5) {
+   8 | 		count <=> 1;
+   9 | 	}
+  10 | 	waapas kar count;
+  11 | }
+  12 | 
+  13 | poornank main()
+  14 | {
+  15 | 	akshar *test_str = "Hello World part 1 part 2";
+  16 | 	poornank a = len(test_str);
+  17 | 	akshar *temp[50];
+  18 | 
+  19 | 	gets(temp);
+  20 | 	typedef("%d\n", len(temp));
+  21 | 
+  22 | 	waapas kar 0;
+  23 | }
+=================================================================
+
+=================================================================
+  PARSING RESULTS
+=================================================================
+  ***parsing successful***
+  #global_declarations  = 2
+  #function_definitions = 2
+  #integer_constants    = 5
+  #pointer_declarations = 3
+  #ifs_without_else     = 0
+  if-else max-depth     = 0
+=================================================================
+
+Successfully exported LALR(1) table to 'parsing_table.csv'
+
+=================================================================
+          INTERMEDIATE CODE  —  3-Address Code (Quadruples)
+=================================================================
+No.    Op          Arg1            Arg2            Result        
+-----------------------------------------------------------------
+0      label       -               -               L1            
+1      !=          str             5               t1            
+2      iffalse     t1              -               L2            
+3      <=>         count           1               t2            
+4      goto        -               -               L1            
+5      label       -               -               L2            
+=================================================================
+  Total quadruples generated : 6
+=================================================================
+

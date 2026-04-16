@@ -1,7 +1,231 @@
-***parsing successful***
-#global_declarations = 1
-#function_definitions = 1
-#integer_constants = 51
-#pointers_declarations = 0
-#ifs_without_else = 44
-if-else max-depth = 2
+
+=================================================================
+  SOURCE PROGRAM : testcases/testcase_8.c
+=================================================================
+   1 | poornank main()
+   2 | {
+   3 | 
+   4 | 	badlo (volatile)
+   5 | 	{
+   6 | 		maamla 1:
+   7 | 
+   8 | 		agar (1)
+   9 | 		{
+  10 | 			agar (1)
+  11 | 				agar (2)
+  12 | 					agar (3)
+  13 | 						agar (4)
+  14 | 							agar (5)
+  15 | 						agar (6)
+  16 | 					agar (7)
+  17 | 			agar (8)
+  18 | 			{
+  19 | 				/***** // just for fun ********/
+  20 | 			}
+  21 | 			warna agar (2)
+  22 | 					agar (3)
+  23 | 						agar (4)
+  24 | 							agar (5)
+  25 | 						agar (6)
+  26 | 				agar (7)
+  27 | 			agar (8)
+  28 | 			{
+  29 | 				/***** // just for fun ********/
+  30 | 			}
+  31 | 			warna
+  32 | 			{
+  33 | 			}
+  34 | 		}
+  35 | 
+  36 | 		bas kar;
+  37 | 
+  38 | 		maamla 6:
+  39 | 		
+  40 | 		agar (1)
+  41 | 		{
+  42 | 			agar (1)
+  43 | 				agar (2)
+  44 | 					agar (3)
+  45 | 						agar (4)
+  46 | 						{
+  47 | 							agar (1)
+  48 | 							{
+  49 | 								agar (1)
+  50 | 									agar (2)
+  51 | 										agar (3)
+  52 | 											agar (4)
+  53 | 												agar (5)
+  54 | 										agar (6)
+  55 | 									agar (7)
+  56 | 								agar (8)
+  57 | 								{
+  58 | 									/***** // just for fun ********/
+  59 | 								}
+  60 | 								warna agar (2)
+  61 | 					agar (3)
+  62 | 							agar (4)
+  63 | 					agar (5)
+  64 | 							agar (6)
+  65 | 					agar (7)
+  66 | 							agar (8)
+  67 | 							{
+  68 | 								/***** // just for fun ********/
+  69 | 							}
+  70 | 					}							
+  71 | 																}
+  72 | 						agar (5)
+  73 | 					agar (6)
+  74 | 				agar (7)
+  75 | 			agar (8)
+  76 | 			{
+  77 | 				/***** // just for fun ********/
+  78 | 			}
+  79 | 			warna agar (2)
+  80 | 					agar (3)
+  81 | 						agar (4)
+  82 | 							agar (5)
+  83 | 						agar (6)
+  84 | 				agar (7)
+  85 | 			agar (8)
+  86 | 			{
+  87 | 				/***** // just for fun ********/
+  88 | 			}
+  89 | 		}
+  90 | 
+  91 | 		baaki sab:
+  92 | 			waapas kar;
+  93 | 	}
+  94 | 
+  95 | 	waapas kar (-4);
+  96 | 	
+  97 | }
+=================================================================
+
+=================================================================
+  PARSING RESULTS
+=================================================================
+  ***parsing successful***
+  #global_declarations  = 1
+  #function_definitions = 1
+  #integer_constants    = 51
+  #pointer_declarations = 0
+  #ifs_without_else     = 44
+  if-else max-depth     = 0
+=================================================================
+
+Successfully exported LALR(1) table to 'parsing_table.csv'
+
+=================================================================
+          INTERMEDIATE CODE  —  3-Address Code (Quadruples)
+=================================================================
+No.    Op          Arg1            Arg2            Result        
+-----------------------------------------------------------------
+0      iffalse     1               -               L1            
+1      iffalse     1               -               L2            
+2      iffalse     2               -               L3            
+3      iffalse     3               -               L4            
+4      iffalse     4               -               L5            
+5      iffalse     5               -               L6            
+6      iffalse     6               -               L7            
+7      iffalse     7               -               L8            
+8      iffalse     8               -               L9            
+9      goto        -               -               L10           
+10     label       -               -               L9            
+11     iffalse     2               -               L11           
+12     iffalse     3               -               L12           
+13     iffalse     4               -               L13           
+14     iffalse     5               -               L14           
+15     iffalse     6               -               L15           
+16     iffalse     7               -               L16           
+17     iffalse     8               -               L17           
+18     goto        -               -               L18           
+19     label       -               -               L17           
+20     label       -               -               L18           
+21     label       -               -               L16           
+22     label       -               -               L15           
+23     label       -               -               L14           
+24     label       -               -               L13           
+25     label       -               -               L12           
+26     label       -               -               L11           
+27     label       -               -               L10           
+28     label       -               -               L8            
+29     label       -               -               L7            
+30     label       -               -               L6            
+31     label       -               -               L5            
+32     label       -               -               L4            
+33     label       -               -               L3            
+34     label       -               -               L2            
+35     label       -               -               L1            
+36     iffalse     1               -               L19           
+37     iffalse     1               -               L20           
+38     iffalse     2               -               L21           
+39     iffalse     3               -               L22           
+40     iffalse     4               -               L23           
+41     iffalse     1               -               L24           
+42     iffalse     1               -               L25           
+43     iffalse     2               -               L26           
+44     iffalse     3               -               L27           
+45     iffalse     4               -               L28           
+46     iffalse     5               -               L29           
+47     iffalse     6               -               L30           
+48     iffalse     7               -               L31           
+49     iffalse     8               -               L32           
+50     goto        -               -               L33           
+51     label       -               -               L32           
+52     iffalse     2               -               L34           
+53     iffalse     3               -               L35           
+54     iffalse     4               -               L36           
+55     iffalse     5               -               L37           
+56     iffalse     6               -               L38           
+57     iffalse     7               -               L39           
+58     iffalse     8               -               L40           
+59     label       -               -               L40           
+60     label       -               -               L39           
+61     label       -               -               L38           
+62     label       -               -               L37           
+63     label       -               -               L36           
+64     label       -               -               L35           
+65     label       -               -               L34           
+66     label       -               -               L33           
+67     label       -               -               L31           
+68     label       -               -               L30           
+69     label       -               -               L29           
+70     label       -               -               L28           
+71     label       -               -               L27           
+72     label       -               -               L26           
+73     label       -               -               L25           
+74     label       -               -               L24           
+75     label       -               -               L23           
+76     label       -               -               L22           
+77     label       -               -               L21           
+78     label       -               -               L20           
+79     iffalse     5               -               L41           
+80     iffalse     6               -               L42           
+81     iffalse     7               -               L43           
+82     iffalse     8               -               L44           
+83     goto        -               -               L45           
+84     label       -               -               L44           
+85     iffalse     2               -               L46           
+86     iffalse     3               -               L47           
+87     iffalse     4               -               L48           
+88     iffalse     5               -               L49           
+89     iffalse     6               -               L50           
+90     iffalse     7               -               L51           
+91     iffalse     8               -               L52           
+92     label       -               -               L52           
+93     label       -               -               L51           
+94     label       -               -               L50           
+95     label       -               -               L49           
+96     label       -               -               L48           
+97     label       -               -               L47           
+98     label       -               -               L46           
+99     label       -               -               L45           
+100    label       -               -               L43           
+101    label       -               -               L42           
+102    label       -               -               L41           
+103    label       -               -               L19           
+104    minus       4               -               t1            
+=================================================================
+  Total quadruples generated : 105
+=================================================================
+

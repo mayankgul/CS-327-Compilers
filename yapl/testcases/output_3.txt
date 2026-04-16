@@ -1,7 +1,116 @@
-***parsing successful***
-#global_declarations = 2
-#function_definitions = 2
-#integer_constants = 10
-#pointers_declarations = 2
-#ifs_without_else = 1
-if-else max-depth = 7
+
+=================================================================
+  SOURCE PROGRAM : testcases/testcase_3.c
+=================================================================
+   1 | khaali fun(poornank args, akshar *argv)
+   2 | {
+   3 | 	agar (auto * register * static)
+   4 | 	{
+   5 | 		printf(1);
+   6 | 	}
+   7 | }
+   8 | 
+   9 | khaali avoid(khaali *k)
+  10 | {
+  11 | 	poornank i, j;
+  12 | 	dashamlav dx = 0.33;
+  13 | 
+  14 | 	agar (i == 1)
+  15 | 		y = f(x);
+  16 | 	warna agar (2)
+  17 | 		y = f(x) * dx;
+  18 | 	warna
+  19 | 	{
+  20 | 		agar (j == 1)
+  21 | 		{
+  22 | 			fun(1);
+  23 | 		}
+  24 | 		warna
+  25 | 		{
+  26 | 			agar (i == 1)
+  27 | 				y = f(x);
+  28 | 			warna agar (2)
+  29 | 				y = f(x) * dx;
+  30 | 			warna
+  31 | 			{
+  32 | 				agar (i == 1)
+  33 | 					y = f(x);
+  34 | 				warna agar (2)
+  35 | 					y = f(x) * dx;
+  36 | 				warna
+  37 | 					y = 0;
+  38 | 			}
+  39 | 		}
+  40 | 	}
+  41 | }
+=================================================================
+
+=================================================================
+  PARSING RESULTS
+=================================================================
+  ***parsing successful***
+  #global_declarations  = 2
+  #function_definitions = 2
+  #integer_constants    = 10
+  #pointer_declarations = 2
+  #ifs_without_else     = 1
+  if-else max-depth     = 0
+=================================================================
+
+Successfully exported LALR(1) table to 'parsing_table.csv'
+
+=================================================================
+          INTERMEDIATE CODE  —  3-Address Code (Quadruples)
+=================================================================
+No.    Op          Arg1            Arg2            Result        
+-----------------------------------------------------------------
+0      *           auto            register        t1            
+1      *           t1              static          t2            
+2      iffalse     t2              -               L1            
+3      label       -               -               L1            
+4      ==          i               1               t3            
+5      iffalse     t3              -               L2            
+6      =           f               -               y             
+7      goto        -               -               L3            
+8      label       -               -               L2            
+9      iffalse     2               -               L4            
+10     *           f               dx              t4            
+11     =           t4              -               y             
+12     goto        -               -               L5            
+13     label       -               -               L4            
+14     ==          j               1               t5            
+15     iffalse     t5              -               L6            
+16     goto        -               -               L7            
+17     label       -               -               L6            
+18     ==          i               1               t6            
+19     iffalse     t6              -               L8            
+20     =           f               -               y             
+21     goto        -               -               L9            
+22     label       -               -               L8            
+23     iffalse     2               -               L10           
+24     *           f               dx              t7            
+25     =           t7              -               y             
+26     goto        -               -               L11           
+27     label       -               -               L10           
+28     ==          i               1               t8            
+29     iffalse     t8              -               L12           
+30     =           f               -               y             
+31     goto        -               -               L13           
+32     label       -               -               L12           
+33     iffalse     2               -               L14           
+34     *           f               dx              t9            
+35     =           t9              -               y             
+36     goto        -               -               L15           
+37     label       -               -               L14           
+38     =           0               -               y             
+39     label       -               -               L15           
+40     label       -               -               L13           
+41     label       -               -               L11           
+42     label       -               -               L9            
+43     label       -               -               L7            
+44     label       -               -               L5            
+45     label       -               -               L3            
+=================================================================
+  Total quadruples generated : 46
+=================================================================
+

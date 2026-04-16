@@ -88,7 +88,7 @@ static int check_type(void);
 {HP}{H}*"."{H}+{P}{FS}?			{ yylval.place = strdup(yytext); return F_CONSTANT; }
 {HP}{H}+"."{P}{FS}?			{ yylval.place = strdup(yytext); return F_CONSTANT; }
 
-({SP}?\"([^"\\\n]|{ES})*\"{WS}*)+ {
+{SP}?\"([^"\\\n]|{ES})*\" {
     yylval.place = strdup(yytext);
     return STRING_LITERAL;
 }

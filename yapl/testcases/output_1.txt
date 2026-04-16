@@ -1,7 +1,163 @@
-***parsing successful***
-#global_declarations = 10
-#function_definitions = 2
-#integer_constants = 20
-#pointers_declarations = 12
-#ifs_without_else = 2
-if-else max-depth = 3
+
+=================================================================
+  SOURCE PROGRAM : testcases/testcase_1.c
+=================================================================
+   1 | poornank *var = 6;
+   2 | dhancha mystruct *ms = &var;
+   3 | 
+   4 | poornank auto, static, inline;
+   5 | 
+   6 | bahar ka khaali *k;
+   7 | poornank p;
+   8 | poornank p;
+   9 | poornank p;
+  10 | 
+  11 | poornank *hh(akshar *p);
+  12 | 
+  13 | poornank main(poornank b)
+  14 | {
+  15 | 	poornank auto = 2, b = 3, c;
+  16 | 	c = auto + b;
+  17 | 	printf("%d", c);
+  18 | 
+  19 | 	dhancha player
+  20 | 	{
+  21 | 		poornank a;
+  22 | 		bada dashamlav c;
+  23 | 	};
+  24 | 
+  25 | 	poornank *jj = &auto;
+  26 | 
+  27 | 	System.out.print("java here");
+  28 | 	akshar echo[3] = "bash here";
+  29 | 	myprintf("CS3300 here");
+  30 | 	printf(echo);
+  31 | 
+  32 | 	/*
+  33 | 		mixing things here a bit
+  34 | 	*/
+  35 | 
+  36 | 	agar (a == 9)
+  37 | 	{
+  38 | 		//NO-OP
+  39 | 	}
+  40 | 	
+  41 | 	agar (a == 1)
+  42 | 		hh(++jj);
+  43 | 	warna agar (a == 2)
+  44 | 		hh(jj++);
+  45 | 	warna agar (a == 3)
+  46 | 		hh(*jj++);
+  47 | 	warna
+  48 | 	{
+  49 | 		//NO-OP
+  50 | 	}
+  51 | 			
+  52 | 	dhancha player *p;
+  53 | 	p = (dhancha player *)malloc(maap(dhancha player));
+  54 | 	
+  55 | 	p->a = 1;
+  56 | 	p->b = 2.4;
+  57 | 
+  58 | 	//#pragma omp parallel for
+  59 | 	ke liye (a = 1; a <= 5; a++)
+  60 | 		static(a);
+  61 | 
+  62 | 	poornank *p;
+  63 | 	dashamlav *j;
+  64 | 	p = &auto;
+  65 | 	j = 0x1234;
+  66 | 	printf("*j=%p", (akshar *)j);
+  67 | 
+  68 | 	khaali *static = &c;
+  69 | 
+  70 | 	poornank a = 5, b = 8, c;
+  71 | 	c = a <=> b;
+  72 | 
+  73 | 	hh(p);
+  74 | 	
+  75 | 	waapas kar (0);
+  76 | }	
+  77 | 
+  78 | poornank *hh(akshar *p)
+  79 | {
+  80 | 	poornank n = 7;
+  81 | 
+  82 | 	scanf("%d", &n);
+  83 | 	
+  84 | 	agar (n == 0)
+  85 | 		printf("%d\n", n + 1);
+  86 | 	warna agar (n == 1)
+  87 | 		printf("%d\n", n + 2);
+  88 | 	
+  89 | 	waapas kar (NULL);
+  90 | }
+=================================================================
+
+=================================================================
+  PARSING RESULTS
+=================================================================
+  ***parsing successful***
+  #global_declarations  = 10
+  #function_definitions = 2
+  #integer_constants    = 20
+  #pointer_declarations = 12
+  #ifs_without_else     = 2
+  if-else max-depth     = 0
+=================================================================
+
+Successfully exported LALR(1) table to 'parsing_table.csv'
+
+=================================================================
+          INTERMEDIATE CODE  —  3-Address Code (Quadruples)
+=================================================================
+No.    Op          Arg1            Arg2            Result        
+-----------------------------------------------------------------
+0      +           auto            b               t1            
+1      =           t1              -               c             
+2      ==          a               9               t2            
+3      iffalse     t2              -               L1            
+4      label       -               -               L1            
+5      ==          a               1               t3            
+6      iffalse     t3              -               L2            
+7      goto        -               -               L3            
+8      label       -               -               L2            
+9      ==          a               2               t4            
+10     iffalse     t4              -               L4            
+11     goto        -               -               L5            
+12     label       -               -               L4            
+13     ==          a               3               t5            
+14     iffalse     t5              -               L6            
+15     goto        -               -               L7            
+16     label       -               -               L6            
+17     label       -               -               L7            
+18     label       -               -               L5            
+19     label       -               -               L3            
+20     =           malloc          -               p             
+21     =           1               -               p             
+22     =           2.4             -               p             
+23     =           1               -               a             
+24     label       -               -               L8            
+25     <=          a               5               t6            
+26     iffalse     t6              -               L9            
+27     eval        a               -               -             
+28     goto        -               -               L8            
+29     label       -               -               L9            
+30     =           auto            -               p             
+31     =           0x1234          -               j             
+32     <=>         a               b               t7            
+33     =           t7              -               c             
+34     ==          n               0               t8            
+35     iffalse     t8              -               L10           
+36     +           n               1               t9            
+37     goto        -               -               L11           
+38     label       -               -               L10           
+39     ==          n               1               t10           
+40     iffalse     t10             -               L12           
+41     +           n               2               t11           
+42     label       -               -               L12           
+43     label       -               -               L11           
+=================================================================
+  Total quadruples generated : 44
+=================================================================
+
