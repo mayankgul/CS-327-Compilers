@@ -11,12 +11,27 @@ char *last_false_label;
 char *last_start_label;
 char *last_end_label;
 
+
 /* Label stack for nested if-else */
 #define STACK_SIZE 10000
 char *false_label_stack[STACK_SIZE];
 char *end_label_stack[STACK_SIZE];
 int false_stack_top = 0;   /* separate counter */
 int end_stack_top   = 0;   /* separate counter */
+
+/*Adding switch cases:*/
+char *switch_expr_stack[STACK_SIZE];
+int switch_top = 0;
+
+void push_switch_expr(char *e) {
+    switch_expr_stack[switch_top++] = e;
+}
+char* pop_switch_expr() {
+    return switch_expr_stack[--switch_top];
+}
+char* top_switch_expr() {
+    return switch_expr_stack[switch_top - 1];
+}
 
 void push_false(char *l) {
     if (false_stack_top < STACK_SIZE)
@@ -48,6 +63,9 @@ typedef struct {
 } quad;
 
 quad quads[1000];
+int  for_inc_start = 0;
+quad for_inc_buf[200];
+int  for_inc_cnt   = 0;
 int quad_index = 0;
 int label_count = 1;
 
@@ -126,6 +144,8 @@ int if_depth =0;
 %type <place> else_part
 %type <op> assignment_operator
 %type <place> argument_expression_list argument_expression_list_opt
+%type <place> switch_body case_list case_statement default_statement
+%type <place> constant_expression
 
 %left OR_OP
 %left AND_OP
@@ -641,10 +661,8 @@ statement
 	;
 
 labeled_statement
-	: IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement
-	| DEFAULT ':' statement
-	;
+    : IDENTIFIER ':' statement
+    ;
 
 compound_statement
 	: '{' '}' {
@@ -715,11 +733,32 @@ selection_statement
           if_depth--;
 		  $$ = NULL;
       }
-	  | SWITCH '('expression')' statement
-	  {
-		/* Switch: just parse and pass through, no quad needed for basic support */
-		$$=NULL;
-	  }
+      | SWITCH '(' expression ')'
+      {
+         char *Lend = new_label();
+         push_end(Lend);
+
+         push_switch_expr($3);
+
+         char *Ldefault = new_label();
+         push_false(Ldefault);
+      }
+      '{' switch_body '}'
+      {
+      char *Ldefault = pop_false();
+
+      // jump to default if no case matched
+      add_quad("goto", "", "", Ldefault);
+
+      add_quad("label", "", "", Ldefault);
+
+      char *Lend = pop_end();
+      pop_switch_expr();
+
+      add_quad("label", "", "", Lend);
+
+      $$ = NULL;
+    }
     ;
 
 iteration_statement
@@ -769,11 +808,28 @@ iteration_statement
           char *Lend = new_label();
           add_quad("iffalse", $5, "", Lend);
           push_end(Lend);
+          /* Snapshot quad_index BEFORE the increment expression is parsed.
+             for_inc_start is a dedicated global — no aliasing with the count. */
+          for_inc_start = quad_index;
       }
       expression ')'
+      {
+          /* Increment quads are now at [for_inc_start .. quad_index-1].
+             Cut them out: copy to buffer, roll back the stream. */
+          for_inc_cnt = quad_index - for_inc_start;
+          if (for_inc_cnt > 0) {
+              memcpy(for_inc_buf, quads + for_inc_start, sizeof(quad) * for_inc_cnt);
+              quad_index = for_inc_start;   /* roll back — body comes next */
+          }
+      }
       statement
       {
-          add_quad("eval", $7, "", "");
+          /* Body is done.  Replay the saved increment quads NOW. */
+          if (for_inc_cnt > 0) {
+              memcpy(quads + quad_index, for_inc_buf, sizeof(quad) * for_inc_cnt);
+              quad_index  += for_inc_cnt;
+              for_inc_cnt  = 0;
+          }
           char *Lend   = pop_end();
           char *Lstart = pop_false();
           add_quad("goto",  "", "", Lstart);
@@ -786,6 +842,10 @@ jump_statement
     : GOTO IDENTIFIER ';'
     | CONTINUE ';'
     | BREAK ';'
+    {
+      char *Lend = end_label_stack[end_stack_top - 1];
+      add_quad("goto", "", "", Lend);
+    }
     | RETURN ';'
     | RETURN expression ';'
     ;
@@ -819,6 +879,82 @@ declaration_list
 	: declaration
 	| declaration_list declaration
 	;
+
+
+/* -----------------------------------------------------------------------
+   switch_body  :  the braced content of a switch statement.
+   
+   IR layout for  switch (expr) { case V1: S1  case V2: S2  default: Sd }
+   
+       if expr == V1  goto Lcase1
+       goto Lnext1
+   Lcase1:
+       <S1 quads>
+       goto Lend          <- implicit fall-through prevention (like C break)
+   Lnext1:
+       if expr == V2  goto Lcase2
+       goto Lnext2
+   Lcase2:
+       <S2 quads>
+       goto Lend
+   Lnext2:
+       goto Ldefault      <- emitted by switch_body when default exists
+   Ldefault:
+       <Sd quads>
+         -- (no goto Lend here; default falls through to Lend naturally)
+   Lend:                  <- emitted by selection_statement closing action
+   ----------------------------------------------------------------------- */
+
+switch_body
+    : case_list default_statement
+    | case_list
+    | default_statement
+;
+
+case_list
+    : case_statement               { $$ = NULL; }
+    | case_list case_statement     { $$ = NULL; }
+    ;
+
+case_statement
+    : CASE constant_expression ':'
+    {
+        char *t = new_temp();
+        char *Lcase = new_label();
+
+        // evaluate condition
+        add_quad("==", top_switch_expr(), $2, t);
+        add_quad("ifgoto", t, "", Lcase);
+
+        // if not matched → skip
+        char *Lnext = new_label();
+        add_quad("goto", "", "", Lnext);
+
+        // matched case
+        add_quad("label", "", "", Lcase);
+
+        push_false(Lnext);
+    }
+    statement
+    {
+        char *Lnext = pop_false();
+
+        // after executing case → exit switch
+        char *Lend = end_label_stack[end_stack_top - 1];
+        add_quad("goto", "", "", Lend);
+
+        add_quad("label", "", "", Lnext);
+    }
+;
+
+default_statement
+    : DEFAULT ':'
+    {
+        char *Ldefault = pop_false();
+        add_quad("label", "", "", Ldefault);
+    }
+    statement
+;
 
 %%
 
