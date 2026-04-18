@@ -669,7 +669,7 @@ char *yytext;
 
 extern YYSTYPE yylval;
 
-int line_no = 0;
+int line_no = 1;
 
 extern char buff[2048];
 extern int mode;
