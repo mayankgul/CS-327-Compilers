@@ -84,12 +84,21 @@ char* new_label() {
     return label;
 }
 
-/* Add a quadruple entry */
+/* Add a quadruple entry — NULL-safe (Part 4: prevents segfault on bad input) */
 void add_quad(char *op, char *arg1, char *arg2, char *result) {
-    strcpy(quads[quad_index].op,     op);
-    strcpy(quads[quad_index].arg1,   arg1);
-    strcpy(quads[quad_index].arg2,   arg2);
-    strcpy(quads[quad_index].result, result);
+    if (quad_index >= 1000) {
+        fprintf(stderr,
+            "[ERROR] Quadruple table overflow (limit 1000). Quad dropped.\n");
+        return;
+    }
+    strncpy(quads[quad_index].op,     op     ? op     : "?",  19);
+    strncpy(quads[quad_index].arg1,   arg1   ? arg1   : "",   49);
+    strncpy(quads[quad_index].arg2,   arg2   ? arg2   : "",   49);
+    strncpy(quads[quad_index].result, result ? result : "?",  49);
+    quads[quad_index].op[19]     = '\0';
+    quads[quad_index].arg1[49]   = '\0';
+    quads[quad_index].arg2[49]   = '\0';
+    quads[quad_index].result[49] = '\0';
     quad_index++;
 }
 
@@ -101,10 +110,25 @@ extern int line_no;
 extern char *yytext;
 int yylex(void);
 
+/* ===== Error handling (Part 4) ===== */
+int error_count = 0;
+int has_errors  = 0;   /* set to 1 on first error; checked in main() */
+#define MAX_ERRORS 20
+
 void yyerror(const char *s)
 {
-    fprintf(stderr, "\nSyntax Error at line %d near token '%s'\n", line_no, yytext);
-    exit(1);
+    error_count++;
+    has_errors = 1;
+    fprintf(stderr,
+        "\n[ERROR %d] Line %d, near '%s': %s\n",
+        error_count, line_no, yytext ? yytext : "<EOF>", s);
+    if (error_count >= MAX_ERRORS) {
+        fprintf(stderr,
+            "[FATAL] Too many errors (%d). Compilation aborted.\n",
+            MAX_ERRORS);
+        exit(1);
+    }
+    /* NO exit() here — yacc error-recovery (error ';') continues parsing */
 }
 
 int global_declarations = 0;
@@ -146,6 +170,8 @@ int if_depth =0;
 %type <place> argument_expression_list argument_expression_list_opt
 %type <place> switch_body case_list case_statement default_statement
 %type <place> constant_expression
+%type <place> declarator direct_declarator init_declarator
+%type <place> initializer
 
 %left OR_OP
 %left AND_OP
@@ -190,10 +216,10 @@ primary_expression
 constant
 	: I_CONSTANT {
 		int_consts++;
-		$$ = strdup(yytext);
+		$$ = $1;   /* $1 = yylval.place already strdup'd in the lexer */
 	}
-	| F_CONSTANT          { $$ = strdup(yytext); }
-	| ENUMERATION_CONSTANT { $$ = strdup(yytext); }
+	| F_CONSTANT          { $$ = $1; }
+	| ENUMERATION_CONSTANT { $$ = strdup(yytext); }  /* no <place> type on this token */
 	;
 
 enumeration_constant
@@ -201,7 +227,7 @@ enumeration_constant
 	;
 
 string
-	: STRING_LITERAL { $$ = strdup(yytext); }
+	: STRING_LITERAL { $$ = $1; }   /* $1 = yylval.place already strdup'd in lexer */
 	;
 
 generic_selection
@@ -435,7 +461,16 @@ init_declarator_list
 	;
 
 init_declarator
-	: declarator '=' initializer
+	: declarator '=' initializer {
+		/*
+		 * Part 1 fix: emit  "= <value> - <varname>"  for  int a = 5;
+		 * $1 is declarator — for a plain  IDENTIFIER  it propagates $1
+		 * from direct_declarator which propagates the IDENTIFIER token.
+		 * $3 is the initializer expression (its %type <place> value).
+		 */
+		if ($1 && $3)
+		    add_quad("=", $3, "", $1);
+	}
 	| declarator
 	;
 
@@ -527,25 +562,25 @@ alignment_specifier
 	;
 
 declarator
-	: pointer direct_declarator { pointer_decls++; }
-	| direct_declarator
+	: pointer direct_declarator { pointer_decls++; $$ = $2; }
+	| direct_declarator          { $$ = $1; }
 	;
 
 direct_declarator
-	: IDENTIFIER
-	| '(' declarator ')'
-	| direct_declarator '[' ']'
-	| direct_declarator '[' '*' ']'
-	| direct_declarator '[' STATIC type_qualifier_list assignment_expression ']'
-	| direct_declarator '[' STATIC assignment_expression ']'
-	| direct_declarator '[' type_qualifier_list '*' ']'
-	| direct_declarator '[' type_qualifier_list STATIC assignment_expression ']'
-	| direct_declarator '[' type_qualifier_list assignment_expression ']'
-	| direct_declarator '[' type_qualifier_list ']'
-	| direct_declarator '[' assignment_expression ']'
-	| direct_declarator '(' parameter_type_list ')'
-	| direct_declarator '(' ')'
-	| direct_declarator '(' identifier_list ')'
+	: IDENTIFIER                                                               { $$ = $1; }
+	| '(' declarator ')'                                                       { $$ = $2; }
+	| direct_declarator '[' ']'                                                { $$ = $1; }
+	| direct_declarator '[' '*' ']'                                            { $$ = $1; }
+	| direct_declarator '[' STATIC type_qualifier_list assignment_expression ']' { $$ = $1; }
+	| direct_declarator '[' STATIC assignment_expression ']'                   { $$ = $1; }
+	| direct_declarator '[' type_qualifier_list '*' ']'                        { $$ = $1; }
+	| direct_declarator '[' type_qualifier_list STATIC assignment_expression ']' { $$ = $1; }
+	| direct_declarator '[' type_qualifier_list assignment_expression ']'      { $$ = $1; }
+	| direct_declarator '[' type_qualifier_list ']'                            { $$ = $1; }
+	| direct_declarator '[' assignment_expression ']'                          { $$ = $1; }
+	| direct_declarator '(' parameter_type_list ')'                            { $$ = $1; }
+	| direct_declarator '(' ')'                                                { $$ = $1; }
+	| direct_declarator '(' identifier_list ')'                                { $$ = $1; }
 	;
 
 pointer
@@ -617,9 +652,9 @@ direct_abstract_declarator
 	;
 
 initializer
-	: '{' initializer_list '}'
-	| '{' initializer_list ',' '}'
-	| assignment_expression
+	: '{' initializer_list '}'       { $$ = NULL; }
+	| '{' initializer_list ',' '}'   { $$ = NULL; }
+	| assignment_expression          { $$ = $1;   }
 	;
 
 initializer_list
@@ -649,8 +684,13 @@ static_assert_declaration
 
 statement
 	: error ';' {
-		printf("Recovered from error at line %d near token '%s'\n", line_no, yytext);
-		yyerrok;
+		/* Part 4: error recovery — skip to next ';' and continue */
+		fprintf(stderr,
+		    "[RECOVERED] Skipped bad statement at line %d. Resuming after ';'.\n",
+		    line_no);
+		yyerrok;      /* reset yacc error state     */
+		yyclearin;    /* discard the lookahead token */
+		$$ = NULL;
 	}
 	| labeled_statement   { sprintf(derivations[dtop++], "statement -> labeled_statement");   }
 	| compound_statement  { sprintf(derivations[dtop++], "statement -> compound_statement");  }
@@ -954,6 +994,7 @@ default_statement
         add_quad("label", "", "", Ldefault);
     }
     statement
+    { $$ = NULL; }
 ;
 
 %%
@@ -1051,11 +1092,27 @@ int main(int argc, char **argv)
     do { yyparse(); } while (!feof(yyin));
     fclose(yyin);
 
+    /* ---- Part 4: Compilation summary ---- */
+    printf("%s\n", LINE);
+    printf("  COMPILATION SUMMARY\n");
+    printf("%s\n", LINE);
+    if (has_errors) {
+        printf("  ***parsing completed WITH ERRORS***\n");
+        printf("  Total errors detected : %d\n", error_count);
+        printf("  IR below may be incomplete due to errors.\n");
+    } else {
+        printf("  ***parsing successful — no errors***\n");
+    }
+    printf("%s\n\n", LINE);
+
     /* Parsing stats */
     printf("%s\n", LINE);
     printf("  PARSING RESULTS\n");
     printf("%s\n", LINE);
-    printf("  ***parsing successful***\n");
+    if (!has_errors)
+        printf("  ***parsing successful***\n");
+    else
+        printf("  ***parsing completed with %d error(s)***\n", error_count);
     printf("  #global_declarations  = %d\n", global_declarations);
     printf("  #function_definitions = %d\n", func_definitions);
     printf("  #integer_constants    = %d\n", int_consts);

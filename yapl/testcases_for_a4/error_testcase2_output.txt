@@ -1,0 +1,49 @@
+
+[ERROR 1] Line 3, near ';': syntax error
+[RECOVERED] Skipped bad statement at line 3. Resuming after ';'.
+
+=================================================================
+  SOURCE PROGRAM : testcases_for_a4/error_testcase2.c
+=================================================================
+   1 | poornank main()
+   2 | {
+   3 |     poornank x = 10;
+   4 |     poornank y = x * ;
+   5 |     poornank z = x + 3;
+   6 | }
+=================================================================
+
+=================================================================
+  COMPILATION SUMMARY
+=================================================================
+  ***parsing completed WITH ERRORS***
+  Total errors detected : 1
+  IR below may be incomplete due to errors.
+=================================================================
+
+=================================================================
+  PARSING RESULTS
+=================================================================
+  ***parsing completed with 1 error(s)***
+  #global_declarations  = 1
+  #function_definitions = 1
+  #integer_constants    = 2
+  #pointer_declarations = 0
+  #ifs_without_else     = 0
+  if-else max-depth     = 0
+=================================================================
+
+Successfully exported LALR(1) table to 'parsing_table.csv'
+
+=================================================================
+          INTERMEDIATE CODE  —  3-Address Code (Quadruples)
+=================================================================
+No.    Op          Arg1            Arg2            Result        
+-----------------------------------------------------------------
+0      =           10              -               x             
+1      +           x               3               t1            
+2      =           t1              -               z             
+=================================================================
+  Total quadruples generated : 3
+=================================================================
+

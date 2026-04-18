@@ -1,0 +1,49 @@
+
+[ERROR 1] Line 4, near '}': syntax error
+
+=================================================================
+  SOURCE PROGRAM : testcases_for_a4/error_testcase9.c
+=================================================================
+   1 | poornank main()
+   2 |     poornank a = 5;
+   3 |     poornank b = a * 2;
+   4 |     poornank c = b - 1;
+   5 | }
+=================================================================
+
+=================================================================
+  COMPILATION SUMMARY
+=================================================================
+  ***parsing completed WITH ERRORS***
+  Total errors detected : 1
+  IR below may be incomplete due to errors.
+=================================================================
+
+=================================================================
+  PARSING RESULTS
+=================================================================
+  ***parsing completed with 1 error(s)***
+  #global_declarations  = 0
+  #function_definitions = 0
+  #integer_constants    = 3
+  #pointer_declarations = 0
+  #ifs_without_else     = 0
+  if-else max-depth     = 0
+=================================================================
+
+Successfully exported LALR(1) table to 'parsing_table.csv'
+
+=================================================================
+          INTERMEDIATE CODE  —  3-Address Code (Quadruples)
+=================================================================
+No.    Op          Arg1            Arg2            Result        
+-----------------------------------------------------------------
+0      =           5               -               a             
+1      *           a               2               t1            
+2      =           t1              -               b             
+3      -           b               1               t2            
+4      =           t2              -               c             
+=================================================================
+  Total quadruples generated : 5
+=================================================================
+

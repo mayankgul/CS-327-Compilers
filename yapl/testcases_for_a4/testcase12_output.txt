@@ -1,0 +1,80 @@
+
+=================================================================
+  SOURCE PROGRAM : testcases_for_a4/testcase12.c
+=================================================================
+   1 | poornank main()
+   2 | {
+   3 |     poornank n = 121;
+   4 |     poornank rev = 0, rem, temp;
+   5 | 
+   6 |     temp = n;
+   7 | 
+   8 |     jab tak (temp > 0)
+   9 |     {
+  10 |         rem = temp % 10;
+  11 |         rev = rev * 10 + rem;
+  12 |         temp = temp / 10;
+  13 |     }
+  14 | 
+  15 |     agar (rev == n)
+  16 |     {
+  17 |         n = 1;   // palindrome
+  18 |     }
+  19 |     warna
+  20 |     {
+  21 |         n = 0;   // not palindrome
+  22 |     }
+  23 | }
+=================================================================
+
+=================================================================
+  COMPILATION SUMMARY
+=================================================================
+  ***parsing successful — no errors***
+=================================================================
+
+=================================================================
+  PARSING RESULTS
+=================================================================
+  ***parsing successful***
+  #global_declarations  = 1
+  #function_definitions = 1
+  #integer_constants    = 8
+  #pointer_declarations = 0
+  #ifs_without_else     = 0
+  if-else max-depth     = 1
+=================================================================
+
+Successfully exported LALR(1) table to 'parsing_table.csv'
+
+=================================================================
+          INTERMEDIATE CODE  —  3-Address Code (Quadruples)
+=================================================================
+No.    Op          Arg1            Arg2            Result        
+-----------------------------------------------------------------
+0      =           121             -               n             
+1      =           0               -               rev           
+2      =           n               -               temp          
+3      label       -               -               L1            
+4      >           temp            0               t1            
+5      iffalse     t1              -               L2            
+6      %           temp            10              t2            
+7      =           t2              -               rem           
+8      *           rev             10              t3            
+9      +           t3              rem             t4            
+10     =           t4              -               rev           
+11     /           temp            10              t5            
+12     =           t5              -               temp          
+13     goto        -               -               L1            
+14     label       -               -               L2            
+15     ==          rev             n               t6            
+16     iffalse     t6              -               L3            
+17     =           1               -               n             
+18     goto        -               -               L4            
+19     label       -               -               L3            
+20     =           0               -               n             
+21     label       -               -               L4            
+=================================================================
+  Total quadruples generated : 22
+=================================================================
+

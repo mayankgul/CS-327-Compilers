@@ -1,0 +1,51 @@
+
+[ERROR 1] Line 4, near ';': syntax error
+[RECOVERED] Skipped bad statement at line 4. Resuming after ';'.
+
+=================================================================
+  SOURCE PROGRAM : testcases_for_a4/error_testcase8.c
+=================================================================
+   1 | poornank main()
+   2 | {
+   3 |     poornank a = 10;
+   4 |     poornank b = 20;
+   5 |     a = ;
+   6 |     poornank c = a + b;
+   7 | }
+=================================================================
+
+=================================================================
+  COMPILATION SUMMARY
+=================================================================
+  ***parsing completed WITH ERRORS***
+  Total errors detected : 1
+  IR below may be incomplete due to errors.
+=================================================================
+
+=================================================================
+  PARSING RESULTS
+=================================================================
+  ***parsing completed with 1 error(s)***
+  #global_declarations  = 1
+  #function_definitions = 1
+  #integer_constants    = 2
+  #pointer_declarations = 0
+  #ifs_without_else     = 0
+  if-else max-depth     = 0
+=================================================================
+
+Successfully exported LALR(1) table to 'parsing_table.csv'
+
+=================================================================
+          INTERMEDIATE CODE  —  3-Address Code (Quadruples)
+=================================================================
+No.    Op          Arg1            Arg2            Result        
+-----------------------------------------------------------------
+0      =           10              -               a             
+1      =           20              -               b             
+2      +           a               b               t1            
+3      =           t1              -               c             
+=================================================================
+  Total quadruples generated : 4
+=================================================================
+
