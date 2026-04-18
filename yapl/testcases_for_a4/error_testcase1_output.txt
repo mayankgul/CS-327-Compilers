@@ -1,6 +1,6 @@
 
-[ERROR 1] Line 3, near 'poornank': syntax error
-[RECOVERED] Skipped bad statement at line 3. Resuming after ';'.
+[ERROR 1] Line 4, near 'poornank': syntax error
+[RECOVERED] Skipped bad statement at line 4. Resuming after ';'.
 
 =================================================================
   SOURCE PROGRAM : testcases_for_a4/error_testcase1.c

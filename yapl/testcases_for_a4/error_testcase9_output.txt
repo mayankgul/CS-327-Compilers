@@ -1,5 +1,5 @@
 
-[ERROR 1] Line 4, near '}': syntax error
+[ERROR 1] Line 5, near '}': syntax error
 
 =================================================================
   SOURCE PROGRAM : testcases_for_a4/error_testcase9.c

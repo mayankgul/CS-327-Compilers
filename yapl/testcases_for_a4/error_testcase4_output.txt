@@ -1,8 +1,8 @@
 
-[ERROR 1] Line 3, near ')': syntax error
-[RECOVERED] Skipped bad statement at line 5. Resuming after ';'.
+[ERROR 1] Line 4, near ')': syntax error
+[RECOVERED] Skipped bad statement at line 6. Resuming after ';'.
 
-[ERROR 2] Line 8, near '}': syntax error
+[ERROR 2] Line 9, near '}': syntax error
 
 =================================================================
   SOURCE PROGRAM : testcases_for_a4/error_testcase4.c
